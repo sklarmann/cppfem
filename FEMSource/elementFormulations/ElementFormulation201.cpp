@@ -174,8 +174,8 @@ namespace FEMProject {
 			for (auto j = 0; j < numDofs/3; ++j) {
 				Bmat(0, j * 3)     = shapeDeriv(0, j);
 				Bmat(1, j * 3 + 1) = shapeDeriv(1, j);
-				Bmat(2, j * 3)     = shapeDeriv(1, j)*0.5;
-				Bmat(2, j * 3 + 1) = shapeDeriv(0, j)*0.5;
+				Bmat(2, j * 3)     = shapeDeriv(1, j)*(prec)0.5;
+				Bmat(2, j * 3 + 1) = shapeDeriv(0, j)*(prec)0.5;
 			}
 		
 			//

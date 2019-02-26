@@ -1,7 +1,7 @@
 
 
 
-set(SOURCE ${SOURCE} ${CMAKE_CURRENT_SOURCE_DIR}/Material.cpp
+set(SOURCEFILES ${SOURCEFILES} ${CMAKE_CURRENT_SOURCE_DIR}/Material.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/MaterialList.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/GenericMaterialFormulation.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/MaterialFormulation1.cpp

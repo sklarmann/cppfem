@@ -16,7 +16,7 @@ set(HEADERS ${HEADERS})
 set(INCDIRS ${INCDIRS}
 					   ${CMAKE_CURRENT_SOURCE_DIR}/include
 					   ${SpectraDir}
-					   PATH)
+					   )
 
 add_subdirectory(control)
 
@@ -53,6 +53,48 @@ set(SOURCE ${SOURCE})
 #SET(BUILD_SHARED_LIBRARIES ON)
 add_library(${NAME} STATIC ${SOURCE} ${HEADERS})
 add_definitions(-DAPPLICATION)
+
+foreach(FILE ${SOURCE})
+    # Get the directory of the source file
+    get_filename_component(PARENT_DIR "${FILE}" DIRECTORY)
+
+    # Remove common directory prefix to make the group
+    string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}" "" GROUP "${PARENT_DIR}")
+
+    # Make sure we are using windows slashes
+    string(REPLACE "/" "\\" GROUP "${GROUP}")
+
+    # Group into "Source Files" and "Header Files"
+    if ("${FILE}" MATCHES ".*\\.cpp")
+       set(GROUP "Source Files${GROUP}")
+    elseif("${FILE}" MATCHES ".*\\.h")
+       set(GROUP "Header Files${GROUP}")
+    endif()
+
+    source_group("${GROUP}" FILES "${FILE}")
+endforeach()
+
+foreach(FILE ${HEADERS})
+    # Get the directory of the source file
+    get_filename_component(PARENT_DIR "${FILE}" DIRECTORY)
+
+    # Remove common directory prefix to make the group
+    string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}" "" GROUP "${PARENT_DIR}")
+
+    # Make sure we are using windows slashes
+    string(REPLACE "/" "\\" GROUP "${GROUP}")
+
+    # Group into "Source Files" and "Header Files"
+    if ("${FILE}" MATCHES ".*\\.cpp")
+       set(GROUP "Source Files${GROUP}")
+    elseif("${FILE}" MATCHES ".*\\.h")
+       set(GROUP "Header Files${GROUP}")
+    endif()
+
+    source_group("${GROUP}" FILES "${FILE}")
+endforeach()
+
+
 #add_definitions(-DDLL_EXPORT)
 #else(ASLIBRARY)
 #set(NAME cppfemcontrol)

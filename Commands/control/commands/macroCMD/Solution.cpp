@@ -7,6 +7,7 @@
 #include <control/stringCommandHandler.h>
 #include <solver/SolutionTypes.h>
 #include <solver/StaticSolutionState.h>
+#include <solver/TransientSolutionNewmark.h>
 
 
 namespace FEMProject {
@@ -31,9 +32,15 @@ namespace FEMProject {
 				if (this->name == "static") {
 					type = SolutionTypes::StaticSolutionState;
 				}
+				else if (this->name == "transnewmark") {
+					type = SolutionTypes::TransientSolutionNewmark;
+				}
 				switch (type) {
 				case SolutionTypes::StaticSolutionState:
 					pointers.setSolutionState(new StaticSolutionState<prec, uint>(&pointers));
+					break;
+				case SolutionTypes::TransientSolutionNewmark:
+					pointers.setSolutionState(new TransientSolutionNewmark<prec, uint>(&pointers));
 					break;
 				}
 			}

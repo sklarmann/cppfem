@@ -1,7 +1,7 @@
 
 
 
-set(SOURCE ${SOURCE} ${CMAKE_CURRENT_SOURCE_DIR}/Edge.cpp
+set(SOURCEFILES ${SOURCEFILES} ${CMAKE_CURRENT_SOURCE_DIR}/Edge.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/GenericGeometryElement.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/GeometryTypes.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/LinearTriangle.cpp

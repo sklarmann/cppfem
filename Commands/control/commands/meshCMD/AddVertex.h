@@ -1,28 +1,25 @@
 
 #pragma once
 
-#include <forwarddeclaration.h>
-
 #include <control/commands/GenericCommand.h>
-
 #include <control/stringCommandHandler.h>
-
+#include <vector>
 #include <string>
+
 
 namespace FEMProject {
 	namespace Commands {
 		namespace Mesh {
 			template<typename prec, typename uint>
-			class SetMaterial : public GenericCommand<prec, uint> {
+			class AddVertex : public GenericCommand<prec, uint> {
 			public:
-				SetMaterial(stringCommandHandler &cmd);
-				~SetMaterial() {};
+				AddVertex(stringCommandHandler &cmd);
+				~AddVertex() {};
 				void run(PointerCollection<prec, uint> &ptrCol, FEMProgram<prec, uint> *program);
 				std::string printCommand();
-				static GenericCommand *New(stringCommandHandler &cmd) { return new SetMaterial(cmd); };
+				static GenericCommand *New(stringCommandHandler &cmd) { return new AddVertex(cmd); };
 			private:
-				std::string number, elform, matform;
-				stringCommandHandler elpara, matpara;
+				std::vector<std::string> coordinates;
 
 			};
 		}

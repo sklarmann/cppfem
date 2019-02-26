@@ -11,7 +11,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 #SET(BUILD_SHARED_LIBRARIES OFF)
 #SET(CMAKE_EXE_LINKER_FLAGS "-static")
 
-set(SOURCE ${SOURCE})
+set(SOURCEFILES ${SOURCEFILES})
 set(HEADERS ${HEADERS})
 set(INCDIRS ${INCDIRS}
 					   ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -53,10 +53,10 @@ endif(WIN32)
 
 if(ASLIBRARY)
 set(NAME cppfemmain)
-set(SOURCE ${SOURCE})
+set(SOURCE ${SOURCEFILES})
 #SET(BUILD_SHARED_LIBRARIES ON)
-add_library(${NAME} STATIC ${SOURCE} ${HEADERS})
-add_definitions(-DAPPLICATION)
+# add_library(${NAME} STATIC ${SOURCE} ${HEADERS})
+# add_definitions(-DAPPLICATION)
 #add_definitions(-DDLL_EXPORT)
 else(ASLIBRARY)
 set(NAME cppfemmain)

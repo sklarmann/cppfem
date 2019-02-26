@@ -36,8 +36,8 @@ void KernelShapes(prec &shape, prec &derivative, const prec &coor, const uint &n
 		break;
 	}
 	case 3:
-		shape = -1.0 / 2.0*std::sqrt(9.0 / 2.0)*(7.0*coor*coor - 3.0)*coor;
-		derivative = -1.0 / 2.0*std::sqrt(9.0 / 2.0)*(21.0*coor*coor - 3.0);
+		shape = -(prec)1.0 / (prec)2.0*std::sqrt((prec)9.0 / (prec)2.0)*((prec)7.0*coor*coor - (prec)3.0)*coor;
+		derivative = -(prec)1.0 / (prec)2.0*std::sqrt((prec)9.0 / (prec)2.0)*((prec)21.0*coor*coor - (prec)3.0);
 		break;
 	default:
 		std::cout << "Not implemented!" << std::endl;

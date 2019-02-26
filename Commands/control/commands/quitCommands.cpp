@@ -4,6 +4,7 @@
 #include <control/commands/GenericCommand.h>
 #include <control/stringCommandHandler.h>
 #include <control/OutputHandler.h>
+#include <control/FEMProgram.h>
 
 namespace FEMProject {
 	namespace Commands {
@@ -54,18 +55,24 @@ namespace FEMProject {
 		template<typename prec, typename uint>
 		class meshInteract : public GenericCommand<prec, uint> {
 		public:
-			meshInteract(stringCommandHandler &cmd) {};
+			meshInteract(stringCommandHandler &cmd) : Command=cmd {};
 			~meshInteract() {};
 			void run(PointerCollection<prec, uint> &ptrCol, FEMProgram<prec, uint> *program);
 		private:
-
+			stringCommandHandler Command;
 
 		};
 
 
 		template<typename prec, typename uint>
 		void meshInteract<prec, uint>::run(PointerCollection<prec, uint> &pointers, FEMProgram<prec, uint> *program) {
-			program->enableUserMesh();
+			if (this->Command.empty()) {
+				program->enableUserMesh();
+			}
+			else {
+				program->parseExternalMesh(&pointers, this->Command.remainingCommands());
+			}
+			
 		}
 
 		/**

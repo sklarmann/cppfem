@@ -49,10 +49,18 @@ namespace FEMProject {
 			void parsePlot(stringCommandHandler &cmd, std::queue<GenericCommand<prec, uint>*> &cmdQueue);
 			void parseMath(stringCommandHandler &cmd, std::queue<GenericCommand<prec, uint>*> &cmdQueue);
 		private:
-			std::map<std::string, macroCmd> macroCommands;
-			std::map<std::string, meshCmd> meshCommands;
-			std::map<std::string, plotCmd> plotCommands;
-			std::map<std::string, mathCmd> mathCommands;
+			//std::map<std::string, macroCmd> macroCommands;
+			//std::map<std::string, meshCmd> meshCommands;
+			//std::map<std::string, plotCmd> plotCommands;
+			//std::map<std::string, mathCmd> mathCommands;
+
+			//std::map<std::string, GenericCommand<prec, uint>*(*fun)(stringCommandHandler &cmd)> macroCommadnPtr;
+			typedef GenericCommand<prec, uint> *(*CmdFunction)(stringCommandHandler &cmd);
+			//CmdFunction test;
+			std::map<std::string, CmdFunction> macroCommands;
+			std::map<std::string, CmdFunction> meshCommands;
+			std::map<std::string, CmdFunction> plotCommands;
+			std::map<std::string, CmdFunction> mathCommands;
 
 		};
 	}

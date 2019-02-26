@@ -1,7 +1,7 @@
 
 
 
-set(SOURCE ${SOURCE} ${CMAKE_CURRENT_SOURCE_DIR}/Userconstants.cpp
+set(SOURCEFILES ${SOURCEFILES} ${CMAKE_CURRENT_SOURCE_DIR}/Userconstants.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/Plane.cpp
 					 PARENT_SCOPE)
 

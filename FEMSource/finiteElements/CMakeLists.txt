@@ -1,7 +1,8 @@
 
 
 
-set(SOURCE ${SOURCE} ${CMAKE_CURRENT_SOURCE_DIR}/ElementList.cpp
+set(SOURCEFILES ${SOURCEFILES}
+	         ${CMAKE_CURRENT_SOURCE_DIR}/ElementList.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/ElementTypes.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/GenericFiniteElement.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/LinearTriangleElement.cpp

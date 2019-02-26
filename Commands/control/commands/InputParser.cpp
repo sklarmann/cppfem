@@ -25,67 +25,68 @@ namespace FEMProject {
 		template<typename prec, typename uint>
 		InputParser<prec, uint>::InputParser() {
 //------------------MACRO---------------------------------------------------
-			//-----#Exit----------------------------------------------------
-			this->macroCommands["quit"] = macroCmd::exit;
-			this->macroCommands["end"] = macroCmd::exit;
-			this->macroCommands["exit"] = macroCmd::exit;
-			//-----#Transfer-------------------------------------------------
-			this->macroCommands["mesh"] = macroCmd::mesh;
-			this->macroCommands["plot"] = macroCmd::plot;
-			this->macroCommands["math"] = macroCmd::math;
-			//-----#Main Control---------------------------------------------
-			this->macroCommands["output"] = macroCmd::output;
-			this->macroCommands["open"] = macroCmd::openFiles;
-			this->macroCommands["processfiles"] = macroCmd::processfiles;
-			this->macroCommands["rinp"] = macroCmd::reinput;
-			this->macroCommands["threads"] = macroCmd::threads;
-			this->macroCommands["history"] = macroCmd::history;
-			this->macroCommands["printinfo"] = macroCmd::prininfo;
-
-
-			this->macroCommands["solver"] = macroCmd::solver;
-			this->macroCommands["solution"] = macroCmd::solution;
-			this->macroCommands["sparsesetup"] = macroCmd::setupsparsematrix;
-
-			this->macroCommands["tangent"] = macroCmd::tangent;
-			this->macroCommands["eigenval"] = macroCmd::eigenval;
-
-			this->macroCommands["propnames"] = macroCmd::propnames;
-			this->macroCommands["propfunction"] = macroCmd::propfunction;
-			this->macroCommands["printpropfunction"] = macroCmd::printpropfunction;
-			this->macroCommands["dt"] = macroCmd::setdt;
-			this->macroCommands["timeincr"] = macroCmd::timeincr;
-
-//------------------MESH----------------------------------------------------
-			//-----#Exit----------------------------------------------------
-			this->meshCommands["quit"] = meshCmd::exit;
-			this->meshCommands["end"]  = meshCmd::exit;
-			this->meshCommands["exit"] = meshCmd::exit;
-
-			this->meshCommands["block"] = meshCmd::block;
-			this->meshCommands["setmaterials"] = meshCmd::setmaterial;
-			this->meshCommands["setdofs"] = meshCmd::setDegreesOfFreedom;
-
-			this->meshCommands["inplanebc"] = meshCmd::inplanebc;
-			this->meshCommands["inplaneload"] = meshCmd::inplaneload;
-
-//------------------PLOT----------------------------------------------------
-			//-----#Exit----------------------------------------------------
-			this->plotCommands["quit"] = plotCmd::exit;
-			this->plotCommands["end"]  = plotCmd::exit;
-			this->plotCommands["exit"] = plotCmd::exit;
-
-			this->plotCommands["interact"] = plotCmd::interact;
-
-			this->plotCommands["mesh"] = plotCmd::mesh;
-			this->plotCommands["solution"] = plotCmd::solution;
-//------------------MATH----------------------------------------------------
-			//-----#Exit----------------------------------------------------
-			this->mathCommands["quit"] = mathCmd::exit;
-			this->mathCommands["end"] = mathCmd::exit;
-			this->mathCommands["exit"] = mathCmd::exit;
-
-			this->mathCommands["list"] = mathCmd::list;
+			////-----#Exit----------------------------------------------------
+			this->macroCommands["quit"] = &macroQuit<prec, uint>::New;
+			this->macroCommands["end"] = &macroQuit<prec, uint>::New;
+			this->macroCommands["exit"] = &macroQuit<prec, uint>::New;
+			////-----#Transfer-------------------------------------------------
+			this->macroCommands["mesh"] = &meshInteract<prec, uint>::New;
+			this->macroCommands["plot"] = &plotInteract<prec, uint>::New;
+			this->macroCommands["math"] = &mathInteract<prec, uint>::New;
+			
+			////-----#Main Control---------------------------------------------
+			this->macroCommands["open"] = &Macro::OpenFiles<prec, uint>::New;
+			this->macroCommands["output"] = &Macro::Output<prec, uint>::New;
+			this->macroCommands["processfiles"] = &Macro::Processfiles<prec, uint>::New;
+			this->macroCommands["rinp"] = &Macro::ReInput<prec, uint>::New;
+			this->macroCommands["threads"] = &Macro::Threads<prec, uint>::New;
+			this->macroCommands["printinfo"] = &Macro::printInfo<prec, uint>::New;
+			this->macroCommands["history"] = &Macro::PrintHistory<prec, uint>::New;
+			//
+			//
+			this->macroCommands["solver"] = &Macro::Solver<prec, uint>::New;
+			this->macroCommands["solution"] = &Macro::Solution<prec, uint>::New;
+			this->macroCommands["sparsesetup"] = &Macro::SetUpSparseMatrix<prec, uint>::New;
+			//
+			this->macroCommands["tangent"] = &Macro::Tangent<prec, uint>::New;
+			this->macroCommands["eigenval"] = &Macro::eigenValues<prec, uint>::New;
+			//
+			this->macroCommands["propnames"] = &Macro::PropNames<prec, uint>::New;
+			this->macroCommands["propfunction"] = &Macro::PropFunction<prec, uint>::New;
+			this->macroCommands["printpropfunction"] = &Macro::PrintPropFunctions<prec, uint>::New;
+			this->macroCommands["dt"] = &Macro::SetDt<prec, uint>::New;
+			this->macroCommands["timeincr"] = &Macro::TimeIncr<prec,uint>::New;
+			//
+//----------//--------MESH----------------------------------------------------
+			////-----#Exit----------------------------------------------------
+			this->meshCommands["quit"] = &meshQuit<prec, uint>::New;
+			this->meshCommands["exit"] = &meshQuit<prec, uint>::New;
+			this->meshCommands["end"] = &meshQuit<prec, uint>::New;
+			//
+			this->meshCommands["block"] = &Mesh::Block<prec, uint>::New;
+			this->meshCommands["setmaterials"] = &Mesh::SetMaterial<prec, uint>::New;
+			this->meshCommands["setdofs"] = &Mesh::SetDegreesOfFreedom<prec, uint>::New;
+			//
+			this->meshCommands["inplanebc"] = &Mesh::InplaneBC<prec, uint>::New;
+			this->meshCommands["inplaneload"] = &Mesh::InplaneLoad<prec, uint>::New;
+			//
+//----------//--------PLOT----------------------------------------------------
+			////-----#Exit----------------------------------------------------
+			this->plotCommands["quit"] = &plotQuit<prec, uint>::New;
+			this->plotCommands["exit"] = &plotQuit<prec, uint>::New;
+			this->plotCommands["end"] = &plotQuit<prec, uint>::New;
+			//
+			this->plotCommands["interact"] = &Plot::Interact<prec, uint>::New;
+			//
+			this->plotCommands["mesh"] = &Plot::Mesh<prec, uint>::New;
+			this->plotCommands["solution"] = &Plot::Solution<prec, uint>::New;
+//----------//--------MATH----------------------------------------------------
+			////-----#Exit----------------------------------------------------
+			this->mathCommands["quit"] = &mathQuit<prec, uint>::New;
+			this->mathCommands["end"] = &mathQuit<prec, uint>::New;
+			this->mathCommands["exit"] = &mathQuit<prec, uint>::New;
+			//
+			this->mathCommands["list"] = &Math::List<prec, uint>::New;
 		}
 
 		/**
@@ -98,91 +99,29 @@ namespace FEMProject {
 				stringCommandHandler pass;
 				std::string procCmd;
 				cmd.processCommand(procCmd, pass);
-				std::map<std::string, macroCmd>::iterator it = this->macroCommands.find(procCmd);
+				auto it = this->macroCommands.find(procCmd);
+
 
 				if (it != this->macroCommands.end()) {
-					switch (it->second)
-					{
-					case macroCmd::exit:
-						cmdQueue.push(new macroQuit<prec, uint>(pass));
-						break;
-					case macroCmd::mesh:
-						if (pass.empty()) {
-							cmdQueue.push(new meshInteract<prec, uint>(pass));
+					cmdQueue.push(it->second(pass));
+				}
+				if (procCmd == "help") {
+					if (pass.empty()) {
+						std::cout << "List of macro commands:" << std::endl;
+						for (auto i = this->macroCommands.begin(); i != this->macroCommands.end(); ++i) {
+							std::cout << i->first << std::endl;
 						}
-						else {
-							this->parseMesh(pass, cmdQueue);
+					}
+					else {
+						std::string name;
+						stringCommandHandler tempcmd;
+						pass.processCommand(name, tempcmd);
+						auto it = this->macroCommands.find(name);
+						if (it != this->macroCommands.end()) {
+							GenericCommand<prec, uint> *temp = it->second(tempcmd);
+							temp->help();
+							delete temp;
 						}
-						break;
-					case macroCmd::plot:
-						if (pass.empty()) {
-							cmdQueue.push(new plotInteract<prec, uint>(pass));
-						}
-						else {
-							this->parsePlot(pass, cmdQueue);
-						}
-						break;
-					case macroCmd::math:
-						if (pass.empty()) {
-							cmdQueue.push(new mathInteract<prec, uint>(pass));
-						}
-						else {
-							this->parseMath(pass, cmdQueue);
-						}
-						break;
-					case macroCmd::output:
-						cmdQueue.push(new Macro::Output<prec, uint>(pass));
-						break;
-					case macroCmd::openFiles:
-						cmdQueue.push(new Macro::OpenFiles<prec, uint>(pass));
-						break;
-					case macroCmd::processfiles:
-						cmdQueue.push(new Macro::Processfiles<prec, uint>(pass));
-						break;
-					case macroCmd::reinput:
-						cmdQueue.push(new Macro::ReInput<prec, uint>(pass));
-						break;
-					case macroCmd::solution:
-						cmdQueue.push(new Macro::Solution<prec, uint>(pass));
-						break;
-					case macroCmd::solver:
-						cmdQueue.push(new Macro::Solver<prec, uint>(pass));
-						break;
-					case macroCmd::threads:
-						cmdQueue.push(new Macro::Threads<prec, uint>(pass));
-						break;
-					case macroCmd::history:
-						cmdQueue.push(new Macro::PrintHistory<prec, uint>(pass));
-						break;
-					case macroCmd::propnames:
-						cmdQueue.push(new Macro::PropNames<prec, uint>(pass));
-						break;
-					case macroCmd::propfunction:
-						cmdQueue.push(new Macro::PropFunction<prec, uint>(pass));
-						break;
-					case macroCmd::printpropfunction:
-						cmdQueue.push(new Macro::PrintPropFunctions<prec, uint>(pass));
-						break;
-					case macroCmd::setdt:
-						cmdQueue.push(new Macro::SetDt<prec, uint>(pass));
-						break;
-					case macroCmd::timeincr:
-						cmdQueue.push(new Macro::TimeIncr<prec, uint>(pass));
-						break;
-					case macroCmd::setupsparsematrix:
-						cmdQueue.push(new Macro::SetUpSparseMatrix<prec, uint>(pass));
-						break;
-					case macroCmd::tangent:
-						cmdQueue.push(new Macro::Tangent<prec, uint>(pass));
-						break;
-					case macroCmd::eigenval:
-						cmdQueue.push(new Macro::eigenValues<prec, uint>(pass));
-						break;
-					case macroCmd::prininfo:
-						cmdQueue.push(new Macro::printInfo<prec, uint>(pass));
-						break;
-					default:
-						break;
 					}
 				}
 			}
@@ -198,30 +137,19 @@ namespace FEMProject {
 				stringCommandHandler pass;
 				std::string procCmd;
 				cmd.processCommand(procCmd, pass);
-				std::map<std::string, meshCmd>::iterator it = this->meshCommands.find(procCmd);
+				auto it = this->meshCommands.find(procCmd);
+				//GenericCommand<prec, uint> *ptr = &Mesh::Block<prec, uint>;
+				
 				if (it != this->meshCommands.end()) {
-					switch (it->second)
-					{
-					case meshCmd::exit:
-						cmdQueue.push(new meshQuit<prec, uint>(pass));
-						break;
-					case meshCmd::setmaterial:
-						cmdQueue.push(new Mesh::SetMaterial<prec, uint>(pass));
-						break;
-					case meshCmd::block:
-						cmdQueue.push(new Mesh::Block<prec, uint>(pass));
-						break;
-					case meshCmd::inplanebc:
-						cmdQueue.push(new Mesh::InplaneBC<prec, uint>(pass));
-						break;
-					case meshCmd::inplaneload:
-						cmdQueue.push(new Mesh::InplaneLoad<prec, uint>(pass));
-						break;
-					case meshCmd::setDegreesOfFreedom:
-						cmdQueue.push(new Mesh::SetDegreesOfFreedom<prec, uint>(pass));
-						break;
-					default:
-						break;
+					cmdQueue.push(it->second(pass));
+				}
+
+				if (procCmd == "help") {
+					if (pass.empty()) {
+						std::cout << "List of mesh commands:" << std::endl;
+						for (auto i = this->meshCommands.begin(); i != this->meshCommands.end(); ++i) {
+							std::cout << i->first << std::endl;
+						}
 					}
 				}
 			}
@@ -237,24 +165,17 @@ namespace FEMProject {
 				stringCommandHandler pass;
 				std::string procCmd;
 				cmd.processCommand(procCmd, pass);
-				std::map<std::string, plotCmd>::iterator it = this->plotCommands.find(procCmd);
+				auto it = this->plotCommands.find(procCmd);
 				if (it != this->plotCommands.end()) {
-					switch (it->second)
-					{
-					case plotCmd::exit:
-						cmdQueue.push(new plotQuit<prec, uint>(pass));
-						break;
-					case plotCmd::mesh:
-						cmdQueue.push(new Plot::Mesh<prec, uint>(pass));
-						break;
-					case plotCmd::interact:
-						cmdQueue.push(new Plot::Interact<prec, uint>(pass));
-						break;
-					case plotCmd::solution:
-						cmdQueue.push(new Plot::Solution<prec, uint>(pass));
-						break;
-					default:
-						break;
+					cmdQueue.push(it->second(pass));
+				}
+
+				if (procCmd == "help") {
+					if (pass.empty()) {
+						std::cout << "List of plot commands:" << std::endl;
+						for (auto i = this->plotCommands.begin(); i != this->plotCommands.end(); ++i) {
+							std::cout << i->first << std::endl;
+						}
 					}
 				}
 			}
@@ -271,18 +192,16 @@ namespace FEMProject {
 				temp = cmd;
 				std::string procCmd;
 				cmd.processCommand(procCmd, pass);
-				std::map<std::string, mathCmd>::iterator it = this->mathCommands.find(procCmd);
+				auto it = this->mathCommands.find(procCmd);
 				if (it != this->mathCommands.end()) {
-					switch (it->second)
-					{
-					case mathCmd::exit:
-						cmdQueue.push(new mathQuit<prec, uint>(pass));
-						break;
-					case mathCmd::list:
-						cmdQueue.push(new Math::List<prec, uint>(pass));
-						break;
-					default:
-						break;
+					cmdQueue.push(it->second(pass));
+				}
+				else if (procCmd == "help") {
+					if (pass.empty()) {
+						std::cout << "List of math commands:" << std::endl;
+						for (auto i = this->mathCommands.begin(); i != this->mathCommands.end(); ++i) {
+							std::cout << i->first << std::endl;
+						}
 					}
 				}
 				else {

@@ -159,7 +159,7 @@ namespace FEMProject {
 		std::size_t pos2 = this->Command.find("=",pos1);
 		std::size_t pos2e= this->Command.find_first_not_of(" \t\n\v\f\r",pos1e);
 	
-		if(pos2e==pos2){
+		if(pos2e==pos2 && pos2e != std::string::npos){
 			std::size_t delimpos = this->Command.find_first_of(this->delim,pos1);
 			rhs = this->Command.substr(pos2+1,delimpos-pos2-1);
 			this->Command.erase(pos1,delimpos-pos1+1);

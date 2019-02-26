@@ -17,6 +17,7 @@ namespace FEMProject {
 			macroQuit(stringCommandHandler &cmd) {};
 			~macroQuit() {};
 			void run(PointerCollection<prec, uint> &ptrCol, FEMProgram<prec, uint> *program);
+			static GenericCommand *New(stringCommandHandler &cmd) { return new macroQuit(cmd); };
 		private:
 
 
@@ -37,6 +38,7 @@ namespace FEMProject {
 			meshQuit(stringCommandHandler &cmd) {};
 			~meshQuit() {};
 			void run(PointerCollection<prec, uint> &ptrCol, FEMProgram<prec, uint> *program);
+			static GenericCommand<prec, uint> *New(stringCommandHandler &cmd) { return new meshQuit(cmd); };
 		private:
 
 
@@ -54,18 +56,24 @@ namespace FEMProject {
 		template<typename prec, typename uint>
 		class meshInteract : public GenericCommand<prec, uint> {
 		public:
-			meshInteract(stringCommandHandler &cmd) {};
+			meshInteract(stringCommandHandler &cmd) : Command(cmd) {};
 			~meshInteract() {};
 			void run(PointerCollection<prec, uint> &ptrCol, FEMProgram<prec, uint> *program);
+			static GenericCommand<prec, uint> *New(stringCommandHandler &cmd) { return new meshInteract(cmd); };
 		private:
-
+			stringCommandHandler Command;
 
 		};
 
 
 		template<typename prec, typename uint>
 		void meshInteract<prec, uint>::run(PointerCollection<prec, uint> &pointers, FEMProgram<prec, uint> *program) {
-			program->enableUserMesh();
+			if (this->Command.empty()) {
+				program->enableUserMesh();
+			}
+			else {
+				program->parseExternalMesh(&pointers, this->Command.remainingCommands());
+			}
 		}
 
 		/**
@@ -77,6 +85,7 @@ namespace FEMProject {
 			plotQuit(stringCommandHandler &cmd) {};
 			~plotQuit() {};
 			void run(PointerCollection<prec, uint> &ptrCol, FEMProgram<prec, uint> *program);
+			static GenericCommand *New(stringCommandHandler &cmd) { return new plotQuit(cmd); };
 		private:
 
 
@@ -94,18 +103,26 @@ namespace FEMProject {
 		template<typename prec, typename uint>
 		class plotInteract : public GenericCommand<prec, uint> {
 		public:
-			plotInteract(stringCommandHandler &cmd) {};
+			plotInteract(stringCommandHandler &cmd) : Command(cmd) {};
 			~plotInteract() {};
 			void run(PointerCollection<prec, uint> &ptrCol, FEMProgram<prec, uint> *program);
+			static GenericCommand *New(stringCommandHandler &cmd) { return new plotInteract(cmd); };
 		private:
-
+			stringCommandHandler Command;
 
 		};
 
 
 		template<typename prec, typename uint>
 		void plotInteract<prec, uint>::run(PointerCollection<prec, uint> &pointers, FEMProgram<prec, uint> *program) {
-			program->enableUserPlot();
+			if (this->Command.empty()) {
+				program->enableUserPlot();
+			}
+			else {
+				program->parseExternalPlot(&pointers, this->Command.remainingCommands());
+			}
+			
+			
 		}
 
 		/**
@@ -117,6 +134,7 @@ namespace FEMProject {
 			mathQuit(stringCommandHandler &cmd) {};
 			~mathQuit() {};
 			void run(PointerCollection<prec, uint> &ptrCol, FEMProgram<prec, uint> *program);
+			static GenericCommand *New(stringCommandHandler &cmd) { return new mathQuit(cmd); };
 		private:
 
 
@@ -134,18 +152,25 @@ namespace FEMProject {
 		template<typename prec, typename uint>
 		class mathInteract : public GenericCommand<prec, uint> {
 		public:
-			mathInteract(stringCommandHandler &cmd) {};
+			mathInteract(stringCommandHandler &cmd) : Command(cmd) {};
 			~mathInteract() {};
 			void run(PointerCollection<prec, uint> &ptrCol, FEMProgram<prec, uint> *program);
+			static GenericCommand *New(stringCommandHandler &cmd) { return new mathInteract(cmd); };
 		private:
-
+			stringCommandHandler Command;
 
 		};
 
 
 		template<typename prec, typename uint>
 		void mathInteract<prec, uint>::run(PointerCollection<prec, uint> &pointers, FEMProgram<prec, uint> *program) {
-			program->enableUserMath();
+			if (this->Command.empty()) {
+				program->enableUserMath();
+			}
+			else {
+				program->parseExternalMath(&pointers, this->Command.remainingCommands());
+			}
+			
 		}
 	}
 }

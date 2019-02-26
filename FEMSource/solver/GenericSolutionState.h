@@ -21,6 +21,7 @@ namespace FEMProject {
 		GenericSolutionState(PointerCollection<prec, uint> *pointers);
 		virtual ~GenericSolutionState();
 
+		virtual void setValues(std::map<std::string, prec> &values) {};
 
 		virtual void setTripletList(std::vector<DegreeOfFreedom<prec, uint>*> &Dofs);
 		virtual void setSparseMatrix();

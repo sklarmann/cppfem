@@ -17,6 +17,7 @@ namespace FEMProject {
 				~PropFunction() {};
 				void run(PointerCollection<prec, uint> &ptrCol, FEMProgram<prec, uint> *program);
 				std::string printCommand();
+				static GenericCommand *New(stringCommandHandler &cmd) { return new PropFunction(cmd); };
 			private:
 				std::string snum;
 				std::string function;

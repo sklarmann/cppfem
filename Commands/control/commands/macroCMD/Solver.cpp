@@ -28,6 +28,25 @@ namespace FEMProject {
 			}
 
 			template<typename prec, typename uint>
+			void Solver<prec, uint>::help()
+			{
+				std::cout << "The solver command specifies the solver used for the factorization of the tangential stiffness matrix." << std::endl;
+				std::cout << std::endl;
+				std::cout << "Currently the following solvers can be set with the command:" << std::endl;
+				std::cout << std::endl;
+				std::cout << "solver(eigenpardisoldlt):    If linked against the MKL library, activates the Pardiso LDLT solver!" << std::endl;
+				std::cout << "solver(eigenpardisollt):     If linked against the MKL library, activates the Pardiso LLT solver!" << std::endl;
+				std::cout << "solver(eigenpardisolu):      If linked against the MKL library, activates the Pardiso LU solver!" << std::endl;
+				std::cout << "solver(eigensimplicialldlt): Activates Eigen Librarys own LDLT solver!" << std::endl;
+				std::cout << "solver(eigensimplicialllt):  Activates Eigen Librarys own LLT solver!" << std::endl;
+				std::cout << "solver(eigensparselu):       Activates Eigen Librarys own LU solver!" << std::endl;
+				std::cout << "solver(eigensparseqr):       Activates Eigen Librarys own QR solver!" << std::endl;
+				std::cout << std::endl;
+				std::cout << "If you are performing an analysis with arbitrary precision, only the solvers from the Eigen Library can be used!" << std::endl;
+
+			}
+
+			template<typename prec, typename uint>
 			void Solver<prec, uint>::run(PointerCollection<prec, uint> &pointers, FEMProgram<prec, uint> *program) {
 				SolverTypes type;
 				if (this->solver.compare("eigenpardisoldlt")==0) {

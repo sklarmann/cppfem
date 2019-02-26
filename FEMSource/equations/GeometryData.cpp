@@ -53,7 +53,7 @@ namespace FEMProject {
 	
 	template<typename prec, typename uint>
 	uint GeometryData<prec,uint>::requestNewVert(){
-		uint num = this->vertListOut.size();
+		uint num = static_cast<uint>(this->vertListOut.size());
 		this->vertListOut.push_back(num);
 		
 		this->vertListIntern.emplace_back(new Vertex<prec, uint>(this->pointers));

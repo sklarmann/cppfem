@@ -24,6 +24,7 @@
 #include <Eigen/SparseCore>
 #include <Eigen/Dense>
 
+
 #ifdef USE_SPECTRA
 #include <GenEigsSolver.h>
 #include <MatOp/SparseGenMatProd.h>

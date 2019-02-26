@@ -28,12 +28,13 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 #SET(BUILD_SHARED_LIBRARIES OFF)
 #SET(CMAKE_EXE_LINKER_FLAGS "-static")
 
-set(SOURCE ${SOURCE})
-set(HEADERS ${HEADERS} ${CMAKE_CURRENT_SOURCE_DIR}/preprocessDefine.h
+set(SOURCEFILES ${SOURCEFILES})
+set(HEADERS ${HEADERS}
+	  ${CMAKE_CURRENT_SOURCE_DIR}/preprocessDefine.h
 		${CMAKE_CURRENT_SOURCE_DIR}/forwarddeclaration.h
-		PARENT_SCOPE)
+		)
 set(INCDIRS ${INCDIRS}
-					   ${CMAKE_CURRENT_SOURCE_DIR}/include
+					   # ${CMAKE_CURRENT_SOURCE_DIR}/include
 					   # ${EIGEN3_INCLUDE_DIR}
 					   )
 
@@ -54,7 +55,7 @@ add_subdirectory(plot)
 add_subdirectory(pointercollection)
 add_subdirectory(shapefunctions)
 add_subdirectory(solver)
-add_subdirectory(wrapper)
+# add_subdirectory(wrapper)
 
 
 
@@ -84,7 +85,6 @@ set(LIBS $ENV{MKLROOT}/lib/intel64_win/mkl_intel_lp64.lib $ENV{MKLROOT}/lib/inte
 if(WIN32)
 	set(INCDIRS ${INCDIRS} "${CMAKE_CURRENT_SOURCE_DIR}/eigen3/eigen/src/")
 endif(WIN32)
-message(${INCDIRS})
 
 # include_directories("${PROJECT_BINARY_DIR}" "${INCDIRS}" "${Boost_INCLUDE_DIRS}")
 include_directories("${INCDIRS}" "${Eigen3_DIR}" "${MKL_INCLUDE_DIR}/include")
@@ -93,7 +93,7 @@ include_directories("${INCDIRS}" "${Eigen3_DIR}" "${MKL_INCLUDE_DIR}/include")
 
 #if(ASLIBRARY)
 set(NAME cppfem)
-set(SOURCE ${SOURCE})
+set(SOURCE ${SOURCEFILES})
 #SET(BUILD_SHARED_LIBRARIES ON)
 add_library(${NAME} STATIC ${SOURCE} ${HEADERS})
 add_definitions(-DAPPLICATION)

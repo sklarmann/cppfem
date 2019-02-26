@@ -1,5 +1,7 @@
-set(SOURCE ${SOURCE} ${CMAKE_CURRENT_SOURCE_DIR}/stringoperations.cpp 
+set(SOURCEFILES ${SOURCEFILES} 
+	  ${CMAKE_CURRENT_SOURCE_DIR}/stringoperations.cpp
 		PARENT_SCOPE)
-		
-set(HEADERS ${HEADERS} ${CMAKE_CURRENT_SOURCE_DIR}/stringoperations.h
+
+set(HEADERS ${HEADERS}
+	  ${CMAKE_CURRENT_SOURCE_DIR}/stringoperations.h
 		PARENT_SCOPE)

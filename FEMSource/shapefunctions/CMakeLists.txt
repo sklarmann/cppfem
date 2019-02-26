@@ -1,7 +1,7 @@
 
 
 
-set(SOURCE ${SOURCE} ${CMAKE_CURRENT_SOURCE_DIR}/GaussPoints.cpp
+set(SOURCEFILES ${SOURCEFILES} ${CMAKE_CURRENT_SOURCE_DIR}/GaussPoints.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/KernelShape.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/LagrangeShape.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/Legendre.cpp

@@ -17,6 +17,7 @@ namespace FEMProject {
 				~OpenFiles() {};
 				void run(PointerCollection<prec, uint> &ptrCol, FEMProgram<prec, uint> *program);
 				std::string printCommand();
+				static GenericCommand *New(stringCommandHandler &cmd) { return new OpenFiles(cmd); };
 			private:
 
 

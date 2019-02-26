@@ -36,6 +36,7 @@ namespace FEMProject {
 				~Block() {};
 				void run(PointerCollection<prec, uint> &ptrCol, FEMProgram<prec, uint> *program);
 				std::string printCommand();
+				static GenericCommand<prec,uint> * New(stringCommandHandler &cmd) { return new Block<prec,uint>(cmd); };
 			private:
 				void blockGeneration(PointerCollection<prec, uint> &pointers, 
 					const blockTypes &blockType,

@@ -16,6 +16,7 @@ namespace FEMProject {
 				~SetUpSparseMatrix() {};
 				void run(PointerCollection<prec, uint> &ptrCol, FEMProgram<prec, uint> *program);
 				std::string printCommand();
+				static GenericCommand *New(stringCommandHandler &cmd) { return new SetUpSparseMatrix(cmd); };
 			private:
 
 
