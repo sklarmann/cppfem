@@ -1,6 +1,7 @@
 #pragma once
 
 
+#include <control/commands/meshCMD/AddVertex.h>
 #include <control/commands/meshCMD/Block.h>
 #include <control/commands/meshCMD/inplanebc.h>
 #include <control/commands/meshCMD/inplaneload.h>
