@@ -7,7 +7,7 @@ project (CPPFEM)
 #
 # #set(CMAKE_GENERATOR_TOOLSET "Intel C++ Compiler 16.0" CACHE STRING "Platform Toolset"  FORCE)
 # set(SpectraDir ${CMAKE_CURRENT_SOURCE_DIR}/spectra-master/include)
-set(Eigen3_DIR "${CMAKE_CURRENT_SOURCE_DIR}/eigen3")
+set(Eigen3_DIR "${CMAKE_CURRENT_SOURCE_DIR}/eigen3" "${CMAKE_CURRENT_SOURCE_DIR}/eigen3/unsupported" "${CMAKE_CURRENT_SOURCE_DIR}/eigen3/unsupported/test/mpreal")
 # include(${CMAKE_CURRENT_SOURCE_DIR}/eigen3/cmake/FindEigen3.cmake)
 #
 # #set(CMAKE_AUTOMOC ON)
@@ -42,7 +42,8 @@ SET(MKL_LIBRARIES ${MKL_ROOT}/lib/intel64)
 
 SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} /openmp")
 # #set(Boost_ADDITIONAL_VERSIONS "1.63" "1.63.0")
-# #find_package(Boost 1.63.0 REQUIRED)
+find_package(Boost 1.69.0 REQUIRED)
+message(${Boost_INCLUDE_DIR})
 #
 # # Find include directory
 # #  There is no include folder under linux

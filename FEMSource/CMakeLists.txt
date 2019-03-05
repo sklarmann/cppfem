@@ -77,8 +77,8 @@ add_definitions(/DEIGEN_USE_MKL_ALL)
 
 include_directories($ENV{MKLROOT}/include)
 add_definitions(/DEIGEN_USE_MKL_ALL)
-set(LIBS $ENV{MKLROOT}/lib/intel64_win/mkl_intel_lp64.lib $ENV{MKLROOT}/lib/intel64_win/mkl_intel_thread.lib $ENV{MKLROOT}/lib/intel64_win/mkl_core.lib
-    D:/intel/mkl/compilers_and_libraries_2017.2.187/windows/compiler/lib/intel64_win/libiomp5md.lib)
+# set(LIBS $ENV{MKLROOT}/lib/intel64_win/mkl_intel_lp64.lib $ENV{MKLROOT}/lib/intel64_win/mkl_intel_thread.lib $ENV{MKLROOT}/lib/intel64_win/mkl_core.lib
+#     D:/intel/mkl/compilers_and_libraries_2017.2.187/windows/compiler/lib/intel64_win/libiomp5md.lib)
 
 # find_package(Eigen3 REQUIRED)
 
@@ -87,7 +87,7 @@ if(WIN32)
 endif(WIN32)
 
 # include_directories("${PROJECT_BINARY_DIR}" "${INCDIRS}" "${Boost_INCLUDE_DIRS}")
-include_directories("${INCDIRS}" "${Eigen3_DIR}" "${MKL_INCLUDE_DIR}/include")
+include_directories("${INCDIRS}" "${Eigen3_DIR}" "${MKL_INCLUDE_DIR}/include" "${Boost_INCLUDE_DIR}")
 
 #include_directories()
 

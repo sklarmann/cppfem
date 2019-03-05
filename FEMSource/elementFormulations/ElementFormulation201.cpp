@@ -17,6 +17,7 @@
 #include <equations/Nodetypes.h>
 #include <equations/GenericNodes.h>
 #include <equations/NodeSet.h>
+#include <equations/DegreeOfFreedom.h>
 
 #include <finiteElements/GenericFiniteElement.h>
 
@@ -27,6 +28,7 @@
 #include <shapefunctions/GaussPoints.h>
 
 #include <elementFormulations/GenericElementFormulation.h>
+#include <solver/GenericSolutionState.h>
 
 
 namespace FEMProject {
@@ -120,12 +122,14 @@ namespace FEMProject {
 		Eigen::Matrix<prec, 3, Eigen::Dynamic> Bmat;
 		Eigen::Matrix<prec, 2, 2> jacobi;
 		Eigen::Matrix<prec, 3, 3> material;
+		Eigen::Matrix<prec, Eigen::Dynamic, 1> solution;
 		std::vector<DegreeOfFreedom<prec, uint>*> dispDofs, tempDofs;
 		std::vector<GenericNodes<prec, uint>*> dispNodes;
 		
 		
 		elem->getNodesMeshId(*this->ptrCol,dispNodes, this->meshIdDisp);
-		
+		DegreeOfFreedom<prec,uint> *temp;
+		uint solId;
 		dispDofs.clear();
 		for (auto i = 0; i < dispNodes.size(); ++i) {
 			tempDofs.clear();
@@ -134,6 +138,7 @@ namespace FEMProject {
 				dispDofs.push_back(tempDofs[j]);
 			}
 		}
+		
 		
 		uint numDofs = static_cast<uint>(dispDofs.size());
 		Dofs = dispDofs;
@@ -144,7 +149,15 @@ namespace FEMProject {
 		residual.resize(numDofs);
 		residual.setZero();
 		
-		
+		solution.resize(numDofs);
+
+		GenericSolutionState<prec, uint> *solstate = this->ptrCol->getSolutionState();
+		for (auto i = 0; i < dispDofs.size(); ++i) {
+			temp = dispDofs[i];
+			solId = temp->getId();
+			
+			solution(i) = solstate->getSolution(solId);
+		}
 		
 		material.setZero();
 		material(0, 0) = 1.0*10000;
@@ -160,8 +173,8 @@ namespace FEMProject {
 		uint nodesEdge1, nodesEdge2, nodesEdge3, nodesFace;
 		
 		elem->getNumberOfNodes(*this->ptrCol,nodesEdge1, nodesEdge2, nodesEdge3, nodesFace, this->meshIdDisp);
-		prec da;
-		da = 0;
+		prec da, da2;
+		da = 0, da2 = 0;
 		
 		Bmat.resize(3, numDofs);
 		Bmat.setZero();
@@ -182,9 +195,12 @@ namespace FEMProject {
 			//			shapeDeriv.transpose()*material*shapeDeriv;
 		
 			da = (jacobi.determinant())*weight[i];
+			da2 += da;
 			stiffness += Bmat.transpose()*material*Bmat*da;
 		}
 
+		residual = stiffness * solution;
+		//std::cout << stiffness << std::endl;
 		//std::cout << "elmat \n";
 		//std::cout << stiffness << std::endl;
 		

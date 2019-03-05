@@ -12,7 +12,7 @@ namespace FEMProject {
 
 	template<typename prec, typename uint>
 	TransientSolutionNewmark<prec, uint>::~TransientSolutionNewmark() {
-		this->SpMat.setZero();
+		
 	}
 
 

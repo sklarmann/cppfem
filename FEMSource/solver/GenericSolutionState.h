@@ -45,13 +45,16 @@ namespace FEMProject {
 		virtual prec getSolution(const uint &globalId){ return 0; };
 
 	protected:
+		void assembleCsrMatrix(
+			Eigen::SparseMatrix<prec, 0, uint> &SpMat,
+			Eigen::Matrix<prec, Eigen::Dynamic, Eigen::Dynamic> &stiffness,
+			std::vector<DegreeOfFreedom<prec, uint>*> &Dofs);
 		PropfunctionHandler<prec, uint> *props;
 		PointerCollection<prec, uint> *pointers;
 		uint numberOfEquations, NumberOfActiveEquations;
 		GenericSolver<prec, uint> *solver;
 		bool symmetricSolver;
 		bool upper;
-		Eigen::SparseMatrix<prec, 0, uint> SpMat;
 
 
 	private:

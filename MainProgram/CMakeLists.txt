@@ -16,7 +16,7 @@ set(HEADERS ${HEADERS})
 set(INCDIRS ${INCDIRS}
 					   ${CMAKE_CURRENT_SOURCE_DIR}/include
 					   ${SpectraDir}
-					   PATH)
+					   )
 
 
 include(cmake.inc)
@@ -39,16 +39,17 @@ include(cmake.inc)
 
 include_directories($ENV{MKLROOT}/include)
 add_definitions(/DEIGEN_USE_MKL_ALL)
-set(LIBS $ENV{MKLROOT}/lib/intel64_win/mkl_intel_lp64.lib $ENV{MKLROOT}/lib/intel64_win/mkl_intel_thread.lib $ENV{MKLROOT}/lib/intel64_win/mkl_core.lib D:/intel/mkl/compilers_and_libraries_2017.2.187/windows/compiler/lib/intel64_win/libiomp5md.lib)
+set(LIBS $ENV{MKLROOT}/lib/intel64_win/mkl_intel_lp64.lib $ENV{MKLROOT}/lib/intel64_win/mkl_intel_thread.lib $ENV{MKLROOT}/lib/intel64_win/mkl_core.lib "C:/Program Files (x86)/IntelSWTools/compilers_and_libraries_2018.5.274/windows/compiler/lib/intel64_win/libiomp5md.lib")
 
 # if(WIN32)
 # 	set(INCDIRS ${INCDIRS} "C:/Program Files/Eigen/include/eigen3" PATH)
 # endif(WIN32)
 if(WIN32)
-	set(INCDIRS ${INCDIRS} "${CMAKE_CURRENT_SOURCE_DIR}/eigen3/eigen/src/")
+	set(INCDIRS ${INCDIRS} "${CMAKE_CURRENT_SOURCE_DIR}/eigen3/eigen/src/" )
 endif(WIN32)
 # include_directories("${INCDIRS}" "${Boost_INCLUDE_DIRS}")
-
+include_directories("${INCDIRS}" "${Eigen3_DIR}" "${Boost_INCLUDE_DIR}")
+message(${Eigen3_DIR})
 # include_directories(${EIGEN3_INCLUDE_DIR})
 
 if(ASLIBRARY)

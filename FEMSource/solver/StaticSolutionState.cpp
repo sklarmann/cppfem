@@ -107,7 +107,8 @@ namespace FEMProject {
 		, std::vector<DegreeOfFreedom<prec,uint>*> &Dofs) {
 	
 		uint vsize = static_cast<uint>(Dofs.size());
-	
+		this->assembleCsrMatrix(this->SpMat, stiffness, Dofs);
+#pragma omp critical
 		for (uint i = 0; i < vsize; ++i) {
 			if (Dofs[i]->getStatus() == dofStatus::active) {
 				for (uint j = 0; j < vsize; ++j) {
@@ -115,20 +116,20 @@ namespace FEMProject {
 						if (this->symmetricSolver) {
 							if (this->upper) {
 								if (Dofs[i]->getEqId() <= Dofs[j]->getEqId()) {
-#pragma omp atomic
-									this->SpMat.coeffRef(Dofs[i]->getEqId(), Dofs[j]->getEqId()) += stiffness(i, j);
+//#pragma omp atomic
+									//this->SpMat.coeffRef(Dofs[i]->getEqId(), Dofs[j]->getEqId()) += stiffness(i, j);
 								}
 							}
 							else {
 								if (Dofs[i]->getEqId() >= Dofs[j]->getEqId()) {
-#pragma omp atomic
-									this->SpMat.coeffRef(Dofs[i]->getEqId(), Dofs[j]->getEqId()) += stiffness(i, j);
+//#pragma omp atomic
+									//this->SpMat.coeffRef(Dofs[i]->getEqId(), Dofs[j]->getEqId()) += stiffness(i, j);
 								}
 							}
 						}
 						else {
-#pragma omp atomic
-							this->SpMat.coeffRef(Dofs[i]->getEqId(), Dofs[j]->getEqId()) += stiffness(i, j);
+//#pragma omp atomic
+							//this->SpMat.coeffRef(Dofs[i]->getEqId(), Dofs[j]->getEqId()) += stiffness(i, j);
 						}
 					}
 					else {
@@ -136,11 +137,10 @@ namespace FEMProject {
 						//std::cout << this->dIncSolution(Dofs[j]->getId()) << std::endl;
 					}
 				}
-#pragma omp atomic
+//#pragma omp atomic
 				this->Rhs(Dofs[i]->getEqId()) -= residual(i);
 			}
 		}
-
 		//Eigen::SparseMatrix<prec, 0, uint> SpMat
 
 	}
@@ -171,7 +171,8 @@ namespace FEMProject {
 		//this->Rhs(this->numberOfEquations - 1) = 1.0;
 		
 		//this->eqSol = this->solver.solve(this->Rhs);
-		
+		prec residual = this->Rhs.dot(this->Rhs);
+		std::cout << "Residual norm: " << sqrt(residual) << std::endl;
 		this->solver->solve(this->Rhs, this->eqSol);
 		this->pointers->getPropLoads()->update();
 		
@@ -222,6 +223,7 @@ namespace FEMProject {
 			}
 		}
 		this->Solution += this->IncSolution;
+		std::cout << std::setprecision(60) << this->Solution << std::endl;
 	}
 
 	template<typename prec, typename uint>

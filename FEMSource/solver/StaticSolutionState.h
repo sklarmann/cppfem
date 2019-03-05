@@ -52,5 +52,6 @@ namespace FEMProject {
 		Eigen::Matrix<prec, Eigen::Dynamic, 1> Rhs;
 		Eigen::Matrix<prec, Eigen::Dynamic, 1> eqSol;
 		std::vector<Eigen::Triplet<prec,uint>> tripletList;
+		Eigen::SparseMatrix<prec, 0, uint> SpMat;
 	};
 } /* namespace FEMProject */

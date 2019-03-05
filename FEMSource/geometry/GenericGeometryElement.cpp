@@ -60,10 +60,12 @@ namespace FEMProject {
 			<< std::left << std::setw(20) << "\tNumber of nodesets:"
 			<< std::right << std::setw(10) << static_cast<uint>(this->numberOfNodeSets) << std::endl;
 
-		std::vector<NodeSet<prec, uint>*> sets;
-		pointers.getEquationHandler()->getSets(sets, this->nodeSetId, this->numberOfNodeSets);
-		for (auto i = 0; i < sets.size(); ++i) {
-			sets[i]->print(pointers);
+		if (this->numberOfNodeSets > 0) {
+			std::vector<NodeSet<prec, uint>*> sets;
+			pointers.getEquationHandler()->getSets(sets, this->nodeSetId, this->numberOfNodeSets);
+			for (auto i = 0; i < sets.size(); ++i) {
+				sets[i]->print(pointers);
+			}
 		}
 	}
 
