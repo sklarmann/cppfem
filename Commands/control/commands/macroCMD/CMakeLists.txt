@@ -3,10 +3,12 @@
 
 set(SOURCE ${SOURCE} ${CMAKE_CURRENT_SOURCE_DIR}/CommandHistory.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/ComputeEigenValues.cpp
+					 ${CMAKE_CURRENT_SOURCE_DIR}/Do.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/OpenFiles.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/Output.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/printInfo.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/PrintPropFunction.cpp
+					 ${CMAKE_CURRENT_SOURCE_DIR}/PrintSolution.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/Processfiles.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/PropFunction.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/PropNames.cpp
@@ -23,11 +25,13 @@ set(SOURCE ${SOURCE} ${CMAKE_CURRENT_SOURCE_DIR}/CommandHistory.cpp
 set(HEADERS ${HEADERS} ${CMAKE_CURRENT_SOURCE_DIR}/CommandHistory.h
 					 ${CMAKE_CURRENT_SOURCE_DIR}/CommandTemplate.h
 					 ${CMAKE_CURRENT_SOURCE_DIR}/ComputeEigenValues.h
+					 ${CMAKE_CURRENT_SOURCE_DIR}/Do.h
 			         ${CMAKE_CURRENT_SOURCE_DIR}/macroCommandInclude.h
 					 ${CMAKE_CURRENT_SOURCE_DIR}/OpenFiles.h
 					 ${CMAKE_CURRENT_SOURCE_DIR}/Output.h
 					 ${CMAKE_CURRENT_SOURCE_DIR}/printInfo.h
 					 ${CMAKE_CURRENT_SOURCE_DIR}/PrintPropFunction.h
+					 ${CMAKE_CURRENT_SOURCE_DIR}/PrintSolution.h
 					 ${CMAKE_CURRENT_SOURCE_DIR}/Processfiles.h
 					 ${CMAKE_CURRENT_SOURCE_DIR}/PropFunction.h
 					 ${CMAKE_CURRENT_SOURCE_DIR}/PropNames.h

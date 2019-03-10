@@ -223,7 +223,6 @@ namespace FEMProject {
 			}
 		}
 		this->Solution += this->IncSolution;
-		std::cout << std::setprecision(60) << this->Solution << std::endl;
 	}
 
 	template<typename prec, typename uint>

@@ -290,7 +290,7 @@ namespace FEMProject {
 		}
 		catch (const std::exception &e) {
 			check = input;
-			std::cout << e.what();
+			//std::cout << e.what();
 		}
 
 		if (input.size() == 1 && input.find_first_not_of("1234567890") != std::string::npos) check = input;

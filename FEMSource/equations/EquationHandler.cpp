@@ -267,6 +267,7 @@ namespace FEMProject {
 
 	}
 
+
 	template<typename prec, typename uint>
 	void EquationHandler<prec, uint>::updateEquations() {
 		auto len = this->degreesOfFreedom.size();

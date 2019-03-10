@@ -72,6 +72,10 @@ namespace FEMProject {
 			if (!this->LogFile.is_open()) {
 				this->LogFile.open(file);
 			}
+			//else {
+			//	this->LogFile.close();
+			//	this->LogFile.open(file);
+			//}
 		}
 	
 		void closeLogFile() {

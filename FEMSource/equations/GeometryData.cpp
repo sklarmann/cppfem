@@ -260,7 +260,7 @@ namespace FEMProject {
 	template<typename prec, typename uint>
 	void GeometryData<prec, uint>::print() {
 		OutputHandler &Log = this->pointers->getInfoData()->Log;
-		Log(LogLevel::BasicLog, LogLevel::BasicLog) << std::setfill('.')
+		Log(LogLevel::BasicLog, LogLevel::BasicLog) << std::setfill(' ')
 			<< "\n Geometry Data informations: \n"
 			<< std::left << std::setw(40) << "\tNumber of vertices:"
 			<< std::right << std::setw(20) << this->vertListOut.size() << "\n"
@@ -274,17 +274,17 @@ namespace FEMProject {
 		for (auto i = 0; i < this->vertListIntern.size(); ++i) {
 			this->vertListIntern[i]->print(*this->pointers);
 			Log(LogLevel::FullLog, LogLevel::BasicLog) <<
-				std::setw(100) << std::setfill('-') << "" << std::setfill('.') << std::endl;
+				std::setw(100) << std::setfill('-') << "" << std::setfill(' ') << std::endl;
 		}
 		for (auto i = 0; i < this->edgeList.size(); ++i) {
 			this->edgeList[i]->print(*this->pointers);
 			Log(LogLevel::FullLog, LogLevel::BasicLog) <<
-				std::setw(100) << std::setfill('-') << "" << std::setfill('.') << std::endl;
+				std::setw(100) << std::setfill('-') << "" << std::setfill(' ') << std::endl;
 		}
 		for (auto i = 0; i < this->faceList.size(); ++i) {
 			this->faceList[i]->print(*this->pointers);
 			Log(LogLevel::FullLog, LogLevel::BasicLog) <<
-				std::setw(100) << std::setfill('-') << "" << std::setfill('.') << std::endl;
+				std::setw(100) << std::setfill('-') << "" << std::setfill(' ') << std::endl;
 		}
 	}
 

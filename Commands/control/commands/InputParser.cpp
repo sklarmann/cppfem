@@ -42,6 +42,8 @@ namespace FEMProject {
 			this->macroCommands["threads"] = &Macro::Threads<prec, uint>::New;
 			this->macroCommands["printinfo"] = &Macro::printInfo<prec, uint>::New;
 			this->macroCommands["history"] = &Macro::PrintHistory<prec, uint>::New;
+			this->macroCommands["printsolution"] = &Macro::PrintSolution<prec, uint>::New;
+			this->macroCommands["do"] = &Macro::Do<prec, uint>::New;
 			//
 			//
 			this->macroCommands["solver"] = &Macro::Solver<prec, uint>::New;

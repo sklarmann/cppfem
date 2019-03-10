@@ -21,6 +21,7 @@ namespace FEMProject {
 		~FEMProgram();
 		void run(PointerCollection<prec, uint> *pointers);
 		void processCommands(PointerCollection<prec, uint> *pointers,std::queue<Commands::GenericCommand<prec, uint>*> &cmdQueue);
+		void processCommands(PointerCollection<prec, uint> *pointers, stringCommandHandler &cmd);
 		void processExternalCommand(PointerCollection<prec, uint> *pointers, Commands::GenericCommand<prec, uint> *cmd);
 		void enableUserPlot() { this->plotRun = true; };
 		void enableUserMesh() { this->meshRun = true; };

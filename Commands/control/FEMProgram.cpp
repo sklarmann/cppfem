@@ -84,6 +84,26 @@ namespace FEMProject {
 	}
 
 	template<typename prec, typename uint>
+	void FEMProgram<prec, uint>::processCommands(PointerCollection<prec, uint>* pointers, stringCommandHandler & cmd)
+	{
+
+		std::queue<Commands::GenericCommand<prec, uint>*> cmdQueue;
+		if (this->meshRun) {
+			this->parser.parseMesh(cmd, cmdQueue);
+		}
+		else if (this->plotRun) {
+			this->parser.parsePlot(cmd, cmdQueue);
+		}
+		else if (this->mathRun) {
+			this->parser.parseMath(cmd, cmdQueue);
+		}
+		else {
+			this->parser.parseMacro(cmd, cmdQueue);
+		}
+		this->processCommands(pointers, cmdQueue);
+	}
+
+	template<typename prec, typename uint>
 	void FEMProgram<prec, uint>::processExternalCommand(PointerCollection<prec, uint>* pointers, Commands::GenericCommand<prec, uint> *Command)
 	{
 		std::cout << "test2" << std::endl;
