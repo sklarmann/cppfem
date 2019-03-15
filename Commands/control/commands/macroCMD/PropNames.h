@@ -18,7 +18,7 @@ namespace FEMProject {
 				~PropNames() {};
 				void run(PointerCollection<prec, uint> &ptrCol, FEMProgram<prec, uint> *program);
 				std::string printCommand();
-				static GenericCommand *New(stringCommandHandler &cmd) { return new PropNames(cmd); };
+				static GenericCommand<prec,uint> *NewCommand(stringCommandHandler &cmd) { return new PropNames(cmd); };
 			private:
 				std::string timename, dtname;
 

@@ -17,7 +17,7 @@ namespace FEMProject {
 			macroQuit(stringCommandHandler &cmd) {};
 			~macroQuit() {};
 			void run(PointerCollection<prec, uint> &ptrCol, FEMProgram<prec, uint> *program);
-			static GenericCommand *New(stringCommandHandler &cmd) { return new macroQuit(cmd); };
+			static GenericCommand<prec,uint> *NewCommand(stringCommandHandler &cmd) { return new macroQuit(cmd); };
 		private:
 
 
@@ -38,7 +38,7 @@ namespace FEMProject {
 			meshQuit(stringCommandHandler &cmd) {};
 			~meshQuit() {};
 			void run(PointerCollection<prec, uint> &ptrCol, FEMProgram<prec, uint> *program);
-			static GenericCommand<prec, uint> *New(stringCommandHandler &cmd) { return new meshQuit(cmd); };
+			static GenericCommand<prec,uint> *NewCommand(stringCommandHandler &cmd) { return new meshQuit(cmd); };
 		private:
 
 
@@ -59,7 +59,7 @@ namespace FEMProject {
 			meshInteract(stringCommandHandler &cmd) : Command(cmd) {};
 			~meshInteract() {};
 			void run(PointerCollection<prec, uint> &ptrCol, FEMProgram<prec, uint> *program);
-			static GenericCommand<prec, uint> *New(stringCommandHandler &cmd) { return new meshInteract(cmd); };
+			static GenericCommand<prec,uint> *NewCommand(stringCommandHandler &cmd) { return new meshInteract(cmd); };
 		private:
 			stringCommandHandler Command;
 
@@ -72,7 +72,8 @@ namespace FEMProject {
 				program->enableUserMesh();
 			}
 			else {
-				program->parseExternalMesh(&pointers, this->Command.remainingCommands());
+				std::string pass = this->Command.remainingCommands();
+				program->parseExternalMesh(&pointers, pass);
 			}
 		}
 
@@ -85,7 +86,7 @@ namespace FEMProject {
 			plotQuit(stringCommandHandler &cmd) {};
 			~plotQuit() {};
 			void run(PointerCollection<prec, uint> &ptrCol, FEMProgram<prec, uint> *program);
-			static GenericCommand *New(stringCommandHandler &cmd) { return new plotQuit(cmd); };
+			static GenericCommand<prec,uint> *NewCommand(stringCommandHandler &cmd) { return new plotQuit(cmd); };
 		private:
 
 
@@ -106,7 +107,7 @@ namespace FEMProject {
 			plotInteract(stringCommandHandler &cmd) : Command(cmd) {};
 			~plotInteract() {};
 			void run(PointerCollection<prec, uint> &ptrCol, FEMProgram<prec, uint> *program);
-			static GenericCommand *New(stringCommandHandler &cmd) { return new plotInteract(cmd); };
+			static GenericCommand<prec,uint> *NewCommand(stringCommandHandler &cmd) { return new plotInteract(cmd); };
 		private:
 			stringCommandHandler Command;
 
@@ -119,10 +120,11 @@ namespace FEMProject {
 				program->enableUserPlot();
 			}
 			else {
-				program->parseExternalPlot(&pointers, this->Command.remainingCommands());
+				std::string pass = this->Command.remainingCommands();
+				program->parseExternalPlot(&pointers, pass);
 			}
-			
-			
+
+
 		}
 
 		/**
@@ -134,7 +136,7 @@ namespace FEMProject {
 			mathQuit(stringCommandHandler &cmd) {};
 			~mathQuit() {};
 			void run(PointerCollection<prec, uint> &ptrCol, FEMProgram<prec, uint> *program);
-			static GenericCommand *New(stringCommandHandler &cmd) { return new mathQuit(cmd); };
+			static GenericCommand<prec,uint> *NewCommand(stringCommandHandler &cmd) { return new mathQuit(cmd); };
 		private:
 
 
@@ -155,7 +157,7 @@ namespace FEMProject {
 			mathInteract(stringCommandHandler &cmd) : Command(cmd) {};
 			~mathInteract() {};
 			void run(PointerCollection<prec, uint> &ptrCol, FEMProgram<prec, uint> *program);
-			static GenericCommand *New(stringCommandHandler &cmd) { return new mathInteract(cmd); };
+			static GenericCommand<prec,uint> *NewCommand(stringCommandHandler &cmd) { return new mathInteract(cmd); };
 		private:
 			stringCommandHandler Command;
 
@@ -168,9 +170,10 @@ namespace FEMProject {
 				program->enableUserMath();
 			}
 			else {
-				program->parseExternalMath(&pointers, this->Command.remainingCommands());
+				std::string pass = this->Command.remainingCommands();
+				program->parseExternalMath(&pointers, pass);
 			}
-			
+
 		}
 	}
 }

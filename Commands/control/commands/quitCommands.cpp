@@ -55,7 +55,7 @@ namespace FEMProject {
 		template<typename prec, typename uint>
 		class meshInteract : public GenericCommand<prec, uint> {
 		public:
-			meshInteract(stringCommandHandler &cmd) : Command=cmd {};
+			meshInteract(stringCommandHandler &cmd) : Command(cmd) {};
 			~meshInteract() {};
 			void run(PointerCollection<prec, uint> &ptrCol, FEMProgram<prec, uint> *program);
 		private:
@@ -72,7 +72,7 @@ namespace FEMProject {
 			else {
 				program->parseExternalMesh(&pointers, this->Command.remainingCommands());
 			}
-			
+
 		}
 
 		/**

@@ -12,13 +12,13 @@ namespace FEMProject {
 
 	template<typename prec, typename uint>
 	TransientSolutionNewmark<prec, uint>::~TransientSolutionNewmark() {
-		
+
 	}
 
 
 	template<typename prec, typename uint>
 	void TransientSolutionNewmark<prec, uint>::setValues(std::map<std::string, prec> &values) {
-		std::map<std::string, prec>::iterator it;
+		typename std::map<std::string, prec>::iterator it;
 		it = values.find("beta");
 		if (it != values.end()) {
 			this->beta = it->second;

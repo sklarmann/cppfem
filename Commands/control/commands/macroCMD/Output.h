@@ -18,7 +18,7 @@ namespace FEMProject {
 				~Output() {};
 				void run(PointerCollection<prec, uint> &ptrCol, FEMProgram<prec, uint> *program);
 				std::string printCommand();
-				static GenericCommand *New(stringCommandHandler &cmd) { return new Output(cmd); };
+				static GenericCommand<prec,uint> *NewCommand(stringCommandHandler &cmd) { return new Output(cmd); };
 			private:
 				std::string writeInfo;
 				std::string printInfo;

@@ -23,7 +23,7 @@ namespace FEMProject {
 
 			template<typename prec, typename uint>
 			OpenFiles<prec, uint>::OpenFiles(stringCommandHandler &cmd) {
-				
+
 			}
 
 			template<typename prec, typename uint>
@@ -35,9 +35,14 @@ namespace FEMProject {
 
 			template<typename prec, typename uint>
 			void OpenFiles<prec, uint>::run(PointerCollection<prec, uint> &pointers, FEMProgram<prec, uint> *program) {
-				
-				set_files(pointers.getInfoData()->fileNames);
-
+				#ifdef(WIN32)
+				  set_files(pointers.getInfoData()->fileNames);
+				#else
+				  std::cout << "Please input filename with path:" << std::endl;
+					std::string filename;
+					std::getline(std::cin,filename);
+					std::size_t pos = filename.find_last_of('/');
+				#endif
 				pointers.getInfoData()->Log(BasicLog, BasicLog) << std::setw(30) << std::left << "Current Directory: "
 					<< std::setw(70) << std::right << pointers.getInfoData()->fileNames[FileHandling::directory] << std::endl
 					<< std::setw(30) << std::left << "InputFile: "

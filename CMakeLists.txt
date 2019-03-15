@@ -32,18 +32,25 @@ if(WIN32)
 		PATHS ${MKL_ROOT}/include)
 else()
 	SET(INTEL_ROOT "/opt/intel" CACHE PATH "Folder contains intel libs")
-	SET(MKL_ROOT $ENV{MKLROOT} CACHE PATH "Folder contains MKL")
+	SET(MKL_ROOT ${INTEL_ROOT}/mkl CACHE PATH "Folder contains MKL")
+	set(MKL_LIB_DIR ${MKL_ROOT}/lib/intel64)
 	FIND_PATH(MKL_INCLUDE_DIR mkl.h
 		PATHS ${MKL_ROOT}/include)
 endif()
-
+# message(${INTEL_ROOT})
+# message(${MKL_ROOT})
+# message(${MKL_INCLUDE_DIR})
 
 SET(MKL_LIBRARIES ${MKL_ROOT}/lib/intel64)
 
-SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} /openmp")
+if(WIN32)
+	SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} /openmp")
+else()
+	SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS}")
+endif()
 # #set(Boost_ADDITIONAL_VERSIONS "1.63" "1.63.0")
 find_package(Boost 1.69.0 REQUIRED)
-message(${Boost_INCLUDE_DIR})
+# message(${Boost_INCLUDE_DIR})
 #
 # # Find include directory
 # #  There is no include folder under linux

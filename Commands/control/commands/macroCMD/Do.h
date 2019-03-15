@@ -19,7 +19,7 @@ namespace FEMProject {
 				~Do() {};
 				void run(PointerCollection<prec, uint> &ptrCol, FEMProgram<prec, uint> *program);
 				std::string printCommand();
-				static GenericCommand *New(stringCommandHandler &cmd) { return new Do(cmd); };
+				static GenericCommand<prec,uint> *NewCommand(stringCommandHandler &cmd) { return new Do(cmd); };
 			private:
 				stringCommandHandler toProcess;
 				std::string times;

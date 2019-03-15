@@ -26,70 +26,70 @@ namespace FEMProject {
 		InputParser<prec, uint>::InputParser() {
 //------------------MACRO---------------------------------------------------
 			////-----#Exit----------------------------------------------------
-			this->macroCommands["quit"] = &macroQuit<prec, uint>::New;
-			this->macroCommands["end"] = &macroQuit<prec, uint>::New;
-			this->macroCommands["exit"] = &macroQuit<prec, uint>::New;
+			this->macroCommands["quit"] = &macroQuit<prec, uint>::NewCommand;
+			this->macroCommands["end"] = &macroQuit<prec, uint>::NewCommand;
+			this->macroCommands["exit"] = &macroQuit<prec, uint>::NewCommand;
 			////-----#Transfer-------------------------------------------------
-			this->macroCommands["mesh"] = &meshInteract<prec, uint>::New;
-			this->macroCommands["plot"] = &plotInteract<prec, uint>::New;
-			this->macroCommands["math"] = &mathInteract<prec, uint>::New;
-			
+			this->macroCommands["mesh"] = &meshInteract<prec, uint>::NewCommand;
+			this->macroCommands["plot"] = &plotInteract<prec, uint>::NewCommand;
+			this->macroCommands["math"] = &mathInteract<prec, uint>::NewCommand;
+
 			////-----#Main Control---------------------------------------------
-			this->macroCommands["open"] = &Macro::OpenFiles<prec, uint>::New;
-			this->macroCommands["output"] = &Macro::Output<prec, uint>::New;
-			this->macroCommands["processfiles"] = &Macro::Processfiles<prec, uint>::New;
-			this->macroCommands["rinp"] = &Macro::ReInput<prec, uint>::New;
-			this->macroCommands["threads"] = &Macro::Threads<prec, uint>::New;
-			this->macroCommands["printinfo"] = &Macro::printInfo<prec, uint>::New;
-			this->macroCommands["history"] = &Macro::PrintHistory<prec, uint>::New;
-			this->macroCommands["printsolution"] = &Macro::PrintSolution<prec, uint>::New;
-			this->macroCommands["do"] = &Macro::Do<prec, uint>::New;
+			this->macroCommands["open"] = &Macro::OpenFiles<prec, uint>::NewCommand;
+			this->macroCommands["output"] = &Macro::Output<prec, uint>::NewCommand;
+			this->macroCommands["processfiles"] = &Macro::Processfiles<prec, uint>::NewCommand;
+			this->macroCommands["rinp"] = &Macro::ReInput<prec, uint>::NewCommand;
+			this->macroCommands["threads"] = &Macro::Threads<prec, uint>::NewCommand;
+			this->macroCommands["printinfo"] = &Macro::printInfo<prec, uint>::NewCommand;
+			this->macroCommands["history"] = &Macro::PrintHistory<prec, uint>::NewCommand;
+			this->macroCommands["printsolution"] = &Macro::PrintSolution<prec, uint>::NewCommand;
+			this->macroCommands["do"] = &Macro::Do<prec, uint>::NewCommand;
 			//
 			//
-			this->macroCommands["solver"] = &Macro::Solver<prec, uint>::New;
-			this->macroCommands["solution"] = &Macro::Solution<prec, uint>::New;
-			this->macroCommands["sparsesetup"] = &Macro::SetUpSparseMatrix<prec, uint>::New;
+			this->macroCommands["solver"] = &Macro::Solver<prec, uint>::NewCommand;
+			this->macroCommands["solution"] = &Macro::Solution<prec, uint>::NewCommand;
+			this->macroCommands["sparsesetup"] = &Macro::SetUpSparseMatrix<prec, uint>::NewCommand;
 			//
-			this->macroCommands["tangent"] = &Macro::Tangent<prec, uint>::New;
-			this->macroCommands["eigenval"] = &Macro::eigenValues<prec, uint>::New;
+			this->macroCommands["tangent"] = &Macro::Tangent<prec, uint>::NewCommand;
+			this->macroCommands["eigenval"] = &Macro::eigenValues<prec, uint>::NewCommand;
 			//
-			this->macroCommands["propnames"] = &Macro::PropNames<prec, uint>::New;
-			this->macroCommands["propfunction"] = &Macro::PropFunction<prec, uint>::New;
-			this->macroCommands["printpropfunction"] = &Macro::PrintPropFunctions<prec, uint>::New;
-			this->macroCommands["dt"] = &Macro::SetDt<prec, uint>::New;
-			this->macroCommands["timeincr"] = &Macro::TimeIncr<prec,uint>::New;
+			this->macroCommands["propnames"] = &Macro::PropNames<prec, uint>::NewCommand;
+			this->macroCommands["propfunction"] = &Macro::PropFunction<prec, uint>::NewCommand;
+			this->macroCommands["printpropfunction"] = &Macro::PrintPropFunctions<prec, uint>::NewCommand;
+			this->macroCommands["dt"] = &Macro::SetDt<prec, uint>::NewCommand;
+			this->macroCommands["timeincr"] = &Macro::TimeIncr<prec,uint>::NewCommand;
 			//
 //----------//--------MESH----------------------------------------------------
 			////-----#Exit----------------------------------------------------
-			this->meshCommands["quit"] = &meshQuit<prec, uint>::New;
-			this->meshCommands["exit"] = &meshQuit<prec, uint>::New;
-			this->meshCommands["end"] = &meshQuit<prec, uint>::New;
+			this->meshCommands["quit"] = &meshQuit<prec, uint>::NewCommand;
+			this->meshCommands["exit"] = &meshQuit<prec, uint>::NewCommand;
+			this->meshCommands["end"] = &meshQuit<prec, uint>::NewCommand;
 			//
-			this->meshCommands["addvertex"] = &Mesh::AddVertex<prec, uint>::New;
-			this->meshCommands["block"] = &Mesh::Block<prec, uint>::New;
-			this->meshCommands["setmaterials"] = &Mesh::SetMaterial<prec, uint>::New;
-			this->meshCommands["setdofs"] = &Mesh::SetDegreesOfFreedom<prec, uint>::New;
+			this->meshCommands["addvertex"] = &Mesh::AddVertex<prec, uint>::NewCommand;
+			this->meshCommands["block"] = &Mesh::Block<prec, uint>::NewCommand;
+			this->meshCommands["setmaterials"] = &Mesh::SetMaterial<prec, uint>::NewCommand;
+			this->meshCommands["setdofs"] = &Mesh::SetDegreesOfFreedom<prec, uint>::NewCommand;
 			//
-			this->meshCommands["inplanebc"] = &Mesh::InplaneBC<prec, uint>::New;
-			this->meshCommands["inplaneload"] = &Mesh::InplaneLoad<prec, uint>::New;
+			this->meshCommands["inplanebc"] = &Mesh::InplaneBC<prec, uint>::NewCommand;
+			this->meshCommands["inplaneload"] = &Mesh::InplaneLoad<prec, uint>::NewCommand;
 			//
 //----------//--------PLOT----------------------------------------------------
 			////-----#Exit----------------------------------------------------
-			this->plotCommands["quit"] = &plotQuit<prec, uint>::New;
-			this->plotCommands["exit"] = &plotQuit<prec, uint>::New;
-			this->plotCommands["end"] = &plotQuit<prec, uint>::New;
+			this->plotCommands["quit"] = &plotQuit<prec, uint>::NewCommand;
+			this->plotCommands["exit"] = &plotQuit<prec, uint>::NewCommand;
+			this->plotCommands["end"] = &plotQuit<prec, uint>::NewCommand;
 			//
-			this->plotCommands["interact"] = &Plot::Interact<prec, uint>::New;
+			this->plotCommands["interact"] = &Plot::Interact<prec, uint>::NewCommand;
 			//
-			this->plotCommands["mesh"] = &Plot::Mesh<prec, uint>::New;
-			this->plotCommands["solution"] = &Plot::Solution<prec, uint>::New;
+			this->plotCommands["mesh"] = &Plot::Mesh<prec, uint>::NewCommand;
+			this->plotCommands["solution"] = &Plot::Solution<prec, uint>::NewCommand;
 //----------//--------MATH----------------------------------------------------
 			////-----#Exit----------------------------------------------------
-			this->mathCommands["quit"] = &mathQuit<prec, uint>::New;
-			this->mathCommands["end"] = &mathQuit<prec, uint>::New;
-			this->mathCommands["exit"] = &mathQuit<prec, uint>::New;
+			this->mathCommands["quit"] = &mathQuit<prec, uint>::NewCommand;
+			this->mathCommands["end"] = &mathQuit<prec, uint>::NewCommand;
+			this->mathCommands["exit"] = &mathQuit<prec, uint>::NewCommand;
 			//
-			this->mathCommands["list"] = &Math::List<prec, uint>::New;
+			this->mathCommands["list"] = &Math::List<prec, uint>::NewCommand;
 		}
 
 		/**
@@ -142,7 +142,7 @@ namespace FEMProject {
 				cmd.processCommand(procCmd, pass);
 				auto it = this->meshCommands.find(procCmd);
 				//GenericCommand<prec, uint> *ptr = &Mesh::Block<prec, uint>;
-				
+
 				if (it != this->meshCommands.end()) {
 					cmdQueue.push(it->second(pass));
 				}
