@@ -252,7 +252,7 @@ namespace FEMProject {
 			this->degreesOfFreedom.emplace_back();
 			this->degreesOfFreedom.back().setId(pos + i);
 		}
-		this->degreesOfFreedom.back().setStatus(dofStatus::inactive);
+		//this->degreesOfFreedom.back().setStatus(dofStatus::inactive);
 		return pos;
 	}
 

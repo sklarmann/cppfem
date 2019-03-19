@@ -186,6 +186,7 @@ namespace FEMProject {
 	template<typename prec, typename uint>
 	void GenericGeometryElement<prec,uint>::getNodeEquationIds(ptrCol &pointers, std::vector<DegreeOfFreedom<prec, uint>*> &Dofs, const uint &meshId, const uint &nodeNumber) {
 		NodeSet<prec,uint> *tempSet = this->getSetMeshId(pointers, meshId);
+		if (tempSet == nullptr) return;
 		auto numnodes = tempSet->getNumberOfNodes();
 		if (nodeNumber <= numnodes) {
 			GenericNodes<prec,uint> *tempnode = pointers.getEquationHandler()->getNode(*tempSet, nodeNumber);

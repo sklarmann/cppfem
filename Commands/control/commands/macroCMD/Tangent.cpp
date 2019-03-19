@@ -50,7 +50,7 @@ namespace FEMProject {
 				solutionstate->computeLoads(pointers);
 #pragma omp parallel for private(elem,stiffness,residual, Dofs) schedule(dynamic)
 				for (uint i = 0; i < numberOfElements; ++i) {
-
+					Dofs.clear();
 					elem = elemList->getElement(i);
 					elem->GenericSetTangentResidual(stiffness, residual, Dofs);
 					solutionstate->insertStiffnessResidual(stiffness, residual, Dofs);

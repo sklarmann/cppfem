@@ -5,12 +5,11 @@
  *      Author: klari
  */
 
-#ifndef ELEMENTLIST_H_
-#define ELEMENTLIST_H_
 
 
 #include <finiteElements/GenericFiniteElement.h>
 #include <equations/GeometryData.h>
+#include <finiteElements/LinearLineElement.h>
 #include <finiteElements/LinearTriangleElement.h>
 #include <vector>
 #include <iostream>
@@ -34,7 +33,8 @@ private:
 
 	std::vector<uint> elementIndex;
 	std::vector<Elementtypes> elementTypes;
-
+	
+	std::vector<LinearLineElement<prec,uint>> linearLine;
 	std::vector<LinearTriangleElement<prec,uint>> linearTriangles;
 };
 
@@ -59,12 +59,18 @@ GenericFiniteElement<prec,uint> *ElementList<prec,uint>::requestNewElement(const
 
 	GenericFiniteElement<prec,uint> *temp = 0;
 
+	uint number;
 	switch(type){
-	case Elementtypes::Line:
-
+	case Elementtypes::LinearLine:
+		number = static_cast<uint>(this->linearLine.size());
+		this->elementIndex.push_back(number);
+		this->elementTypes.push_back(Elementtypes::LinearLine);
+		number = static_cast<uint>(this->elementTypes.size()) - 1;
+		this->linearLine.emplace_back(this->pointers);
+		temp = &this->linearLine.back();
+		temp->setId(number);
 		break;
 	case Elementtypes::LinearTriangle:
-		uint number;
 		number = static_cast<uint>(this->linearTriangles.size());
 		this->elementIndex.push_back(number);
 		this->elementTypes.push_back(Elementtypes::LinearTriangle);
@@ -89,9 +95,10 @@ GenericFiniteElement<prec,uint> *ElementList<prec,uint>::getElement(const uint &
 	if(static_cast<std::size_t>(number)>=this->elementIndex.size()){
 		//TODO throw exception
 	}
-
+	
 	switch(this->elementTypes[number]){
-	case Elementtypes::Line:
+	case Elementtypes::LinearLine:
+		return &this->linearLine[this->elementIndex[number]];
 		break;
 	case Elementtypes::LinearTriangle:
 		return &this->linearTriangles[this->elementIndex[number]];
@@ -106,4 +113,4 @@ GenericFiniteElement<prec,uint> *ElementList<prec,uint>::getElement(const uint &
 
 } /* namespace FEMProject */
 
-#endif /* ELEMENTLIST_H_ */
+instantiate(ElementList)

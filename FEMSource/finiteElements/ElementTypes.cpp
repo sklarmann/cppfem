@@ -5,13 +5,10 @@
  *      Author: Klarmann
  */
 
-#ifndef ELEMENTTYPES_HPP_
-#define ELEMENTTYPES_HPP_
-
+#pragma once
 
 namespace FEMProject{
-	enum class Elementtypes{Generic,Line,LinearTriangle,QuadrilateralNodal};
+	enum class Elementtypes{Generic,LinearLine,LinearTriangle,QuadrilateralNodal};
 }
 
 
-#endif /* ELEMENTTYPES_HPP_ */

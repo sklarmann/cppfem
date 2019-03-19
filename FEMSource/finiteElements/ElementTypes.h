@@ -10,7 +10,7 @@
 
 
 namespace FEMProject{
-	enum class Elementtypes{Generic,Line,LinearTriangle,QuadrilateralNodal};
+	enum class Elementtypes{Generic,LinearLine,LinearTriangle,QuadrilateralNodal};
 }
 
 

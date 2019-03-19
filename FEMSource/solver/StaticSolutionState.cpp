@@ -129,7 +129,7 @@ namespace FEMProject {
 						}
 						else {
 //#pragma omp atomic
-							//this->SpMat.coeffRef(Dofs[i]->getEqId(), Dofs[j]->getEqId()) += stiffness(i, j);
+							this->SpMat.coeffRef(Dofs[i]->getEqId(), Dofs[j]->getEqId()) += stiffness(i, j);
 						}
 					}
 					else {

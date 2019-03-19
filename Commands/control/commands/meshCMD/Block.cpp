@@ -66,8 +66,8 @@ namespace FEMProject {
 
 				Elementtypes elementType;
 
-				if (this->elementtype.compare("line") == 0) {
-					elementType = Elementtypes::Line;
+				if (this->elementtype.compare("linearline") == 0) {
+					elementType = Elementtypes::LinearLine;
 				}
 				else if (this->elementtype.compare("lineartriangle") == 0) {
 					elementType = Elementtypes::LinearTriangle;
@@ -149,7 +149,7 @@ namespace FEMProject {
 						}
 
 						switch (elementType) {
-						case Elementtypes::Line:
+						case Elementtypes::LinearLine:
 							std::cout << "Error" << std::endl;
 							break;
 						case Elementtypes::LinearTriangle: {

@@ -42,7 +42,8 @@ namespace FEMProject {
 	
 	
 	template<typename prec, typename uint>
-	LinearTriangleElement<prec,uint>::LinearTriangleElement(PointerCollection<prec, uint> *pointers) : GenericFiniteElement<prec,uint>(){
+	LinearTriangleElement<prec,uint>::LinearTriangleElement(PointerCollection<prec, uint> *pointers) : 
+		GenericFiniteElement<prec,uint>(){
 	
 	}
 	

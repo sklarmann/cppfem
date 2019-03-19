@@ -15,7 +15,7 @@
 #include <control/OutputHandler.h>
 
 #include <geometry/Vertex.h>
-#include <geometry/Edge.h>
+#include <geometry/LinearEdge.h>
 #include <geometry/LinearTriangle.h>
 
 #include <math/Plane.h>

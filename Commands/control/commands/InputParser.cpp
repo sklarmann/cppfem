@@ -66,7 +66,10 @@ namespace FEMProject {
 			this->meshCommands["end"] = &meshQuit<prec, uint>::NewCommand;
 			//
 			this->meshCommands["addvertex"] = &Mesh::AddVertex<prec, uint>::NewCommand;
+			this->meshCommands["addgeoelement"] = &Mesh::AddGeometryElement<prec, uint>::NewCommand;
+			this->meshCommands["addfiniteelement"] = &Mesh::AddFiniteElement<prec, uint>::NewCommand;
 			this->meshCommands["block"] = &Mesh::Block<prec, uint>::NewCommand;
+			this->meshCommands["setbc"] = &Mesh::SetBoundaryConditions<prec, uint>::NewCommand;
 			this->meshCommands["setmaterials"] = &Mesh::SetMaterial<prec, uint>::NewCommand;
 			this->meshCommands["setdofs"] = &Mesh::SetDegreesOfFreedom<prec, uint>::NewCommand;
 			//

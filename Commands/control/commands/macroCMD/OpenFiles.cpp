@@ -35,7 +35,7 @@ namespace FEMProject {
 
 			template<typename prec, typename uint>
 			void OpenFiles<prec, uint>::run(PointerCollection<prec, uint> &pointers, FEMProgram<prec, uint> *program) {
-				#ifdef(WIN32)
+				#ifdef WIN32
 				  set_files(pointers.getInfoData()->fileNames);
 				#else
 				  std::cout << "Please input filename with path:" << std::endl;

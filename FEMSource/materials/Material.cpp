@@ -11,6 +11,7 @@
 
 #include <materials/MaterialFormulation1.h>
 #include <elementFormulations/ElementFormulation201.h>
+#include <elementFormulations/ElementFormulation2DGreenBeam.h>
 
 
 
@@ -36,6 +37,9 @@ namespace FEMProject {
 		if (this->elementFormulation == 0) {
 			switch (elementFormulation) {
 
+			case 101:
+				this->elementFormulation = new ElementFormulation2DGreenBeam<prec, uint>(this->ptrCol);
+				break;
 			case 201:
 				this->elementFormulation = new ElementFormulation201<prec, uint>(this->ptrCol);
 				break;

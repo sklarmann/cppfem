@@ -114,10 +114,13 @@ namespace FEMProject {
 				while (!elems.empty()) {
 					for (auto j = 0; j < nodes.size(); ++j) {
 						elems.top()->getNodeEquationIds(pointers, Dofs, meshId, nodes[j]);
-						for (auto i = 0; i < loadnum; ++i) {
-							uint DofId = Dofs[i]->getId();
-							pointers.getLoadList()->setLoad(propnum, DofId, load[i], add);
+						if (Dofs.size() > 0) {
+							for (auto i = 0; i < loadnum; ++i) {
+								uint DofId = Dofs[i]->getId();
+								pointers.getLoadList()->setLoad(propnum, DofId, load[i], add);
+							}
 						}
+						
 					}
 					elems.pop();
 				}

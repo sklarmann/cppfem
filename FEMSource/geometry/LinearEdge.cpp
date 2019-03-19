@@ -7,7 +7,7 @@
 
 #include <preprocessDefine.h>
 
-#include <geometry/Edge.h>
+#include <geometry/LinearEdge.h>
 #include <pointercollection/pointercollection.h>
 #include <control/HandlingStructs.h>
 #include <control/OutputHandler.h>
