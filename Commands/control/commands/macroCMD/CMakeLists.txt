@@ -13,6 +13,7 @@ set(SOURCE ${SOURCE} ${CMAKE_CURRENT_SOURCE_DIR}/CommandHistory.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/PropFunction.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/PropNames.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/ReInput.cpp
+					 ${CMAKE_CURRENT_SOURCE_DIR}/ResetSolution.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/SetDt.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/SetUpSparseMatrix.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/Solution.cpp
@@ -36,6 +37,7 @@ set(HEADERS ${HEADERS} ${CMAKE_CURRENT_SOURCE_DIR}/CommandHistory.h
 					 ${CMAKE_CURRENT_SOURCE_DIR}/PropFunction.h
 					 ${CMAKE_CURRENT_SOURCE_DIR}/PropNames.h
 					 ${CMAKE_CURRENT_SOURCE_DIR}/ReInput.h
+					 ${CMAKE_CURRENT_SOURCE_DIR}/ResetSolution.h
 					 ${CMAKE_CURRENT_SOURCE_DIR}/SetDt.h
 					 ${CMAKE_CURRENT_SOURCE_DIR}/SetUpSparseMatrix.h
 					 ${CMAKE_CURRENT_SOURCE_DIR}/Solution.h

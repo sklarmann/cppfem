@@ -60,12 +60,10 @@ namespace FEMProject {
 	template<typename prec, typename uint>
 	void ElementFormulation2DGreenBeam<prec, uint>::setTangentResidual(GenericFiniteElement<prec, uint>* elem, Eigen::Matrix<prec, Eigen::Dynamic, Eigen::Dynamic>& stiffness, Eigen::Matrix<prec, Eigen::Dynamic, 1>& residual, std::vector<DegreeOfFreedom<prec, uint>*>& Dofs)
 	{
-		GenericGeometryElement<prec, uint> *edge, *vert1, *vert2;
-		GeometryData<prec, uint> *geodata;
+		GenericGeometryElement<prec, uint> *vert1, *vert2;
 		EquationHandler<prec, uint> *eqHandler;
 		eqHandler = this->ptrCol->getEquationHandler();
 		NodeSet<prec, uint> *set1, *set2;
-		uint dummy = 0;
 		vert1 = elem->getVertex(*this->ptrCol, 0);
 		vert2 = elem->getVertex(*this->ptrCol, 1);
 		set1 = vert1->getSetMeshId(*this->ptrCol, this->meshIdDisp);

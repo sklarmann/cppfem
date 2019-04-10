@@ -6,7 +6,7 @@ project (CPPFEM)
 # #find_package(Paraview REQUIRED)
 #
 # #set(CMAKE_GENERATOR_TOOLSET "Intel C++ Compiler 16.0" CACHE STRING "Platform Toolset"  FORCE)
-# set(SpectraDir ${CMAKE_CURRENT_SOURCE_DIR}/spectra-master/include)
+set(SpectraDir ${CMAKE_CURRENT_SOURCE_DIR}/spectra-master/include)
 set(Eigen3_DIR "${CMAKE_CURRENT_SOURCE_DIR}/eigen3" "${CMAKE_CURRENT_SOURCE_DIR}/eigen3/unsupported" "${CMAKE_CURRENT_SOURCE_DIR}/eigen3/unsupported/test/mpreal")
 # include(${CMAKE_CURRENT_SOURCE_DIR}/eigen3/cmake/FindEigen3.cmake)
 #
@@ -44,7 +44,8 @@ endif()
 SET(MKL_LIBRARIES ${MKL_ROOT}/lib/intel64)
 
 if(WIN32)
-	SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} /openmp")
+	SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} /openmp /MP /bigobj")
+	#SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Xclang -fopenmp -std=c++14")
 else()
 	SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS}")
 endif()

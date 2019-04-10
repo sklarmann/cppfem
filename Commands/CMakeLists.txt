@@ -43,7 +43,7 @@ if(WIN32)
 endif(WIN32)
 
 # include_directories("${PROJECT_BINARY_DIR}" "${INCDIRS}" "${Boost_INCLUDE_DIRS}")
-include_directories( "${INCDIRS}" "${Eigen3_DIR}" "${Boost_INCLUDE_DIR}")
+include_directories( "${INCDIRS}" "${Eigen3_DIR}" "${Boost_INCLUDE_DIR}" "${CMAKE_SOURCE_DIR}")
 
 # include_directories(${EIGEN3_INCLUDE_DIR})
 

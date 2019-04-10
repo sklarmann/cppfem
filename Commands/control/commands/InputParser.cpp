@@ -52,6 +52,7 @@ namespace FEMProject {
 			//
 			this->macroCommands["tangent"] = &Macro::Tangent<prec, uint>::NewCommand;
 			this->macroCommands["eigenval"] = &Macro::eigenValues<prec, uint>::NewCommand;
+			this->macroCommands["resetsolution"] = &Macro::ResetSolution<prec, uint>::NewCommand;
 			//
 			this->macroCommands["propnames"] = &Macro::PropNames<prec, uint>::NewCommand;
 			this->macroCommands["propfunction"] = &Macro::PropFunction<prec, uint>::NewCommand;

@@ -26,16 +26,15 @@ int main()
 	else if (i == 1) {
 		prog = new FEMProject::MainProgram<double, int>;
 	}
-	else {
-		prog = new FEMProject::MainProgram<boost::multiprecision::cpp_bin_float_100, int>;
-	}
+	//else {
+	//	prog = new FEMProject::MainProgram<boost::multiprecision::cpp_bin_float_100, int>;
+	//}
 
 	//prog = new FEMProject::MainProgram<boost::multiprecision::cpp_bin_float_100, int>;
 	//prog = new FEMProject::MainProgram<double, int>;
 	//prog = new FEMProject::MainProgram<float, int>;
 
 	prog->run();
-
 	//std::cout << test << std::endl;
 
 

@@ -5,7 +5,6 @@
  *      Author: Klarmann
  */
 
-#pragma once
 
 namespace FEMProject{
 	enum class Elementtypes{Generic,LinearLine,LinearTriangle,QuadrilateralNodal};

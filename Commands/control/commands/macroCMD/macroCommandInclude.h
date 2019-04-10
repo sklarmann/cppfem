@@ -13,6 +13,7 @@
 #include <control/commands/macroCMD/PropFunction.h>
 #include <control/commands/macroCMD/PropNames.h>
 #include <control/commands/macroCMD/ReInput.h>
+#include <control/commands/macroCMD/ResetSolution.h>
 #include <control/commands/macroCMD/SetDt.h>
 #include <control/commands/macroCMD/SetUpSparseMatrix.h>
 #include <control/commands/macroCMD/Solution.h>

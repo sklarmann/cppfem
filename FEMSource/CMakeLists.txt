@@ -30,7 +30,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(SOURCEFILES ${SOURCEFILES})
 set(HEADERS ${HEADERS}
-	  ${CMAKE_CURRENT_SOURCE_DIR}/preprocessDefine.h
+	  ${CMAKE_SOURCE_DIR}/preprocessDefine.h
 		${CMAKE_CURRENT_SOURCE_DIR}/forwarddeclaration.h
 		)
 set(INCDIRS ${INCDIRS}
@@ -60,7 +60,8 @@ add_subdirectory(solver)
 
 
 # include_directories(${Boost_INCLUDE_DIRS})
-# include_directories(${SpectraDir})
+include_directories(${SpectraDir})
+add_definitions(/DUSE_SPECTRA)
 
 # find_package(MKL REQUIRED)
 # include_directories(${MKL_INCLUDE_DIR})
@@ -87,7 +88,7 @@ if(WIN32)
 endif(WIN32)
 
 # include_directories("${PROJECT_BINARY_DIR}" "${INCDIRS}" "${Boost_INCLUDE_DIRS}")
-include_directories(${INCDIRS} ${Eigen3_DIR} ${MKL_INCLUDE_DIR} ${Boost_INCLUDE_DIR})
+include_directories(${INCDIRS} ${Eigen3_DIR} ${MKL_INCLUDE_DIR} ${Boost_INCLUDE_DIR} ${CMAKE_SOURCE_DIR})
 
 #include_directories()
 

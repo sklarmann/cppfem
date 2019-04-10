@@ -44,6 +44,8 @@ namespace FEMProject {
 
 		virtual prec getSolution(const uint &globalId){ return 0; };
 
+		virtual void resetSolution() {};
+
 	protected:
 		void assembleCsrMatrix(
 			Eigen::SparseMatrix<prec, 0, uint> &SpMat,

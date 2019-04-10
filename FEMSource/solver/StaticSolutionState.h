@@ -41,6 +41,7 @@ namespace FEMProject {
 
 		prec getSolution(const uint &globalId);
 
+		void resetSolution();
 	private:
 	
 		Eigen::Matrix<prec, Eigen::Dynamic, 1> Solution, IncSolution, dIncSolution;
