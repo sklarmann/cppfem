@@ -27,9 +27,9 @@ namespace FEMProject {
 	template <typename prec, typename uint>
 	void EigenSimplicialLDLT<prec, uint>::factorize(Eigen::SparseMatrix<prec, 0, uint> &SpMat) {
 		this->solver.factorize(SpMat);
-		std::cout << "-------------------------------------------" << std::endl;
-		std::cout << this->solver.vectorD() << std::endl;
-		std::cout << "-------------------------------------------" << std::endl;
+		//std::cout << "-------------------------------------------" << std::endl;
+		//std::cout << this->solver.vectorD() << std::endl;
+		//std::cout << "-------------------------------------------" << std::endl;
 	}
 
 	template <typename prec, typename uint>

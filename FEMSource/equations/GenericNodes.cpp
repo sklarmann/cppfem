@@ -50,12 +50,12 @@ namespace FEMProject {
 	
 	template<typename prec, typename uint>
 	void GenericNodes<prec, uint>::setBoundaryCondition(PointerCollection<prec, uint> &pointers, const unsigned char &dof) {
-		if (dof >= 2) {
+		if (dof > 2) {
 			//TODO throw exception
 			std::cout << "dof exceeds number of degrees of freedom" << std::endl;
 		}
 		//(*(this->dofHandler))->setDofInactive(this->dofHandlerStorageId, dof);
-		std::vector<DegreeOfFreedom<prec, uint>*> Dofs;
+		std::vector<DegreeOfFreedom<prec, uint>*> Dofs(3);
 		pointers.getEquationHandler()->getDegreesOfFreedom(this->dofStorageId,Dofs);
 		Dofs[dof]->setStatus(dofStatus::inactive);
 		

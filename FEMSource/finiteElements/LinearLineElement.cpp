@@ -14,6 +14,13 @@
 
 #include <solver/GenericSolutionState.h>
 
+#ifdef USE_VTK
+#include <vtkSmartPointer.h>
+#include <vtkCell.h>
+#include <vtkPolyLine.h>
+#endif // USE_VTK
+
+
 
 namespace FEMProject {
 
@@ -85,7 +92,26 @@ namespace FEMProject {
 		
 	}
 
+	template<typename prec, typename uint>
+	void LinearLineElement<prec, uint>::getVtkCell(PointerCollection<prec, uint> &ptrCol, vtkSmartPointer<vtkCell> &cell)
+	{
+#ifdef USE_VTK
+		vtkSmartPointer<vtkCell> line =
+			vtkSmartPointer<vtkPolyLine>::New();
+		GenericGeometryElement<prec, uint> *geoEdge;
+		GeometryData<prec, uint> *geoData;
+		std::vector<uint> vertNums;
+		geoData = ptrCol.getGeometryData();
+		geoEdge = geoData->getEdge(this->edge);
+		geoEdge->getVerts(vertNums);
+		line->GetPointIds()->SetNumberOfIds(2);
+		line->GetPointIds()->SetId(0, vertNums[0]);
+		line->GetPointIds()->SetId(1, vertNums[1]);
+		
+		cell = line;
+#endif // USE_VTK
 
+	}
 
 
 } /* End Namespace */

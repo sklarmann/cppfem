@@ -3,7 +3,20 @@ project (CPPFEM)
 
 # cmake_policy(SET CMP0021 NEW)
 #
-# #find_package(Paraview REQUIRED)
+
+
+#SET(PARAVIEW_ENABLE_COPROCESSING TRUE CACHE BOOL "Build Project with GUI")
+set(USE_CATALYST ON CACHE BOOL "Link the simulator with Catalyst and enable postprocessing")
+#
+if(USE_CATALYST)
+	find_package(Paraview REQUIRED)
+  	include(${PARAVIEW_USE_FILE})
+	add_definitions(/DUSE_VTK)
+# 	vtk_module_config(__PV_VTK
+# 		vtkPVCatalyst)
+#
+# 	include(vtkModuleMacros)
+endif()
 #
 # #set(CMAKE_GENERATOR_TOOLSET "Intel C++ Compiler 16.0" CACHE STRING "Platform Toolset"  FORCE)
 set(SpectraDir ${CMAKE_CURRENT_SOURCE_DIR}/spectra-master/include)

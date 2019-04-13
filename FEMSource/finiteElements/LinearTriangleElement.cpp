@@ -476,7 +476,7 @@ namespace FEMProject {
 
 
 	template<typename prec, typename uint>
-	void LinearTriangleElement<prec, uint>::getVtkCell(vtkSmartPointer<vtkCell> &cell)
+	void LinearTriangleElement<prec, uint>::getVtkCell(PointerCollection<prec, uint> &ptrCol, vtkSmartPointer<vtkCell> &cell)
 	{
 #ifdef USE_VTK
 		vtkSmartPointer<vtkCell> triangle =

@@ -84,7 +84,7 @@ namespace FEMProject {
 		GenericFiniteElement<prec, uint> *elem;
 		vtkSmartPointer<vtkCell> cellToAdd;
 		for (auto i = 0; i < numberOfElements; ++i) {
-			elemList->getElement(i)->getVtkCell(cellToAdd);
+			elemList->getElement(i)->getVtkCell(pointers, cellToAdd);
 			this->unstructuredGrid->InsertNextCell(cellToAdd->GetCellType(), cellToAdd->GetPointIds());
 		}
 		

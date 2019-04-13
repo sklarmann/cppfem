@@ -17,7 +17,8 @@
 template <class bla>
 class vtkSmartPointer;
 
-
+template<typename prec,typename uint>
+class PointerCollection;
 
 
 class vtkCell;
@@ -82,7 +83,7 @@ namespace FEMProject {
 		
 		virtual void setUpSparseMatrix(ptrCol &pointers) {};
 	
-		virtual void getVtkCell(vtkSmartPointer<vtkCell> &cell) {  };
+		virtual void getVtkCell(PointerCollection<prec,uint> &ptrCol, vtkSmartPointer<vtkCell> &cell) {  };
 	
 	protected:
 		uint id;
