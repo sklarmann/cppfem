@@ -10,6 +10,9 @@
 #include <solver/StaticSolutionState.h>
 
 #include <pointercollection/pointercollection.h>
+#include <control/HandlingStructs.h>
+
+#include <fstream>
 
 #include <equations/DofStatus.h>
 #include <equations/DegreeOfFreedom.h>
@@ -232,8 +235,42 @@ namespace FEMProject {
 	}
 
 	template<typename prec, typename uint>
-	void StaticSolutionState<prec, uint>::computeEigenValues() {
+	void StaticSolutionState<prec, uint>::computeEigenValues(
+		uint number,
+		uint addNumber = 0,
+		bool max = false,
+		prec tol = 1e-10) {
 #ifdef USE_SPECTRA
+
+		
+		if (addNumber > this->SpMat.cols()) addNumber = this->SpMat.cols();
+
+		if (this->symmetricSolver) {
+
+		}
+		else {
+			Eigen::Matrix< std::complex<prec>, 1, Eigen::Dynamic > evalues;
+			if (max) {
+				Spectra::SparseGenMatProd<prec, 0, uint> op(this->SpMat);
+				Spectra::GenEigsSolver<prec, Spectra::LARGEST_MAGN, Spectra::SparseGenMatProd<prec, 0, uint>> eigs(&op, number, addNumber);
+				eigs.init();
+				int nconv = eigs.compute(500, tol, Spectra::LARGEST_MAGN);
+				if (eigs.info() == Spectra::SUCCESSFUL) {
+					evalues = eigs.eigenvalues();
+				}
+			}
+			else {
+				Spectra::SparseGenRealShiftSolve<prec, 0, uint> op(this->SpMat);
+				Spectra::GenEigsRealShiftSolver<prec, Spectra::LARGEST_MAGN, Spectra::SparseGenRealShiftSolve<prec, 0, uint>> eigs(&op, number, addNumber, 1e-12);
+				eigs.init();
+				int nconv = eigs.compute(500, tol, Spectra::LARGEST_MAGN);
+				if (eigs.info() == Spectra::SUCCESSFUL) {
+					evalues = eigs.eigenvalues();
+				}
+				std::cout << "Eigenvalues found:\n" << evalues.transpose() << std::endl;
+			}
+			std::cout << "Eigenvalues found:\n" << evalues.transpose() << std::endl;
+		}
 
 
 
@@ -245,35 +282,35 @@ namespace FEMProject {
 		//eigs.init();
 		//int nconv = eigs.compute();
 
-		bool compute = true;
-		uint test = 20;
-		Eigen::Matrix< std::complex<prec>, 1, Eigen::Dynamic > evalues;
-		while (compute) {
-			//Spectra::SparseGenMatProd<prec, 0, uint> op(this->SpMat);
-			//Spectra::SymEigsSolver<prec, Spectra::LARGEST_MAGN, Spectra::SparseGenMatProd<prec, 0, uint>> eigs(&op, 6, test);
-			Spectra::SparseGenRealShiftSolve<prec, 0, uint> op(this->SpMat);
-			Spectra::GenEigsRealShiftSolver<prec, Spectra::LARGEST_MAGN, Spectra::SparseGenRealShiftSolve<prec, 0, uint>> eigs(&op, 6, test,0.0);
-			eigs.init();
-			int nconv = eigs.compute(500,1e-6,Spectra::LARGEST_MAGN);
-			if (eigs.info() == Spectra::SUCCESSFUL) {
-				compute = false;
-				//Eigen::Matrix<Complex, Eigen::Dynamic, 1> evalues;
-				evalues = eigs.eigenvalues();
-				std::cout << "Number of Iterations: " << eigs.num_iterations() << std::endl;
-			}
-			else {
-				test = test * 2;
-				test > this->SpMat.cols() ? test = this->SpMat.cols()-1 : test = test;
-				std::cout << "Increase search eigenvalues to " << test << std::endl;
-			}
-
-		}
+		//bool compute = true;
+		//uint test = 10;
+		//Eigen::Matrix< std::complex<prec>, 1, Eigen::Dynamic > evalues;
+		//while (compute) {
+		//	Spectra::SparseGenMatProd<prec, 0, uint> op(this->SpMat);
+		//	Spectra::SymEigsSolver<prec, Spectra::LARGEST_MAGN, Spectra::SparseGenMatProd<prec, 0, uint>> eigs(&op, 6, test);
+		//	//Spectra::SparseGenRealShiftSolve<prec, 0, uint> op(this->SpMat);
+		//	//Spectra::GenEigsRealShiftSolver<prec, Spectra::LARGEST_MAGN, Spectra::SparseGenRealShiftSolve<prec, 0, uint>> eigs(&op, 6, test,0.0);
+		//	eigs.init();
+		//	int nconv = eigs.compute(500,1e-6,Spectra::LARGEST_MAGN);
+		//	if (eigs.info() == Spectra::SUCCESSFUL) {
+		//		compute = false;
+		//		//Eigen::Matrix<Complex, Eigen::Dynamic, 1> evalues;
+		//		evalues = eigs.eigenvalues();
+		//		std::cout << "Number of Iterations: " << eigs.num_iterations() << std::endl;
+		//	}
+		//	else {
+		//		test = test * 2;
+		//		test > this->SpMat.cols() ? test = this->SpMat.cols()-1 : test = test;
+		//		std::cout << "Increase search eigenvalues to " << test << std::endl;
+		//	}
+		//
+		//}
 
 		
 		
 			
 
-		std::cout << "Eigenvalues found:\n" << evalues.transpose() << std::endl;
+		//std::cout << "Eigenvalues found:\n" << evalues.transpose() << std::endl;
 #endif // USE_SPECTRA
 	}
 
@@ -291,6 +328,32 @@ namespace FEMProject {
 		this->Solution.setZero();
 		this->IncSolution.setZero();
 		this->dIncSolution.setZero();
+	}
+
+	template<typename prec, typename uint>
+	void StaticSolutionState<prec, uint>::printSpMat()
+	{
+		InfoData *infos = this->pointers->getInfoData();
+		std::string directory = infos->fileNames[FileHandling::directory];
+		std::string filename = infos->fileNames[FileHandling::infile];
+		filename += ".mat";
+		std::string temp = directory + filename;
+		//std::cout << temp;
+		std::ofstream myfile;
+		myfile.open(temp);
+
+		for (int k = 0; k < this->SpMat.outerSize(); ++k)
+			for (Eigen::SparseMatrix<prec>::InnerIterator it(this->SpMat, k); it; ++it)
+			{
+				myfile << it.row()+1 << " " << it.col()+1
+					<< " " << it.value() << std::endl;
+				it.value();
+				it.row();   // row index
+				it.col();   // col index (here it is equal to k)
+				it.index(); // inner index, here it is equal to it.row()
+			}
+
+		myfile.close();
 	}
 
 } /* namespace FEMProject */

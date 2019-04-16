@@ -9,6 +9,7 @@
 #include <control/commands/macroCMD/printInfo.h>
 #include <control/commands/macroCMD/PrintPropFunction.h>
 #include <control/commands/macroCMD/PrintSolution.h>
+#include <control/commands/macroCMD/PrintSpMat.h>
 #include <control/commands/macroCMD/Processfiles.h>
 #include <control/commands/macroCMD/PropFunction.h>
 #include <control/commands/macroCMD/PropNames.h>

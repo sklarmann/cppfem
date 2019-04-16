@@ -34,7 +34,11 @@ namespace FEMProject {
 		virtual void solve();
 		virtual void setEquationZero();
 		virtual void updateSolution() {};
-		virtual void computeEigenValues() {};
+		virtual void computeEigenValues(
+			uint number, 
+			uint addNumber=0, 
+			bool max=false, 
+			prec tol=1e-10) {};
 
 		virtual void setInitialValues(const uint &numberOfEquations, const uint &numberOfActiveEquations);
 		void setSolver(SolverTypes &type);
@@ -45,6 +49,8 @@ namespace FEMProject {
 		virtual prec getSolution(const uint &globalId){ return 0; };
 
 		virtual void resetSolution() {};
+
+		virtual void printSpMat();
 
 	protected:
 		void assembleCsrMatrix(

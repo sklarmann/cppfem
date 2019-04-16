@@ -123,6 +123,21 @@ namespace FEMProject {
 	}
 
 	template<typename prec, typename uint>
+	void GenericSolutionState<prec, uint>::printSpMat()
+	{
+		
+		//for (uint k = 0; k < this->SpMat.outerSize(); ++k)
+		//	for (Eigen::SparseMatrix<prec>::InnerIterator it(this->SpMat, k); it; ++it)
+		//	{
+		//		std::cout << it.row() << " " << it.col() << " " << it.value() << std::endl;
+		//		it.value();
+		//		it.row();   // row index
+		//		it.col();   // col index (here it is equal to k)
+		//		it.index(); // inner index, here it is equal to it.row()
+		//	}
+	}
+
+	template<typename prec, typename uint>
 	void GenericSolutionState<prec, uint>::assembleCsrMatrix(Eigen::SparseMatrix<prec, 0, uint>& SpMat, Eigen::Matrix<prec, Eigen::Dynamic, Eigen::Dynamic>& stiffness, std::vector<DegreeOfFreedom<prec, uint>*>& Dofs)
 	{
 		DegreeOfFreedom<prec, uint> *temp, *temp2;

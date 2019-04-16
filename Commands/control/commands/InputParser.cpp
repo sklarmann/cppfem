@@ -43,6 +43,7 @@ namespace FEMProject {
 			this->macroCommands["printinfo"] = &Macro::printInfo<prec, uint>::NewCommand;
 			this->macroCommands["history"] = &Macro::PrintHistory<prec, uint>::NewCommand;
 			this->macroCommands["printsolution"] = &Macro::PrintSolution<prec, uint>::NewCommand;
+			this->macroCommands["printspmat"] = &Macro::PrintSpMat<prec, uint>::NewCommand;
 			this->macroCommands["do"] = &Macro::Do<prec, uint>::NewCommand;
 			//
 			//

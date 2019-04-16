@@ -9,6 +9,7 @@ set(SOURCE ${SOURCE} ${CMAKE_CURRENT_SOURCE_DIR}/CommandHistory.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/printInfo.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/PrintPropFunction.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/PrintSolution.cpp
+					 ${CMAKE_CURRENT_SOURCE_DIR}/PrintSpMat.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/Processfiles.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/PropFunction.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/PropNames.cpp
@@ -33,6 +34,7 @@ set(HEADERS ${HEADERS} ${CMAKE_CURRENT_SOURCE_DIR}/CommandHistory.h
 					 ${CMAKE_CURRENT_SOURCE_DIR}/printInfo.h
 					 ${CMAKE_CURRENT_SOURCE_DIR}/PrintPropFunction.h
 					 ${CMAKE_CURRENT_SOURCE_DIR}/PrintSolution.h
+					 ${CMAKE_CURRENT_SOURCE_DIR}/PrintSpMat.h
 					 ${CMAKE_CURRENT_SOURCE_DIR}/Processfiles.h
 					 ${CMAKE_CURRENT_SOURCE_DIR}/PropFunction.h
 					 ${CMAKE_CURRENT_SOURCE_DIR}/PropNames.h

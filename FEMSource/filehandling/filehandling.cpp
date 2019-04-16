@@ -37,7 +37,7 @@ namespace FEMProject {
 
 			fileinformation[FileHandling::directory] = filenametemp.substr(0, pos + 1);
 			fileinformation[FileHandling::infile] = filenametemp.substr(pos + 1, filenametemp.length() - pos);
-			fileinformation[FileHandling::outfile] = "LogFile";
+			fileinformation[FileHandling::outfile] = fileinformation[FileHandling::infile] + ".log";
 
 
 			//    infile.open(filenametemp);

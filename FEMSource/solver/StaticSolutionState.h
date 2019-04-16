@@ -37,11 +37,17 @@ namespace FEMProject {
 		void solve();
 		void setEquationZero();
 		void updateSolution();
-		void computeEigenValues();
+		void computeEigenValues(
+			uint number,
+			uint addNumber = 0,
+			bool max = false,
+			prec tol = 1e-10);
 
 		prec getSolution(const uint &globalId);
 
 		void resetSolution();
+
+		void printSpMat();
 	private:
 	
 		Eigen::Matrix<prec, Eigen::Dynamic, 1> Solution, IncSolution, dIncSolution;
