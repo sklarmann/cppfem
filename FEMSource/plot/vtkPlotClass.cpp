@@ -4,7 +4,11 @@
 
 #include <preprocessDefine.h>
 
+#include <algorithm>
+
 #include <plot/vtkplotClass.h>
+
+#include <control/HandlingStructs.h>
 
 #include <equations/GeometryData.h>
 #include <equations/GenericNodes.h>
@@ -43,6 +47,7 @@
 #include <vtkScalarBarActor.h>
 #include <vtkLookupTable.h>
 #include <vtkCell.h>
+#include <vtkXMLUnstructuredGridWriter.h>
 
 
 
@@ -176,6 +181,66 @@ namespace FEMProject {
 		renderWindowInteractor->SetRenderWindow(this->renderWindow);
 		renderWindowInteractor->Initialize();
 		renderWindowInteractor->Start();
+	}
+
+	template<typename prec, typename uint>
+	void vtkPlotInterface<prec, uint>::toFile(PointerCollection<prec, uint>& pointers)
+	{
+		InfoData *infos = pointers.getInfoData();
+
+		
+
+		std::string outputFile;
+		outputFile = infos->fileNames[FileHandling::directory];
+		outputFile += "parvout\\";
+		outputFile += infos->fileNames[FileHandling::infile];
+		std::size_t pos = outputFile.find(".txt");
+		if (pos != std::string::npos) {
+			outputFile = outputFile.substr(0, pos);
+		}
+		outputFile += ".vtk";
+		vtkSmartPointer<vtkXMLUnstructuredGridWriter> writer =
+			vtkSmartPointer<vtkXMLUnstructuredGridWriter>::New();
+
+		std::replace(outputFile.begin(), outputFile.end(), '\\', '/');
+
+		writer->SetFileName(outputFile.c_str());
+		writer->SetDataModeToBinary();
+
+		vtkSmartPointer<vtkUnstructuredGrid> mesh =
+			vtkSmartPointer<vtkUnstructuredGrid>::New();
+		vtkSmartPointer<vtkPoints> lpoints =
+			vtkSmartPointer<vtkPoints>::New();
+
+		// Adding vertices
+		GeometryData<prec, uint> *geoData = pointers.getGeometryData();
+		GenericGeometryElement<prec, uint> *temp;
+		uint numVerts = geoData->getNumberOfVertices();
+
+		this->points->Initialize();
+
+		for (auto i = 0; i < numVerts; ++i) {
+			temp = geoData->getGeometryElement(GeometryTypes::Vertex, i);
+			std::vector<prec> coor = temp->getCoordinates();
+			lpoints->InsertNextPoint(static_cast<float>(coor[0]), static_cast<float>(coor[1]), static_cast<float>(coor[2]));
+
+		}
+		mesh->SetPoints(lpoints);
+
+		// Adding elements
+		ElementList<prec, uint> *elemList = pointers.getElementList();
+		uint numberOfElements = elemList->getNumberOfElements();
+		GenericFiniteElement<prec, uint> *elem;
+		vtkSmartPointer<vtkCell> cellToAdd;
+		for (auto i = 0; i < numberOfElements; ++i) {
+			elemList->getElement(i)->getVtkCell(pointers, cellToAdd);
+			mesh->InsertNextCell(cellToAdd->GetCellType(), cellToAdd->GetPointIds());
+		}
+
+
+		writer->SetInputData(mesh);
+		writer->Write();
+
 	}
 
 

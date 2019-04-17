@@ -37,6 +37,8 @@ namespace FEMProject {
 		vtkUnstructuredGrid *getGrid();
 		void interact();
 
+		void toFile(PointerCollection<prec, uint> &pointers);
+
 	private:
 		vtkSmartPointer<vtkPoints> points;
 		vtkSmartPointer<vtkCellArray> cells;

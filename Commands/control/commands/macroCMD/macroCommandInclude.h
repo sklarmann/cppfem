@@ -3,6 +3,7 @@
 
 #include <control/commands/macroCMD/CommandHistory.h>
 #include <control/commands/macroCMD/ComputeEigenValues.h>
+#include <control/commands/macroCMD/ComputeConditionNumber.h>
 #include <control/commands/macroCMD/Do.h>
 #include <control/commands/macroCMD/OpenFiles.h>
 #include <control/commands/macroCMD/Output.h>

@@ -20,6 +20,8 @@ namespace FEMProject {
 		virtual vtkUnstructuredGrid *getGrid() = 0;
 		virtual void interact() = 0;
 
+		virtual void toFile(PointerCollection<prec, uint> &pointers) {};
+
 	};
 
 

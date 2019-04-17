@@ -48,6 +48,8 @@ namespace FEMProject {
 		void resetSolution();
 
 		void printSpMat();
+
+		void computeConditionNumber();
 	private:
 	
 		Eigen::Matrix<prec, Eigen::Dynamic, 1> Solution, IncSolution, dIncSolution;

@@ -3,6 +3,7 @@
 
 set(SOURCE ${SOURCE} ${CMAKE_CURRENT_SOURCE_DIR}/CommandHistory.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/ComputeEigenValues.cpp
+					 ${CMAKE_CURRENT_SOURCE_DIR}/ComputeConditionNumber.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/Do.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/OpenFiles.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/Output.cpp
@@ -27,6 +28,7 @@ set(SOURCE ${SOURCE} ${CMAKE_CURRENT_SOURCE_DIR}/CommandHistory.cpp
 set(HEADERS ${HEADERS} ${CMAKE_CURRENT_SOURCE_DIR}/CommandHistory.h
 					 ${CMAKE_CURRENT_SOURCE_DIR}/CommandTemplate.h
 					 ${CMAKE_CURRENT_SOURCE_DIR}/ComputeEigenValues.h
+					 ${CMAKE_CURRENT_SOURCE_DIR}/ComputeConditionNumber.h
 					 ${CMAKE_CURRENT_SOURCE_DIR}/Do.h
 			         ${CMAKE_CURRENT_SOURCE_DIR}/macroCommandInclude.h
 					 ${CMAKE_CURRENT_SOURCE_DIR}/OpenFiles.h

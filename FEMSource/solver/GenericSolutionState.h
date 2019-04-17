@@ -52,6 +52,8 @@ namespace FEMProject {
 
 		virtual void printSpMat();
 
+		virtual void computeConditionNumber() {};
+
 	protected:
 		void assembleCsrMatrix(
 			Eigen::SparseMatrix<prec, 0, uint> &SpMat,

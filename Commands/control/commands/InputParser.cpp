@@ -88,6 +88,8 @@ namespace FEMProject {
 			//
 			this->plotCommands["mesh"] = &Plot::Mesh<prec, uint>::NewCommand;
 			this->plotCommands["solution"] = &Plot::Solution<prec, uint>::NewCommand;
+			//
+			this->plotCommands["paraview"] = &Plot::Paraview<prec, uint>::NewCommand;
 //----------//--------MATH----------------------------------------------------
 			////-----#Exit----------------------------------------------------
 			this->mathCommands["quit"] = &mathQuit<prec, uint>::NewCommand;

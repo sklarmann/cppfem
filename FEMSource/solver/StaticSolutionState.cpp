@@ -272,6 +272,7 @@ namespace FEMProject {
 			std::cout << "Eigenvalues found:\n" << evalues.transpose() << std::endl;
 		}
 
+		this->computeConditionNumber();
 
 
 		//typedef std::complex<prec> Complex;
@@ -354,6 +355,35 @@ namespace FEMProject {
 			}
 
 		myfile.close();
+	}
+
+	template<typename prec, typename uint>
+	void StaticSolutionState<prec, uint>::computeConditionNumber()
+	{
+		if (this->symmetricSolver) {
+
+		}
+		else {
+
+			Eigen::Matrix< std::complex<prec>, 1, Eigen::Dynamic > maxEval, minEval;
+
+			Spectra::SparseGenMatProd<prec, 0, uint> op(this->SpMat);
+			Spectra::GenEigsSolver<prec, Spectra::LARGEST_MAGN, Spectra::SparseGenMatProd<prec, 0, uint>> eigs(&op, 1, 30);
+			eigs.init();
+			int nconv = eigs.compute(500, 1e-12, Spectra::LARGEST_MAGN);
+			if (eigs.info() == Spectra::SUCCESSFUL) {
+				maxEval = eigs.eigenvalues();
+			}
+			Spectra::SparseGenRealShiftSolve<prec, 0, uint> op2(this->SpMat);
+			Spectra::GenEigsRealShiftSolver<prec, Spectra::LARGEST_MAGN, Spectra::SparseGenRealShiftSolve<prec, 0, uint>> eigs2(&op2, 1, 30, 1e-12);
+			eigs2.init();
+			int nconv2 = eigs2.compute(500, 1e-12, Spectra::LARGEST_MAGN);
+			if (eigs2.info() == Spectra::SUCCESSFUL) {
+				minEval = eigs2.eigenvalues();
+			}
+
+			std::cout << "Condition Number: " << maxEval(0) / minEval(0) << std::endl;
+		}
 	}
 
 } /* namespace FEMProject */
