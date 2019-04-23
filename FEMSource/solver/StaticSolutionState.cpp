@@ -380,6 +380,7 @@ namespace FEMProject {
 			int nconv2 = eigs2.compute(500, 1e-12, Spectra::LARGEST_MAGN);
 			if (eigs2.info() == Spectra::SUCCESSFUL) {
 				minEval = eigs2.eigenvalues();
+				
 			}
 
 			std::cout << "Condition Number: " << maxEval(0) / minEval(0) << std::endl;

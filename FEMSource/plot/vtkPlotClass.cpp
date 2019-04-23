@@ -5,6 +5,7 @@
 #include <preprocessDefine.h>
 
 #include <algorithm>
+#include <sstream>
 
 #include <plot/vtkplotClass.h>
 
@@ -13,6 +14,7 @@
 #include <equations/GeometryData.h>
 #include <equations/GenericNodes.h>
 #include <equations/DegreeOfFreedom.h>
+#include <equations/NodeSet.h>
 
 #include <finiteElements/ElementList.h>
 
@@ -48,6 +50,8 @@
 #include <vtkLookupTable.h>
 #include <vtkCell.h>
 #include <vtkXMLUnstructuredGridWriter.h>
+#include <vtkMultiBlockDataSet.h>
+#include <vtkXMLMultiBlockDataWriter.h>
 
 
 
@@ -188,6 +192,8 @@ namespace FEMProject {
 	{
 		InfoData *infos = pointers.getInfoData();
 
+		vtkSmartPointer<vtkMultiBlockDataSet> block =
+			vtkSmartPointer<vtkMultiBlockDataSet>::New();
 		
 
 		std::string outputFile;
@@ -198,7 +204,7 @@ namespace FEMProject {
 		if (pos != std::string::npos) {
 			outputFile = outputFile.substr(0, pos);
 		}
-		outputFile += ".vtk";
+		outputFile += ".vtm";
 		vtkSmartPointer<vtkXMLUnstructuredGridWriter> writer =
 			vtkSmartPointer<vtkXMLUnstructuredGridWriter>::New();
 
@@ -212,6 +218,8 @@ namespace FEMProject {
 		vtkSmartPointer<vtkPoints> lpoints =
 			vtkSmartPointer<vtkPoints>::New();
 
+		block->SetBlock(0, mesh);
+
 		// Adding vertices
 		GeometryData<prec, uint> *geoData = pointers.getGeometryData();
 		GenericGeometryElement<prec, uint> *temp;
@@ -223,9 +231,50 @@ namespace FEMProject {
 			temp = geoData->getGeometryElement(GeometryTypes::Vertex, i);
 			std::vector<prec> coor = temp->getCoordinates();
 			lpoints->InsertNextPoint(static_cast<float>(coor[0]), static_cast<float>(coor[1]), static_cast<float>(coor[2]));
-
 		}
 		mesh->SetPoints(lpoints);
+
+
+		// Adding Solution fields
+		std::map<std::string, vtkSmartPointer<vtkFloatArray>> sols;
+		std::string basename = "Solution";
+		NodeSet<prec, uint> *tempSet;
+		for (auto i = 0; i < numVerts; ++i) {
+			temp = geoData->getGeometryElement(GeometryTypes::Vertex, i);
+			std::vector<NodeSet<prec, uint>*> sets;
+			temp->getSets(pointers, sets);
+			for (auto j = sets.begin(); j != sets.end(); ++j) {
+				tempSet = *j;
+				uint id = tempSet->getMeshId();
+				uint nnodes = tempSet->getNumberOfNodes();
+				for (auto k = 0; k < nnodes; ++k) {
+					std::stringstream ArrName;
+					ArrName << basename << "M" << id << "N" << k;
+					if (sols.find(ArrName.str()) == sols.end()) {
+						
+						sols.insert(std::make_pair(ArrName.str(), vtkSmartPointer<vtkFloatArray>::New()));
+						vtkSmartPointer<vtkFloatArray> ArrTemp = sols.find(ArrName.str())->second;
+						
+						ArrTemp->SetNumberOfComponents(3);
+						ArrTemp->SetNumberOfTuples(numVerts);
+						ArrTemp->SetName(ArrName.str().c_str());
+						ArrTemp->Fill(0);
+
+						mesh->GetPointData()->AddArray(ArrTemp);
+					}
+					vtkSmartPointer<vtkFloatArray> ArrTemp = sols.find(ArrName.str())->second;
+					std::vector<GenericNodes<prec, uint>*> nodes;
+					std::vector<DegreeOfFreedom<prec, uint>*> Dofs;
+					DegreeOfFreedom<prec, uint>* test;
+					temp->getNodesOfSet(pointers, nodes, id);
+					nodes[k]->getDegreesOfFreedom(pointers, Dofs);
+					for (auto l = 0; l <= 2; ++l) {
+						prec sol = pointers.getSolutionState()->getSolution(Dofs[l]->getId());
+						ArrTemp->SetComponent(i, l, sol);
+					}
+				}
+			}
+		}
 
 		// Adding elements
 		ElementList<prec, uint> *elemList = pointers.getElementList();
@@ -237,9 +286,15 @@ namespace FEMProject {
 			mesh->InsertNextCell(cellToAdd->GetCellType(), cellToAdd->GetPointIds());
 		}
 
+		vtkSmartPointer<vtkXMLMultiBlockDataWriter> pwriter =
+			vtkSmartPointer<vtkXMLMultiBlockDataWriter>::New();
+		pwriter->SetFileName(outputFile.c_str());
+		pwriter->SetInputData(block);
 
-		writer->SetInputData(mesh);
-		writer->Write();
+		pwriter->SetEncodeAppendedData(1);
+		pwriter->SetDataModeToAppended();
+
+		pwriter->Write();
 
 	}
 
