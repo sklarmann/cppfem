@@ -19,7 +19,8 @@ extern template class API FEMProject::name<float, int>;
 template class API FEMProject::name<double,int>; 
 #elif APPLICATION
 #define instantiate(name) \
-template class FEMProject::name<boost::multiprecision::cpp_bin_float_100, int>;
+template class FEMProject::name<double, int>;
+//template class FEMProject::name<boost::multiprecision::cpp_bin_float_100, int>;
 #endif
 
 #ifdef DLL_EXPORT // Set to true when you build the dll
@@ -40,7 +41,8 @@ extern template class API2 FEMProject::name<float>;
 template class API FEMProject::name<double>; 
 #elif APPLICATION
 #define instantiatePrec(name) \
-template class FEMProject::name<boost::multiprecision::cpp_bin_float_100, int>;
+template class FEMProject::name<double>;
+//template class FEMProject::name<boost::multiprecision::cpp_bin_float_100>;
 #endif
 
 //#define instantiatePrec(name) 

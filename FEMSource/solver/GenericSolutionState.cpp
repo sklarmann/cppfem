@@ -123,6 +123,17 @@ namespace FEMProject {
 	}
 
 	template<typename prec, typename uint>
+	prec GenericSolutionState<prec, uint>::getEigenVectorComp(uint eqId, uint evId)
+	{
+		if (eqId >= 0) {
+			if (this->eigenVectors.size() > evId) {
+				return this->eigenVectors[evId][eqId];
+			}
+		}
+		return prec(0);
+	}
+
+	template<typename prec, typename uint>
 	void GenericSolutionState<prec, uint>::printSpMat()
 	{
 		
@@ -141,7 +152,7 @@ namespace FEMProject {
 	void GenericSolutionState<prec, uint>::assembleCsrMatrix(Eigen::SparseMatrix<prec, 0, uint>& SpMat, Eigen::Matrix<prec, Eigen::Dynamic, Eigen::Dynamic>& stiffness, std::vector<DegreeOfFreedom<prec, uint>*>& Dofs)
 	{
 		DegreeOfFreedom<prec, uint> *temp, *temp2;
-		uint vsize = Dofs.size();
+		uint vsize = static_cast<uint>(Dofs.size());
 		for (auto i = 0; i < vsize; ++i) {
 			temp = Dofs[i];
 			if (temp->getStatus() == dofStatus::active) {

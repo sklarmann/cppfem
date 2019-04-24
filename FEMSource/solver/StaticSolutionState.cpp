@@ -7,6 +7,9 @@
 
 #include <preprocessDefine.h>
 
+#include <vector>
+
+#include <solver/GenericSolutionState.h>
 #include <solver/StaticSolutionState.h>
 
 #include <pointercollection/pointercollection.h>
@@ -243,13 +246,14 @@ namespace FEMProject {
 #ifdef USE_SPECTRA
 
 		
-		if (addNumber > this->SpMat.cols()) addNumber = this->SpMat.cols();
+		if (addNumber > this->SpMat.cols()) addNumber = static_cast<uint>(this->SpMat.cols());
 
 		if (this->symmetricSolver) {
 
 		}
 		else {
 			Eigen::Matrix< std::complex<prec>, 1, Eigen::Dynamic > evalues;
+			Eigen::Matrix< std::complex<prec>, Eigen::Dynamic, Eigen::Dynamic > evectors;
 			if (max) {
 				Spectra::SparseGenMatProd<prec, 0, uint> op(this->SpMat);
 				Spectra::GenEigsSolver<prec, Spectra::LARGEST_MAGN, Spectra::SparseGenMatProd<prec, 0, uint>> eigs(&op, number, addNumber);
@@ -257,6 +261,16 @@ namespace FEMProject {
 				int nconv = eigs.compute(500, tol, Spectra::LARGEST_MAGN);
 				if (eigs.info() == Spectra::SUCCESSFUL) {
 					evalues = eigs.eigenvalues();
+					evectors = eigs.eigenvectors();
+					std::cout << evectors << std::endl;
+					std::cout << evectors.cols() << " " << number << " " << evectors.rows() << " " << this->NumberOfActiveEquations << std::endl;
+					for (auto i = 0; i < number; ++i) {
+						if (this->eigenVectors.size() < i) this->eigenVectors.emplace_back();
+						for (auto j = 0; j < this->NumberOfActiveEquations; ++j) {
+							//std::cout << evectors(i, j).real() << std::endl;
+							//this->eigenVectors[i].push_back(evectors.coeffRef(i, j).real());
+						}
+					}
 				}
 			}
 			else {

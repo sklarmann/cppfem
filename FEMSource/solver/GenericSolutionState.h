@@ -48,7 +48,13 @@ namespace FEMProject {
 
 		virtual prec getSolution(const uint &globalId){ return 0; };
 
-		virtual void resetSolution() {};
+		virtual void resetSolution() {
+			this->eigenVectors.clear();
+			this->eigenValues.clear();
+		};
+
+		virtual uint numberOfEigenValues() { return static_cast<uint>(this->eigenValues.size()); };
+		virtual prec getEigenVectorComp(uint eqId, uint evId);
 
 		virtual void printSpMat();
 
@@ -66,6 +72,9 @@ namespace FEMProject {
 		bool symmetricSolver;
 		bool upper;
 
+		std::vector<std::vector<prec>> eigenVectors;
+		std::vector<prec> eigenValues;
+ 
 
 	private:
 

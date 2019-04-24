@@ -44,10 +44,10 @@ namespace FEMProject {
 					n1 = ucons->process(this->number);
 				}
 				if (!this->number2.empty()) {
-					n2 = ucons->process(this->number2);
+					n2 = static_cast<uint>(ucons->process(this->number2));
 				}
 				else {
-					n2 = n1 * (prec)2;
+					n2 = n1 * static_cast<uint>(2);
 				}
 
 				if (!this->tol.empty()) {
