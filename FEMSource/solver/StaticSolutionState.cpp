@@ -119,7 +119,7 @@ namespace FEMProject {
 		, std::vector<DegreeOfFreedom<prec,uint>*> &Dofs) {
 	
 		uint vsize = static_cast<uint>(Dofs.size());
-		this->assembleCsrMatrix(this->SpMat, stiffness, Dofs);
+		//this->assembleCsrMatrix(this->SpMat, stiffness, Dofs);
 #pragma omp critical
 		for (uint i = 0; i < vsize; ++i) {
 			if (Dofs[i]->getStatus() == dofStatus::active) {
@@ -245,7 +245,7 @@ namespace FEMProject {
 		prec tol = 1e-10) {
 #ifdef USE_SPECTRA
 
-		
+		 
 		if (addNumber > this->SpMat.cols()) addNumber = static_cast<uint>(this->SpMat.cols());
 
 		if (this->symmetricSolver) {
@@ -255,20 +255,18 @@ namespace FEMProject {
 			Eigen::Matrix< std::complex<prec>, 1, Eigen::Dynamic > evalues;
 			Eigen::Matrix< std::complex<prec>, Eigen::Dynamic, Eigen::Dynamic > evectors;
 			if (max) {
-				Spectra::SparseGenMatProd<prec, 0, uint> op(this->SpMat);
-				Spectra::GenEigsSolver<prec, Spectra::LARGEST_MAGN, Spectra::SparseGenMatProd<prec, 0, uint>> eigs(&op, number, addNumber);
+				Spectra::SparseGenMatProd<prec> op(this->SpMat);
+				Spectra::GenEigsSolver<prec, Spectra::LARGEST_MAGN, Spectra::SparseGenMatProd<prec>> eigs(&op, number, addNumber);
 				eigs.init();
 				int nconv = eigs.compute(500, tol, Spectra::LARGEST_MAGN);
 				if (eigs.info() == Spectra::SUCCESSFUL) {
 					evalues = eigs.eigenvalues();
 					evectors = eigs.eigenvectors();
-					std::cout << evectors << std::endl;
-					std::cout << evectors.cols() << " " << number << " " << evectors.rows() << " " << this->NumberOfActiveEquations << std::endl;
 					for (auto i = 0; i < number; ++i) {
-						if (this->eigenVectors.size() < i) this->eigenVectors.emplace_back();
+						this->eigenValues.push_back(evalues(i).real());
+						if (this->eigenVectors.size() < i+1) this->eigenVectors.emplace_back();
 						for (auto j = 0; j < this->NumberOfActiveEquations; ++j) {
-							//std::cout << evectors(i, j).real() << std::endl;
-							//this->eigenVectors[i].push_back(evectors.coeffRef(i, j).real());
+							this->eigenVectors[i].push_back(evectors(j, i).real());
 						}
 					}
 				}
@@ -280,8 +278,16 @@ namespace FEMProject {
 				int nconv = eigs.compute(500, tol, Spectra::LARGEST_MAGN);
 				if (eigs.info() == Spectra::SUCCESSFUL) {
 					evalues = eigs.eigenvalues();
+					evectors = eigs.eigenvectors();
+					for (auto i = 0; i < number; ++i) {
+						this->eigenValues.push_back(evalues(i).real());
+						if (this->eigenVectors.size() < i + 1) this->eigenVectors.emplace_back();
+						for (auto j = 0; j < this->NumberOfActiveEquations; ++j) {
+							this->eigenVectors[i].push_back(evectors(j, i).real());
+						}
+					}
 				}
-				std::cout << "Eigenvalues found:\n" << evalues.transpose() << std::endl;
+				//std::cout << "Eigenvalues found:\n" << evalues.transpose() << std::endl;
 			}
 			std::cout << "Eigenvalues found:\n" << evalues.transpose() << std::endl;
 		}
@@ -351,7 +357,7 @@ namespace FEMProject {
 		InfoData *infos = this->pointers->getInfoData();
 		std::string directory = infos->fileNames[FileHandling::directory];
 		std::string filename = infos->fileNames[FileHandling::infile];
-		filename += ".mat";
+		filename += ".ma";
 		std::string temp = directory + filename;
 		//std::cout << temp;
 		std::ofstream myfile;

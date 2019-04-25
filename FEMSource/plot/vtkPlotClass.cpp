@@ -237,12 +237,15 @@ namespace FEMProject {
 
 		// Adding Solution fields
 		std::map<std::string, vtkSmartPointer<vtkFloatArray>> sols;
+		std::map<std::string, vtkSmartPointer<vtkFloatArray>> eigenVectors;
 		std::string basename = "Solution";
+		std::string evBasename = "Eigenvector";
 		NodeSet<prec, uint> *tempSet;
 		for (auto i = 0; i < numVerts; ++i) {
 			temp = geoData->getGeometryElement(GeometryTypes::Vertex, i);
 			std::vector<NodeSet<prec, uint>*> sets;
 			temp->getSets(pointers, sets);
+			// Solution Field
 			for (auto j = sets.begin(); j != sets.end(); ++j) {
 				tempSet = *j;
 				uint id = tempSet->getMeshId();
@@ -271,6 +274,51 @@ namespace FEMProject {
 					for (auto l = 0; l <= 2; ++l) {
 						prec sol = pointers.getSolutionState()->getSolution(Dofs[l]->getId());
 						ArrTemp->SetComponent(i, l, sol);
+					}
+				}
+			}
+
+			//Eigenvectors
+ 			uint nVecs = pointers.getSolutionState()->numberOfEigenValues();
+			for (auto j = 0; j < nVecs; ++j) {
+				std::stringstream ArrName;
+				ArrName << evBasename << j + 1;
+				std::vector<NodeSet<prec, uint>*> sets;
+				temp->getSets(pointers, sets);
+				for (auto k = sets.begin(); k != sets.end(); ++k) {
+					tempSet = *k;
+					uint id = tempSet->getMeshId();
+					uint nnodes = tempSet->getNumberOfNodes();
+					for (auto l = 0; l < nnodes; ++l) {
+						ArrName << "M" << id << "N" << l;
+						if (eigenVectors.find(ArrName.str()) == eigenVectors.end()) {
+
+							eigenVectors.insert(std::make_pair(ArrName.str(), vtkSmartPointer<vtkFloatArray>::New()));
+							vtkSmartPointer<vtkFloatArray> ArrTemp = eigenVectors.find(ArrName.str())->second;
+
+							ArrTemp->SetNumberOfComponents(3);
+							ArrTemp->SetNumberOfTuples(numVerts);
+							ArrTemp->SetName(ArrName.str().c_str());
+							ArrTemp->Fill(0);
+
+							mesh->GetPointData()->AddArray(ArrTemp);
+						}
+						vtkSmartPointer<vtkFloatArray> ArrTemp = eigenVectors.find(ArrName.str())->second;
+						std::vector<GenericNodes<prec, uint>*> nodes;
+						std::vector<DegreeOfFreedom<prec, uint>*> Dofs;
+						DegreeOfFreedom<prec, uint>* test;
+						temp->getNodesOfSet(pointers, nodes, id);
+						nodes[l]->getDegreesOfFreedom(pointers, Dofs);
+						for (auto l = 0; l <= 2; ++l) {
+							prec sol;
+							if (Dofs[l]->getStatus() == dofStatus::active) {
+								sol = pointers.getSolutionState()->getEigenVectorComp(Dofs[l]->getEqId(), j);
+							}
+							else {
+								sol = static_cast<prec>(0);
+							}
+							ArrTemp->SetComponent(i, l, sol);
+						}
 					}
 				}
 			}

@@ -21,7 +21,7 @@ int main()
 	std::cin >> i;
 
 	if (i == 0) {
-		//prog = new FEMProject::MainProgram<float, int>;
+		prog = new FEMProject::MainProgram<float, int>;
 	}
 	else if (i == 1) {
 		prog = new FEMProject::MainProgram<double, int>;
