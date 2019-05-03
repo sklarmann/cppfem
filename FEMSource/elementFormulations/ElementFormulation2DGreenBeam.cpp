@@ -36,9 +36,9 @@ namespace FEMProject {
 		temp = Command.getRhs("meshiddisp");
 		this->meshIdDisp = static_cast<uint>(ucons->process(temp));
 		temp = Command.getRhs("ea");
-		this->EA = static_cast<uint>(ucons->process(temp));
+		this->EA = static_cast<prec>(ucons->process(temp));
 		temp = Command.getRhs("ei");
-		this->EI = static_cast<uint>(ucons->process(temp));
+		this->EI = static_cast<prec>(ucons->process(temp));
 	}
 	template<typename prec, typename uint>
 	void ElementFormulation2DGreenBeam<prec, uint>::setDegreesOfFreedom(GenericFiniteElement<prec, uint>* elem)
