@@ -27,6 +27,7 @@ namespace FEMProject {
 				this->type = cmd.getRhs("type");
 				this->number = cmd.getRhs("number");
 				this->meshId = cmd.getRhs("meshid");
+				this->sprec = cmd.getRhs("prec");
 			}
 
 			template<typename prec, typename uint>
@@ -44,6 +45,10 @@ namespace FEMProject {
 				uint number = static_cast<uint>(pointers.getUserConstants()->process(this->number));
 				GenericGeometryElement<prec, uint> *geoTemp=0;
 				info->Log(LogLevel::NoLog, LogLevel::NoLog) << std::endl;
+
+				uint nPrec = static_cast<uint>(pointers.getUserConstants()->process(this->sprec));
+
+				if (nPrec == 0) nPrec = 10;
 				if (this->type == "vertex") {
 					geoTemp =geoData->getVertex(number);
 					if (geoTemp != 0) {
@@ -81,7 +86,7 @@ namespace FEMProject {
 							std::string toPrint;
 							toOut >> toPrint;
 							info->Log(LogLevel::NoLog, LogLevel::NoLog) << std::scientific
-								<< std::setw(20) << toOut.str();
+								<< std::setw(nPrec+7) << toOut.str();
 						}
 							
 							
@@ -95,7 +100,8 @@ namespace FEMProject {
 							DegreeOfFreedom<prec, uint>* tempDof;
 							for (auto kt = Dofs.begin(); kt != Dofs.end(); ++kt) {
 								tempDof = *kt;
-								info->Log(LogLevel::NoLog,LogLevel::NoLog) << std::setw(20)
+								info->Log(LogLevel::NoLog,LogLevel::NoLog) << std::setw(nPrec+7)
+									<< std::setprecision(nPrec) 
 									<< solState->getSolution(tempDof->getId());
 							}
 						}

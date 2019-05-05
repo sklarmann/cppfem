@@ -18,7 +18,7 @@ namespace FEMProject {
 				std::string printCommand();
 				static GenericCommand<prec,uint> *NewCommand(stringCommandHandler &cmd) { return new PrintSolution(cmd); };
 			private:
-				std::string type, number, meshId;
+				std::string type, number, meshId, sprec;
 
 			};
 		}
