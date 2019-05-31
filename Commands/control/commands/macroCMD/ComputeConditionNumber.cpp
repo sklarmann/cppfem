@@ -30,7 +30,7 @@ namespace FEMProject {
 			template<typename prec, typename uint>
 			void ComputeConditionNumber<prec, uint>::run(PointerCollection<prec, uint> &pointers, FEMProgram<prec, uint> *program) {
 
-
+				pointers.getSolutionState()->computeConditionNumber();
 			}
 
 		}

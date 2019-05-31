@@ -41,7 +41,7 @@ namespace FEMProject {
 
 				if (this->max == "true") pmax = true;
 				if (!this->number.empty()) {
-					n1 = ucons->process(this->number);
+					n1 = static_cast<uint>(ucons->process(this->number));
 				}
 				if (!this->number2.empty()) {
 					n2 = static_cast<uint>(ucons->process(this->number2));

@@ -7,6 +7,10 @@
 
 #include <preprocessDefine.h>
 
+#include <pointercollection/pointercollection.h>
+#include <control/HandlingStructs.h>
+#include <control/OutputHandler.h>
+
 #include <vector>
 
 #include <solver/GenericSolutionState.h>
@@ -34,6 +38,8 @@
 #ifdef USE_SPECTRA
 #include <GenEigsSolver.h>
 #include <MatOp/SparseGenMatProd.h>
+#include <MatOp/SparseSymMatProd.h>
+#include <MatOp/SparseSymShiftSolve.h>
 #include <SymEigsSolver.h>
 #include <SymEigsShiftSolver.h>
 #include <GenEigsRealShiftSolver.h>
@@ -244,53 +250,116 @@ namespace FEMProject {
 		bool max = false,
 		prec tol = 1e-10) {
 #ifdef USE_SPECTRA
-
+		OutputHandler &Log = this->pointers->getInfoData()->Log;
 		 
 		if (addNumber > this->SpMat.cols()) addNumber = static_cast<uint>(this->SpMat.cols());
 
-		if (this->symmetricSolver) {
+		Eigen::Matrix<prec, 1, Eigen::Dynamic> evalues;
+		Eigen::Matrix<prec, Eigen::Dynamic, Eigen::Dynamic> evectors;
 
+		if (max) {
+			Spectra::SparseSymMatProd<prec> op(this->SpMat);
+			Spectra::SymEigsSolver<prec, Spectra::LARGEST_MAGN, Spectra::SparseSymMatProd<prec>> eigs(&op, number, addNumber);
+			eigs.init();
+			try {
+				int nconv = eigs.compute(500, tol, Spectra::LARGEST_MAGN);
+			}
+			catch (const std::exception& e) {
+				Log(LogLevel::NoLog, LogLevel::NoLog)
+					<< "Eigenvalue solver failed: \n"
+					<< e.what() << std::endl;
+			}
+			if (eigs.info() == Spectra::SUCCESSFUL) {
+				evalues = eigs.eigenvalues();
+				evectors = eigs.eigenvectors();
+				for (auto i = 0; i < number; ++i) {
+					this->eigenValues.push_back(evalues(i));
+					if (this->eigenVectors.size() < i+1) this->eigenVectors.emplace_back();
+					for (auto j = 0; j < this->NumberOfActiveEquations; ++j) {
+						this->eigenVectors[i].push_back(evectors(j, i));
+					}
+				}
+			}
 		}
 		else {
-			Eigen::Matrix< std::complex<prec>, 1, Eigen::Dynamic > evalues;
-			Eigen::Matrix< std::complex<prec>, Eigen::Dynamic, Eigen::Dynamic > evectors;
-			if (max) {
-				Spectra::SparseGenMatProd<prec> op(this->SpMat);
-				Spectra::GenEigsSolver<prec, Spectra::LARGEST_MAGN, Spectra::SparseGenMatProd<prec>> eigs(&op, number, addNumber);
-				eigs.init();
+			
+			Spectra::SparseSymShiftSolve<prec> op(this->SpMat);
+			Spectra::SymEigsShiftSolver<prec, Spectra::LARGEST_MAGN, Spectra::SparseSymShiftSolve<prec>> eigs(&op, number, addNumber, 1e-12);
+			
+			eigs.init();
+			try {
 				int nconv = eigs.compute(500, tol, Spectra::LARGEST_MAGN);
-				if (eigs.info() == Spectra::SUCCESSFUL) {
-					evalues = eigs.eigenvalues();
-					evectors = eigs.eigenvectors();
-					for (auto i = 0; i < number; ++i) {
-						this->eigenValues.push_back(evalues(i).real());
-						if (this->eigenVectors.size() < i+1) this->eigenVectors.emplace_back();
-						for (auto j = 0; j < this->NumberOfActiveEquations; ++j) {
-							this->eigenVectors[i].push_back(evectors(j, i).real());
-						}
+			}
+			catch (const std::exception& e) {
+				Log(LogLevel::NoLog, LogLevel::NoLog) 
+					<< "Eigenvalue solver failed: \n"
+					<< e.what() << std::endl;
+			}
+			
+			if (eigs.info() == Spectra::SUCCESSFUL) {
+				evalues = eigs.eigenvalues();
+				evectors = eigs.eigenvectors();
+				for (auto i = 0; i < number; ++i) {
+					this->eigenValues.push_back(evalues(i));
+					if (this->eigenVectors.size() < i + 1) this->eigenVectors.emplace_back();
+					for (auto j = 0; j < this->NumberOfActiveEquations; ++j) {
+						this->eigenVectors[i].push_back(evectors(j, i));
 					}
 				}
 			}
-			else {
-				Spectra::SparseGenRealShiftSolve<prec, 0, uint> op(this->SpMat);
-				Spectra::GenEigsRealShiftSolver<prec, Spectra::LARGEST_MAGN, Spectra::SparseGenRealShiftSolve<prec, 0, uint>> eigs(&op, number, addNumber, 1e-12);
-				eigs.init();
-				int nconv = eigs.compute(500, tol, Spectra::LARGEST_MAGN);
-				if (eigs.info() == Spectra::SUCCESSFUL) {
-					evalues = eigs.eigenvalues();
-					evectors = eigs.eigenvectors();
-					for (auto i = 0; i < number; ++i) {
-						this->eigenValues.push_back(evalues(i).real());
-						if (this->eigenVectors.size() < i + 1) this->eigenVectors.emplace_back();
-						for (auto j = 0; j < this->NumberOfActiveEquations; ++j) {
-							this->eigenVectors[i].push_back(evectors(j, i).real());
-						}
-					}
-				}
-				//std::cout << "Eigenvalues found:\n" << evalues.transpose() << std::endl;
-			}
-			std::cout << "Eigenvalues found:\n" << evalues.transpose() << std::endl;
 		}
+
+		Log(LogLevel::FullLog, LogLevel::FullLog) << evalues.transpose() << std::endl;
+
+
+		//if (this->symmetricSolver) {
+		//
+		//}
+		//else {
+		//	Eigen::Matrix< std::complex<prec>, 1, Eigen::Dynamic > evalues;
+		//	Eigen::Matrix< std::complex<prec>, Eigen::Dynamic, Eigen::Dynamic > evectors;
+		//	if (max) {
+		//		Eigen::Matrix<prec, 1, Eigen::Dynamic > evalues2;
+		//		Spectra::SparseSymMatProd<prec> op(this->SpMat);
+		//		Spectra::SymEigsSolver<prec, Spectra::LARGEST_MAGN, Spectra::SparseSymMatProd<prec>> eigs(&op, number, addNumber);
+		//		//Spectra::SparseGenMatProd<prec> op(this->SpMat);
+		//		//Spectra::GenEigsSolver<prec, Spectra::LARGEST_MAGN, Spectra::SparseGenMatProd<prec>> eigs(&op, number, addNumber);
+		//		eigs.init();
+		//		int nconv = eigs.compute(500, tol, Spectra::LARGEST_MAGN);
+		//		if (eigs.info() == Spectra::SUCCESSFUL) {
+		//			evalues2 = eigs.eigenvalues();
+		//
+		//			std::cout << "Eigenvalues found:\n" << evalues2.transpose() << std::endl;
+		//		//	evectors = eigs.eigenvectors();
+		//			//for (auto i = 0; i < number; ++i) {
+		//			//	this->eigenValues.push_back(evalues(i).real());
+		//			//	if (this->eigenVectors.size() < i+1) this->eigenVectors.emplace_back();
+		//			//	for (auto j = 0; j < this->NumberOfActiveEquations; ++j) {
+		//			//		this->eigenVectors[i].push_back(evectors(j, i).real());
+		//			//	}
+		//			//}
+		//		}
+		//	}
+		//	else {
+		//		Spectra::SparseGenRealShiftSolve<prec, 0, uint> op(this->SpMat);
+		//		Spectra::GenEigsRealShiftSolver<prec, Spectra::LARGEST_MAGN, Spectra::SparseGenRealShiftSolve<prec, 0, uint>> eigs(&op, number, addNumber, 1e-12);
+		//		eigs.init();
+		//		int nconv = eigs.compute(500, tol, Spectra::LARGEST_MAGN);
+		//		if (eigs.info() == Spectra::SUCCESSFUL) {
+		//			evalues = eigs.eigenvalues();
+		//			evectors = eigs.eigenvectors();
+		//			for (auto i = 0; i < number; ++i) {
+		//				this->eigenValues.push_back(evalues(i).real());
+		//				if (this->eigenVectors.size() < i + 1) this->eigenVectors.emplace_back();
+		//				for (auto j = 0; j < this->NumberOfActiveEquations; ++j) {
+		//					this->eigenVectors[i].push_back(evectors(j, i).real());
+		//				}
+		//			}
+		//		}
+		//		//std::cout << "Eigenvalues found:\n" << evalues.transpose() << std::endl;
+		//	}
+		//	std::cout << "Eigenvalues found:\n" << evalues.transpose() << std::endl;
+		//}
 
 #endif // USE_SPECTRA
 	}
@@ -322,7 +391,8 @@ namespace FEMProject {
 		//std::cout << temp;
 		std::ofstream myfile;
 		myfile.open(temp);
-
+		myfile << std::setprecision(20);
+		myfile << std::scientific;
 		for (int k = 0; k < this->SpMat.outerSize(); ++k)
 			for (Eigen::SparseMatrix<prec>::InnerIterator it(this->SpMat, k); it; ++it)
 			{
@@ -340,31 +410,82 @@ namespace FEMProject {
 	template<typename prec, typename uint>
 	void StaticSolutionState<prec, uint>::computeConditionNumber()
 	{
-		if (this->symmetricSolver) {
 
-		}
-		else {
+		OutputHandler &Log = this->pointers->getInfoData()->Log;
+		prec tol = 1e-12;
+		uint number = 2;
+		uint addNumber = 10;
+		if (addNumber > this->SpMat.cols()) addNumber = static_cast<uint>(this->SpMat.cols());
 
-			Eigen::Matrix< std::complex<prec>, 1, Eigen::Dynamic > maxEval, minEval;
-
-			Spectra::SparseGenMatProd<prec, 0, uint> op(this->SpMat);
-			Spectra::GenEigsSolver<prec, Spectra::LARGEST_MAGN, Spectra::SparseGenMatProd<prec, 0, uint>> eigs(&op, 1, 30);
+		Eigen::Matrix<prec, 1, Eigen::Dynamic> min, max;
+		prec minV=1, maxV=1;
+		{
+			Spectra::SparseSymMatProd<prec> op(this->SpMat);
+			Spectra::SymEigsSolver<prec, Spectra::LARGEST_MAGN, Spectra::SparseSymMatProd<prec>> eigs(&op, number, addNumber);
 			eigs.init();
-			int nconv = eigs.compute(500, 1e-12, Spectra::LARGEST_MAGN);
-			if (eigs.info() == Spectra::SUCCESSFUL) {
-				maxEval = eigs.eigenvalues();
+			try {
+				int nconv = eigs.compute(500, tol, Spectra::LARGEST_MAGN);
 			}
-			Spectra::SparseGenRealShiftSolve<prec, 0, uint> op2(this->SpMat);
-			Spectra::GenEigsRealShiftSolver<prec, Spectra::LARGEST_MAGN, Spectra::SparseGenRealShiftSolve<prec, 0, uint>> eigs2(&op2, 1, 30, 1e-12);
-			eigs2.init();
-			int nconv2 = eigs2.compute(500, 1e-12, Spectra::LARGEST_MAGN);
-			if (eigs2.info() == Spectra::SUCCESSFUL) {
-				minEval = eigs2.eigenvalues();
-				
+			catch (const std::exception& e) {
+				Log(LogLevel::NoLog, LogLevel::NoLog)
+					<< "Eigenvalue solver failed: \n"
+					<< e.what() << std::endl;
+			}
+			if (eigs.info() == Spectra::SUCCESSFUL) {
+				max = eigs.eigenvalues();
+				maxV = max(0);
 			}
 
-			std::cout << "Condition Number: " << maxEval(0) / minEval(0) << std::endl;
 		}
+		{
+			Spectra::SparseSymShiftSolve<prec> op(this->SpMat);
+			Spectra::SymEigsShiftSolver<prec, Spectra::LARGEST_MAGN, Spectra::SparseSymShiftSolve<prec>> eigs(&op, number, addNumber, 1e-12);
+
+			eigs.init();
+			try {
+				int nconv = eigs.compute(500, tol, Spectra::LARGEST_MAGN);
+			}
+			catch (const std::exception& e) {
+				Log(LogLevel::NoLog, LogLevel::NoLog)
+					<< "Eigenvalue solver failed: \n"
+					<< e.what() << std::endl;
+			}
+			if (eigs.info() == Spectra::SUCCESSFUL) {
+				min = eigs.eigenvalues();
+				minV = min(1);
+			}
+		}
+		
+		Log(LogLevel::BasicLog, LogLevel::BasicLog) 
+			<< "Condition Number of current equation system: \n"
+			<< maxV / minV << std::endl;
+
+		
+		//if (this->symmetricSolver) {
+		//
+		//}
+		//else {
+		//
+		//	Eigen::Matrix< std::complex<prec>, 1, Eigen::Dynamic > maxEval, minEval;
+		//
+		//	Spectra::SparseGenMatProd<prec, 0, uint> op(this->SpMat);
+		//	Spectra::GenEigsSolver<prec, Spectra::LARGEST_MAGN, Spectra::SparseGenMatProd<prec, 0, uint>> eigs(&op, 1, 30);
+		//	eigs.init();
+		//	int nconv = eigs.compute(500, 1e-12, Spectra::LARGEST_MAGN);
+		//	if (eigs.info() == Spectra::SUCCESSFUL) {
+		//		maxEval = eigs.eigenvalues();
+		//	}
+		//	Spectra::SparseGenRealShiftSolve<prec, 0, uint> op2(this->SpMat);
+		//	Spectra::GenEigsRealShiftSolver<prec, Spectra::LARGEST_MAGN, Spectra::SparseGenRealShiftSolve<prec, 0, uint>> eigs2(&op2, 1, 30, 1e-12);
+		//	eigs2.init();
+		//	int nconv2 = eigs2.compute(500, 1e-12, Spectra::LARGEST_MAGN);
+		//	if (eigs2.info() == Spectra::SUCCESSFUL) {
+		//		minEval = eigs2.eigenvalues();
+		//		
+		//	}
+		//
+		//	std::cout << "Condition Number: " << maxEval(0) / minEval(0) << std::endl;
+		//}
 	}
 
 } /* namespace FEMProject */

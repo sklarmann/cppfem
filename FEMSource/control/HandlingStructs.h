@@ -28,6 +28,7 @@ namespace FEMProject {
 		std::map<FileHandling, std::string> fileNames;
 		OutputHandler Log;
 		bool runProg;
+		
 
 	};
 

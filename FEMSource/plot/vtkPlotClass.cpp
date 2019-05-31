@@ -273,7 +273,7 @@ namespace FEMProject {
 					nodes[k]->getDegreesOfFreedom(pointers, Dofs);
 					for (auto l = 0; l <= 2; ++l) {
 						prec sol = pointers.getSolutionState()->getSolution(Dofs[l]->getId());
-						ArrTemp->SetComponent(i, l, sol);
+						ArrTemp->SetComponent(i, l, static_cast<double>(sol));
 					}
 				}
 			}
@@ -317,7 +317,7 @@ namespace FEMProject {
 							else {
 								sol = static_cast<prec>(0);
 							}
-							ArrTemp->SetComponent(i, l, sol);
+							ArrTemp->SetComponent(i, l, static_cast<double>(sol));
 						}
 					}
 				}

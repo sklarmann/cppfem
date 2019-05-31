@@ -47,12 +47,13 @@ namespace FEMProject {
 			this->macroCommands["do"] = &Macro::Do<prec, uint>::NewCommand;
 			//
 			//
-			this->macroCommands["solver"] = &Macro::Solver<prec, uint>::NewCommand;
 			this->macroCommands["solution"] = &Macro::Solution<prec, uint>::NewCommand;
+			this->macroCommands["solver"] = &Macro::Solver<prec, uint>::NewCommand;
 			this->macroCommands["sparsesetup"] = &Macro::SetUpSparseMatrix<prec, uint>::NewCommand;
 			//
-			this->macroCommands["tangent"] = &Macro::Tangent<prec, uint>::NewCommand;
+			this->macroCommands["condition"] = &Macro::ComputeConditionNumber<prec, uint>::NewCommand;
 			this->macroCommands["eigenval"] = &Macro::eigenValues<prec, uint>::NewCommand;
+			this->macroCommands["tangent"] = &Macro::Tangent<prec, uint>::NewCommand;
 			this->macroCommands["resetsolution"] = &Macro::ResetSolution<prec, uint>::NewCommand;
 			//
 			this->macroCommands["propnames"] = &Macro::PropNames<prec, uint>::NewCommand;
