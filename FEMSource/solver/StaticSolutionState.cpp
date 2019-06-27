@@ -284,7 +284,7 @@ namespace FEMProject {
 		else {
 			
 			Spectra::SparseSymShiftSolve<prec> op(this->SpMat);
-			Spectra::SymEigsShiftSolver<prec, Spectra::LARGEST_MAGN, Spectra::SparseSymShiftSolve<prec>> eigs(&op, number, addNumber, 1e-12);
+			Spectra::SymEigsShiftSolver<prec, Spectra::LARGEST_MAGN, Spectra::SparseSymShiftSolve<prec>> eigs(&op, number, addNumber, 1e-64);
 			
 			eigs.init();
 			try {
@@ -309,7 +309,7 @@ namespace FEMProject {
 			}
 		}
 
-		Log(LogLevel::FullLog, LogLevel::FullLog) << evalues.transpose() << std::endl;
+		Log(LogLevel::NoLog, LogLevel::NoLog) << evalues.transpose() << std::endl;
 
 
 		//if (this->symmetricSolver) {
@@ -456,7 +456,7 @@ namespace FEMProject {
 			}
 		}
 		
-		Log(LogLevel::BasicLog, LogLevel::BasicLog) 
+		Log(LogLevel::NoLog, LogLevel::NoLog) 
 			<< "Condition Number of current equation system: \n"
 			<< maxV / minV << std::endl;
 
