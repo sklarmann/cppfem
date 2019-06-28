@@ -97,7 +97,7 @@ namespace FEMProject {
 				}else{
 					parent.push(input[pos]);
 				}
-			}else if(parent.empty() && (input[pos] == '+' || input[pos] == '-')){
+			}else if(parent.empty() && (input[pos] == '+' || input[pos] == '-') && pos!=0){
 				search = false;
 				found  = true;
 			}
@@ -293,9 +293,9 @@ namespace FEMProject {
 			//std::cout << e.what();
 		}
 
-		if (input.size() == 1 && input.find_first_not_of("1234567890") != std::string::npos) check = input;
+		if (input.size() == 1 && input.find_first_not_of("+-1234567890") != std::string::npos) check = input;
 
-		auto pos = input.find_first_not_of("1234567890");
+		auto pos = input.find_first_not_of("+-1234567890");
 		if (input.size() == 1 && pos != std::string::npos) {
 			check = input;
 		}

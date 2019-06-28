@@ -41,7 +41,8 @@ namespace FEMProject {
 			uint number,
 			uint addNumber = 0,
 			bool max = false,
-			prec tol = 1e-10);
+			prec tol = 1e-10,
+			prec shift = 1e-10);
 
 		prec getSolution(const uint &globalId);
 

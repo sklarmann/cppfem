@@ -248,7 +248,8 @@ namespace FEMProject {
 		uint number,
 		uint addNumber = 0,
 		bool max = false,
-		prec tol = 1e-10) {
+		prec tol = 1e-10,
+		prec shift = 1e-10) {
 #ifdef USE_SPECTRA
 		OutputHandler &Log = this->pointers->getInfoData()->Log;
 		 
@@ -284,7 +285,7 @@ namespace FEMProject {
 		else {
 			
 			Spectra::SparseSymShiftSolve<prec> op(this->SpMat);
-			Spectra::SymEigsShiftSolver<prec, Spectra::LARGEST_MAGN, Spectra::SparseSymShiftSolve<prec>> eigs(&op, number, addNumber, 1e-64);
+			Spectra::SymEigsShiftSolver<prec, Spectra::LARGEST_MAGN, Spectra::SparseSymShiftSolve<prec>> eigs(&op, number, addNumber, shift);
 			
 			eigs.init();
 			try {

@@ -20,7 +20,7 @@ namespace FEMProject {
 				std::string printCommand();
 				static GenericCommand<prec,uint> *NewCommand(stringCommandHandler &cmd) { return new eigenValues(cmd); };
 			private:
-				std::string max, number, number2, tol;
+				std::string max, number, number2, tol, shift;
 			};
 		}
 	}
