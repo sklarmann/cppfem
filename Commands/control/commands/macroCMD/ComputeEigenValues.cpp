@@ -59,7 +59,7 @@ namespace FEMProject {
 				}
 
 				if (!this->shift.empty()) {
-					ptol = ucons->process(this->shift);
+					shift = ucons->process(this->shift);
 				}
 				else {
 					shift = (prec) 1e-10;
