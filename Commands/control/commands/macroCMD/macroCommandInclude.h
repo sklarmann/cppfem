@@ -7,6 +7,7 @@
 #include <control/commands/macroCMD/Do.h>
 #include <control/commands/macroCMD/OpenFiles.h>
 #include <control/commands/macroCMD/Output.h>
+#include <control/commands/macroCMD/OutputPrecision.h>
 #include <control/commands/macroCMD/printInfo.h>
 #include <control/commands/macroCMD/PrintPropFunction.h>
 #include <control/commands/macroCMD/PrintSolution.h>

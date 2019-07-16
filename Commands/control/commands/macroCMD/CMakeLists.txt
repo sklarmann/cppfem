@@ -7,6 +7,7 @@ set(SOURCE ${SOURCE} ${CMAKE_CURRENT_SOURCE_DIR}/CommandHistory.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/Do.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/OpenFiles.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/Output.cpp
+					 ${CMAKE_CURRENT_SOURCE_DIR}/OutputPrecision.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/printInfo.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/PrintPropFunction.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/PrintSolution.cpp
@@ -33,6 +34,7 @@ set(HEADERS ${HEADERS} ${CMAKE_CURRENT_SOURCE_DIR}/CommandHistory.h
 			         ${CMAKE_CURRENT_SOURCE_DIR}/macroCommandInclude.h
 					 ${CMAKE_CURRENT_SOURCE_DIR}/OpenFiles.h
 					 ${CMAKE_CURRENT_SOURCE_DIR}/Output.h
+					 ${CMAKE_CURRENT_SOURCE_DIR}/OutputPrecision.h
 					 ${CMAKE_CURRENT_SOURCE_DIR}/printInfo.h
 					 ${CMAKE_CURRENT_SOURCE_DIR}/PrintPropFunction.h
 					 ${CMAKE_CURRENT_SOURCE_DIR}/PrintSolution.h
