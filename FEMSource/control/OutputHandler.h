@@ -11,6 +11,7 @@
 #include <iostream>
 #include <fstream>
 
+#include <iomanip>
 
 
 namespace FEMProject {
@@ -72,6 +73,8 @@ namespace FEMProject {
 			if (!this->LogFile.is_open()) {
 				this->LogFile.open(file);
 			}
+			this->LogFile << std::setprecision(this->numberWidth) << std::scientific;
+			std::cout << std::setprecision(this->numberWidth) << std::scientific;
 			//else {
 			//	this->LogFile.close();
 			//	this->LogFile.open(file);
@@ -83,11 +86,19 @@ namespace FEMProject {
 				this->LogFile.close();
 			}
 		}
+
+		void setPrecision(int num) {
+			this->numberWidth = num;
+			(*this)(LogLevel::NoLog, LogLevel::NoLog) << std::setprecision(num);
+		}
+
+		int getNumberWidth() { return this->numberWidth + 9; };
 	
 	protected:
 		LogLevel Lfile, Lconsole;		// Outputloglevel
 		LogLevel CLfile, CLconsole;		// Loglevel
 		std::ofstream LogFile;
+		int numberWidth = 6;
 
 	};
 

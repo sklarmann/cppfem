@@ -24,6 +24,7 @@ set(SOURCE ${SOURCE} ${CMAKE_CURRENT_SOURCE_DIR}/CommandHistory.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/Tangent.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/Threads.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/TimeIncr.cpp
+					 ${CMAKE_CURRENT_SOURCE_DIR}/ValueToUserVar.cpp
 					 PARENT_SCOPE)
 
 set(HEADERS ${HEADERS} ${CMAKE_CURRENT_SOURCE_DIR}/CommandHistory.h
@@ -51,4 +52,5 @@ set(HEADERS ${HEADERS} ${CMAKE_CURRENT_SOURCE_DIR}/CommandHistory.h
 					 ${CMAKE_CURRENT_SOURCE_DIR}/Tangent.h
 					 ${CMAKE_CURRENT_SOURCE_DIR}/Threads.h
 					 ${CMAKE_CURRENT_SOURCE_DIR}/TimeIncr.h
+					 ${CMAKE_CURRENT_SOURCE_DIR}/ValueToUserVar.h
 					 PARENT_SCOPE)

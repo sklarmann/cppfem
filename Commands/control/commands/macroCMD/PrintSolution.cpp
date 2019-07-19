@@ -47,6 +47,8 @@ namespace FEMProject {
 				info->Log(LogLevel::NoLog, LogLevel::NoLog) << std::endl;
 
 				uint nPrec = static_cast<uint>(pointers.getUserConstants()->process(this->sprec));
+				nPrec = info->Log.getNumberWidth();
+
 
 				if (nPrec == 0) nPrec = 10;
 				if (this->type == "vertex") {
@@ -86,7 +88,7 @@ namespace FEMProject {
 							std::string toPrint;
 							toOut >> toPrint;
 							info->Log(LogLevel::NoLog, LogLevel::NoLog) << std::scientific
-								<< std::setw(nPrec+7) << toOut.str();
+								<< std::setw(nPrec) << toOut.str();
 						}
 							
 							
@@ -100,8 +102,7 @@ namespace FEMProject {
 							DegreeOfFreedom<prec, uint>* tempDof;
 							for (auto kt = Dofs.begin(); kt != Dofs.end(); ++kt) {
 								tempDof = *kt;
-								info->Log(LogLevel::NoLog,LogLevel::NoLog) << std::setw(nPrec+7)
-									<< std::setprecision(nPrec) 
+								info->Log(LogLevel::NoLog,LogLevel::NoLog) << std::setw(nPrec)
 									<< solState->getSolution(tempDof->getId());
 							}
 						}

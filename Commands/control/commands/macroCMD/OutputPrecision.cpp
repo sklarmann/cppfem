@@ -33,8 +33,8 @@ namespace FEMProject {
 				Userconstants<prec> *userCons = pointers.getUserConstants();
 
 				int digits = static_cast<int>(userCons->process(this->precision));
-				info->Log(LogLevel::NoLog, LogLevel::NoLog) << std::setprecision(digits)
-					<< std::endl;
+				
+				info->Log.setPrecision(digits);
 
 			}
 		}

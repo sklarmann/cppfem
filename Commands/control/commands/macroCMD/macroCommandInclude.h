@@ -24,3 +24,4 @@
 #include <control/commands/macroCMD/Tangent.h>
 #include <control/commands/macroCMD/Threads.h>
 #include <control/commands/macroCMD/TimeIncr.h>
+#include <control/commands/macroCMD/ValueToUserVar.h>
