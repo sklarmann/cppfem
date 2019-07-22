@@ -98,8 +98,37 @@ namespace FEMProject {
 					parent.push(input[pos]);
 				}
 			}else if(parent.empty() && (input[pos] == '+' || input[pos] == '-') && pos!=0){
-				search = false;
-				found  = true;
+				if (input[pos - 1] == 'e' || input[pos - 1] == 'E') {
+					std::size_t pos2 = pos - 2;
+					if (pos2 >= 0) {
+						std::string test;
+						test = input[pos2];
+						std::stringstream ss(test);
+						std::string check;
+						bool isNum = true;
+
+						try {
+							ss >> retval >> check;
+						}
+						catch (const std::exception &e) {
+							check = input;
+							isNum = false;
+							//std::cout << e.what();
+						}
+						if(!isNum){
+							search = false;
+							found = true;
+						}
+					}
+					else {
+						search = false;
+						found = true;
+					}
+				}
+				else {
+					search = false;
+					found = true;
+				}
 			}
 			++pos;
 		}
