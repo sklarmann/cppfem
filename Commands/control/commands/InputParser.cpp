@@ -46,6 +46,7 @@ namespace FEMProject {
 			this->macroCommands["printspmat"] = &Macro::PrintSpMat<prec, uint>::NewCommand;
 			this->macroCommands["do"] = &Macro::Do<prec, uint>::NewCommand;
 			this->macroCommands["digits"] = &Macro::OutputPrecision<prec, uint>::NewCommand;
+			this->macroCommands["getval"] = &Macro::ValueToUserVar<prec, uint>::NewCommand;
 			//
 			//
 			this->macroCommands["solution"] = &Macro::Solution<prec, uint>::NewCommand;

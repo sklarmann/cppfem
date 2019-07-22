@@ -17,6 +17,7 @@ namespace FEMProject {
 				~ValueToUserVar() {};
 				void run(PointerCollection<prec, uint> &ptrCol, FEMProgram<prec, uint> *program);
 				std::string printCommand();
+				void help();
 				static GenericCommand<prec,uint> *NewCommand(stringCommandHandler &cmd) { return new ValueToUserVar(cmd); };
 			private:
 				std::string type, nodeset, node, dof, name, tnum;

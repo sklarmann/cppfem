@@ -13,21 +13,29 @@ int main()
 	FEMProject::MainProgramBase *prog;
 
 	std::cout << "Choose precision: " << std::endl
-		<< "0: float" << std::endl
-		<< "1: double" << std::endl
-		<< "2: 100 Stellen" << std::endl << "Input: ";
+		<< "1: float" << std::endl
+		<< "2: double" << std::endl
+		<< "3: 32 Stellen" << std::endl
+		<< "4: 64 Stellen" << std::endl
+		<< "5: 128 Stellen" << std::endl << "Input: ";
 
 	int i;
 	std::cin >> i;
 
-	if (i == 0) {
+	if (i == 1) {
 		prog = new FEMProject::MainProgram<float, int>;
 	}
-	else if (i == 1) {
+	else if (i == 2) {
 		prog = new FEMProject::MainProgram<double, int>;
 	}
-	else {
-		prog = new FEMProject::MainProgram<boost::multiprecision::cpp_bin_float_100, int>;
+	else if (i == 3) {
+		prog = new FEMProject::MainProgram<boost::multiprecision::cpp_bin_float_32, int>;
+	}
+	else if (i == 4) {
+		prog = new FEMProject::MainProgram<boost::multiprecision::cpp_bin_float_64, int>;
+	}
+	else if (i == 5) {
+		prog = new FEMProject::MainProgram<boost::multiprecision::cpp_bin_float_128, int>;
 	}
 
 	//prog = new FEMProject::MainProgram<boost::multiprecision::cpp_bin_float_100, int>;

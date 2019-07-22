@@ -1,7 +1,11 @@
 
 #pragma once
 #include <boost/multiprecision/cpp_bin_float.hpp>
-
+namespace boost{ namespace multiprecision{
+typedef number<cpp_bin_float<32> > cpp_bin_float_32;
+typedef number<cpp_bin_float<64> > cpp_bin_float_64;
+typedef number<cpp_bin_float<128> > cpp_bin_float_128;
+}}
 #ifdef DLL_EXPORT // Set to true when you build the dll
 #define API __declspec(dllexport)
 #define instantiateHeader(name)
@@ -21,7 +25,10 @@ template class API FEMProject::name<double,int>;
 #define instantiate(name) \
 template class FEMProject::name<float, int>;\
 template class FEMProject::name<double, int>;\
-template class FEMProject::name<boost::multiprecision::cpp_bin_float_100, int>;
+template class FEMProject::name<boost::multiprecision::cpp_bin_float_100, int>;\
+template class FEMProject::name<boost::multiprecision::cpp_bin_float_32, int>;\
+template class FEMProject::name<boost::multiprecision::cpp_bin_float_64, int>;\
+template class FEMProject::name<boost::multiprecision::cpp_bin_float_128, int>;
 #endif
 
 #ifdef DLL_EXPORT // Set to true when you build the dll
@@ -44,7 +51,10 @@ template class API FEMProject::name<double>;
 #define instantiatePrec(name) \
 template class FEMProject::name<float>;\
 template class FEMProject::name<double>;\
-template class FEMProject::name<boost::multiprecision::cpp_bin_float_100>;
+template class FEMProject::name<boost::multiprecision::cpp_bin_float_100>;\
+template class FEMProject::name<boost::multiprecision::cpp_bin_float_32>;\
+template class FEMProject::name<boost::multiprecision::cpp_bin_float_64>;\
+template class FEMProject::name<boost::multiprecision::cpp_bin_float_128>;
 #endif
 
 //#define instantiatePrec(name) 
