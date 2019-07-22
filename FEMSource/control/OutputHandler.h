@@ -93,6 +93,7 @@ namespace FEMProject {
 		}
 
 		int getNumberWidth() { return this->numberWidth + 9; };
+		int getNumberPrecision() { return this->numberWidth; };
 	
 	protected:
 		LogLevel Lfile, Lconsole;		// Outputloglevel

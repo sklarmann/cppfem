@@ -53,7 +53,7 @@ namespace FEMProject {
 					++it;
 				}
 				it = self.cons.begin();
-				short oprec = 64;
+				int oprec = 128;
 				if(typeid(prec) == typeid(float)){
 					oprec = 8;
 				}else if(typeid(prec)==typeid(double)){
