@@ -47,6 +47,8 @@ namespace FEMProject {
 			this->macroCommands["do"] = &Macro::Do<prec, uint>::NewCommand;
 			this->macroCommands["digits"] = &Macro::OutputPrecision<prec, uint>::NewCommand;
 			this->macroCommands["getval"] = &Macro::ValueToUserVar<prec, uint>::NewCommand;
+			this->macroCommands["vartofile"] = &Macro::UserVarToFile<prec, uint>::NewCommand;
+			this->macroCommands["runfile"] = &Macro::RunFile<prec, uint>::NewCommand;
 			//
 			//
 			this->macroCommands["solution"] = &Macro::Solution<prec, uint>::NewCommand;

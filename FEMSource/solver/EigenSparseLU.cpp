@@ -29,8 +29,12 @@ namespace FEMProject {
 	template <typename prec, typename uint>
 	void EigenSparseLU<prec, uint>::solve(Eigen::Matrix<prec, Eigen::Dynamic, 1> &Rhs, Eigen::Matrix<prec,
 		Eigen::Dynamic, 1> &solution) {
-
-		solution = this->solver.solve(Rhs);
+		if (this->solver.info() == Eigen::ComputationInfo::Success) {
+			solution = this->solver.solve(Rhs);
+		}
+		else {
+			solution.setZero();
+		}
 
 	};
 

@@ -5,25 +5,23 @@
 
 #include <control/commands/GenericCommand.h>
 
-#include <preprocessDefine.h>
 
 namespace FEMProject {
 	namespace Commands {
 		namespace Macro {
 			template<typename prec, typename uint>
-			class OpenFiles : public GenericCommand<prec, uint> {
+			class UserVarToFile : public GenericCommand<prec, uint> {
 			public:
-				OpenFiles(stringCommandHandler &cmd);
-				~OpenFiles() {};
+				UserVarToFile(stringCommandHandler &cmd);
+				~UserVarToFile() {};
 				void run(PointerCollection<prec, uint> &ptrCol, FEMProgram<prec, uint> *program);
 				std::string printCommand();
-				static GenericCommand<prec,uint> *NewCommand(stringCommandHandler &cmd) { return new OpenFiles(cmd); };
+				void help();
+				static GenericCommand<prec,uint> *NewCommand(stringCommandHandler &cmd) { return new UserVarToFile(cmd); };
 			private:
-				std::string file;
+				std::string varName, fileName, newFile;
 
 			};
 		}
 	}
 }
-
-instantiateHeader(Commands::Macro::OpenFiles)

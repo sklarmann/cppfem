@@ -31,6 +31,8 @@ namespace FEMProject {
 	prec tanWarp(const prec &arg) { return tan(arg); };
 	template<typename prec>
 	prec sqrtWarp(const prec &arg) { return sqrt(arg); };
+	template<typename prec>
+	prec absWarp(const prec &arg) { return arg < 0 ? -arg : arg; };
 
 
 

@@ -7,6 +7,7 @@
 #include <string>
 #include <windows.h>
 #include <control/HandlingStructs.h>
+#include <algorithm>
 
 namespace FEMProject {
 
@@ -33,7 +34,11 @@ namespace FEMProject {
 
 			std::string filenametemp(filename);
 
-			pos = static_cast<int>(filenametemp.find_last_of('\\'));
+			std::replace(filenametemp.begin(), filenametemp.end(), '\\', '/');
+
+			pos = static_cast<int>(filenametemp.find_last_of('/'));
+
+
 
 			fileinformation[FileHandling::directory] = filenametemp.substr(0, pos + 1);
 			fileinformation[FileHandling::infile] = filenametemp.substr(pos + 1, filenametemp.length() - pos);

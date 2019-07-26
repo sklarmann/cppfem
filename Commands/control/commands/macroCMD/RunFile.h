@@ -11,13 +11,13 @@ namespace FEMProject {
 	namespace Commands {
 		namespace Macro {
 			template<typename prec, typename uint>
-			class OpenFiles : public GenericCommand<prec, uint> {
+			class RunFile : public GenericCommand<prec, uint> {
 			public:
-				OpenFiles(stringCommandHandler &cmd);
-				~OpenFiles() {};
+				RunFile(stringCommandHandler &cmd);
+				~RunFile() {};
 				void run(PointerCollection<prec, uint> &ptrCol, FEMProgram<prec, uint> *program);
 				std::string printCommand();
-				static GenericCommand<prec,uint> *NewCommand(stringCommandHandler &cmd) { return new OpenFiles(cmd); };
+				static GenericCommand<prec,uint> *NewCommand(stringCommandHandler &cmd) { return new RunFile(cmd); };
 			private:
 				std::string file;
 
@@ -26,4 +26,4 @@ namespace FEMProject {
 	}
 }
 
-instantiateHeader(Commands::Macro::OpenFiles)
+instantiateHeader(Commands::Macro::GenericCommand)

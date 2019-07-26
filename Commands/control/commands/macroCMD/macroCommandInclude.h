@@ -17,6 +17,7 @@
 #include <control/commands/macroCMD/PropNames.h>
 #include <control/commands/macroCMD/ReInput.h>
 #include <control/commands/macroCMD/ResetSolution.h>
+#include <control/commands/macroCMD/RunFile.h>
 #include <control/commands/macroCMD/SetDt.h>
 #include <control/commands/macroCMD/SetUpSparseMatrix.h>
 #include <control/commands/macroCMD/Solution.h>
@@ -24,4 +25,5 @@
 #include <control/commands/macroCMD/Tangent.h>
 #include <control/commands/macroCMD/Threads.h>
 #include <control/commands/macroCMD/TimeIncr.h>
+#include <control/commands/macroCMD/UserVarToFile.h>
 #include <control/commands/macroCMD/ValueToUserVar.h>

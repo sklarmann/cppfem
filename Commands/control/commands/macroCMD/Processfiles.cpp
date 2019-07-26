@@ -30,16 +30,16 @@ namespace FEMProject {
 			template<typename prec, typename uint>
 			void Processfiles<prec, uint>::run(PointerCollection<prec, uint> &pointers, FEMProgram<prec, uint> *program) {
 				std::string outfile;
-				//outfile = pointers.getInfoData()->fileNames[FileHandling::directory] + pointers.getInfoData()->fileNames[FileHandling::outfile];
-				outfile = pointers.getInfoData()->fileNames[FileHandling::outfile];
+				outfile = pointers.getInfoData()->fileNames[FileHandling::directory] + pointers.getInfoData()->fileNames[FileHandling::outfile];
+				//outfile = pointers.getInfoData()->fileNames[FileHandling::outfile];
 				pointers.getInfoData()->Log.openLogFile(outfile);
 				pointers.getInfoData()->Log(LogLevel::FullLog, LogLevel::FullLog) << "Output File opened!" << std::endl;
 
 				std::ifstream tempiFile;
 				std::string tempStr;
 				stringCommandHandler Command;
-				//tempiFile.open(pointers.getInfoData()->fileNames[FileHandling::directory] + pointers.getInfoData()->fileNames[FileHandling::infile]);
-				tempiFile.open(pointers.getInfoData()->fileNames[FileHandling::infile]);
+				tempiFile.open(pointers.getInfoData()->fileNames[FileHandling::directory] + pointers.getInfoData()->fileNames[FileHandling::infile]);
+				//tempiFile.open(pointers.getInfoData()->fileNames[FileHandling::infile]);
 
 				std::string comment = "!%";
 
