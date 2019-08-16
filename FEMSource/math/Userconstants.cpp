@@ -111,7 +111,7 @@ namespace FEMProject {
 						try {
 							ss >> retval >> check;
 						}
-						catch (const std::exception &e) {
+						catch (const std::exception) {
 							check = input;
 							isNum = false;
 							//std::cout << e.what();
@@ -318,7 +318,7 @@ namespace FEMProject {
 		try {
 			ss >> retval >> check;
 		}
-		catch (const std::exception &e) {
+		catch (const std::exception) {
 			check = input;
 			//std::cout << e.what();
 		}

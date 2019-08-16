@@ -90,7 +90,6 @@ namespace FEMProject {
 		
 		ElementList<prec, uint> *elemList = pointers.getElementList();
 		uint numberOfElements = elemList->getNumberOfElements();
-		GenericFiniteElement<prec, uint> *elem;
 		vtkSmartPointer<vtkCell> cellToAdd;
 		for (auto i = 0; i < numberOfElements; ++i) {
 			elemList->getElement(i)->getVtkCell(pointers, cellToAdd);
@@ -125,7 +124,6 @@ namespace FEMProject {
 	
 		std::vector<GenericNodes<prec, uint>*> nodes;
 		std::vector<DegreeOfFreedom<prec, uint>*> Dofs;
-		DegreeOfFreedom<prec, uint>* test;
 	
 	
 		prec sol;
@@ -268,7 +266,6 @@ namespace FEMProject {
 					vtkSmartPointer<vtkFloatArray> ArrTemp = sols.find(ArrName.str())->second;
 					std::vector<GenericNodes<prec, uint>*> nodes;
 					std::vector<DegreeOfFreedom<prec, uint>*> Dofs;
-					DegreeOfFreedom<prec, uint>* test;
 					temp->getNodesOfSet(pointers, nodes, id);
 					nodes[k]->getDegreesOfFreedom(pointers, Dofs);
 					for (auto l = 0; l <= 2; ++l) {
@@ -306,12 +303,11 @@ namespace FEMProject {
 						vtkSmartPointer<vtkFloatArray> ArrTemp = eigenVectors.find(ArrName.str())->second;
 						std::vector<GenericNodes<prec, uint>*> nodes;
 						std::vector<DegreeOfFreedom<prec, uint>*> Dofs;
-						DegreeOfFreedom<prec, uint>* test;
 						temp->getNodesOfSet(pointers, nodes, id);
 						nodes[l]->getDegreesOfFreedom(pointers, Dofs);
 						for (auto l = 0; l <= 2; ++l) {
 							prec sol;
-							if (Dofs[l]->getStatus() == dofStatus::active) {
+							if (Dofs[l]->getStatus() != dofStatus::inactive) {
 								sol = pointers.getSolutionState()->getEigenVectorComp(Dofs[l]->getEqId(), j);
 							}
 							else {
@@ -327,7 +323,6 @@ namespace FEMProject {
 		// Adding elements
 		ElementList<prec, uint> *elemList = pointers.getElementList();
 		uint numberOfElements = elemList->getNumberOfElements();
-		GenericFiniteElement<prec, uint> *elem;
 		vtkSmartPointer<vtkCell> cellToAdd;
 		for (auto i = 0; i < numberOfElements; ++i) {
 			elemList->getElement(i)->getVtkCell(pointers, cellToAdd);

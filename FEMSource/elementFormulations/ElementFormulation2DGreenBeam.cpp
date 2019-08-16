@@ -18,6 +18,8 @@
 
 #include <pointercollection/pointercollection.h>
 
+#include <Eigen/Dense>
+
 namespace FEMProject {
 
 	template<typename prec, typename uint>
@@ -68,7 +70,6 @@ namespace FEMProject {
 		vert2 = elem->getVertex(*this->ptrCol, 1);
 		set1 = vert1->getSetMeshId(*this->ptrCol, this->meshIdDisp);
 		set2 = vert2->getSetMeshId(*this->ptrCol, this->meshIdDisp);
-		GenericNodes<prec, uint> *node1, *node2;
 		std::vector<GenericNodes<prec, uint>*> temp, Nodes;
 		eqHandler->getNodes(temp, *set1);
 		Nodes.push_back(temp[0]);
@@ -97,7 +98,11 @@ namespace FEMProject {
 		}
 		length = sqrt(length);
 
-		prec xi, w;
+		
+
+		
+	
+
 		std::vector<prec> gp, weight;
 
 		Eigen::Matrix<prec, 2, Eigen::Dynamic> shapeDeriv;
@@ -137,6 +142,36 @@ namespace FEMProject {
 		stiffness(5, 2) = this->EI / length * (prec)2;
 		stiffness(5, 4) = -this->EI / length / length * (prec)6;
 		stiffness(5, 5) = this->EI / length * (prec)4;
+
+		Eigen::Matrix<prec, 2, 1> svec;
+		svec(0) = coor2[0] - coor1[0];
+		svec(1) = coor2[1] - coor1[1];
+
+		svec = svec / length;
+
+		prec css = svec.transpose()*svec;
+		prec sss = sqrt(1 - css * css);
+
+		svec(0) >= 0 ? css = css : css = -absWarp(css);
+		svec(1) >= 0 ? sss = sss : sss = -absWarp(sss);
+
+		Eigen::Matrix<prec, 6, 6> T;
+		T(0, 0) = css;
+		T(0, 1) = sss;
+		T(1, 0) = -sss;
+		T(1, 1) = css;
+		T(2, 2) = 1;
+
+		T(3, 3) = css;
+		T(3, 4) = sss;
+		T(4, 3) = -sss;
+		T(4, 4) = css;
+		T(5, 5) = 1;
+
+
+
+		stiffness = T.transpose()*stiffness*T;
+		residual = T.transpose()*residual;
 
 
 	}

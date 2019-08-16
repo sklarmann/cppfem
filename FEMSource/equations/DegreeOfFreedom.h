@@ -21,10 +21,17 @@ namespace FEMProject {
 		uint getEqId() { return this->eqid; };
 		dofStatus getStatus() { return this->status; };
 		void print(PointerCollection<prec, uint> &pointers);
+		void linkTo(uint &masterId, prec &factor) { 
+			this->master = masterId; 
+			this->linkFact = factor; };
+		uint getlinkedTo() { return this->master; };
+		prec getLinkFact() { return this->linkFact; };
 
 	private:
+		prec linkFact;
 		uint id;
 		uint eqid;
+		uint master;
 		dofStatus status;
 	};
 

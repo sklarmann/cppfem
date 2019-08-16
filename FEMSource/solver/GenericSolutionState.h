@@ -61,10 +61,16 @@ namespace FEMProject {
 
 		virtual void computeConditionNumber() {};
 
+		prec getEigenValue(uint &number) { return this->eigenValues[number]; };
+
 	protected:
 		void assembleCsrMatrix(
 			Eigen::SparseMatrix<prec, 0, uint> &SpMat,
 			Eigen::Matrix<prec, Eigen::Dynamic, Eigen::Dynamic> &stiffness,
+			std::vector<DegreeOfFreedom<prec, uint>*> &Dofs);
+		void modifyLinked(
+			Eigen::Matrix<prec, Eigen::Dynamic, Eigen::Dynamic> &stiffness,
+			Eigen::Matrix<prec, Eigen::Dynamic, 1> &residual,
 			std::vector<DegreeOfFreedom<prec, uint>*> &Dofs);
 		PropfunctionHandler<prec, uint> *props;
 		PointerCollection<prec, uint> *pointers;

@@ -6,7 +6,7 @@ add_subdirectory(mathCMD)
 
 set(SOURCE ${SOURCE} ${CMAKE_CURRENT_SOURCE_DIR}/GenericCommand.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/InputParser.cpp
-					 ${CMAKE_CURRENT_SOURCE_DIR}/quitCommands.cpp
+					 #${CMAKE_CURRENT_SOURCE_DIR}/quitCommands.cpp
 					 PARENT_SCOPE)
 
 set(HEADERS ${HEADERS} ${CMAKE_CURRENT_SOURCE_DIR}/GenericCommand.h

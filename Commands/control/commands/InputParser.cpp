@@ -79,6 +79,7 @@ namespace FEMProject {
 			this->meshCommands["setbc"] = &Mesh::SetBoundaryConditions<prec, uint>::NewCommand;
 			this->meshCommands["setmaterials"] = &Mesh::SetMaterial<prec, uint>::NewCommand;
 			this->meshCommands["setdofs"] = &Mesh::SetDegreesOfFreedom<prec, uint>::NewCommand;
+			this->meshCommands["linkdofs"] = &Mesh::linkDofs<prec, uint>::NewCommand;
 			//
 			this->meshCommands["inplanebc"] = &Mesh::InplaneBC<prec, uint>::NewCommand;
 			this->meshCommands["inplaneload"] = &Mesh::InplaneLoad<prec, uint>::NewCommand;

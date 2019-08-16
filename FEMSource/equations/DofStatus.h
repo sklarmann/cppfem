@@ -9,7 +9,7 @@
 #define DOFSTATUS_HPP_
 
 namespace FEMProject {
-	enum dofStatus { active, inactive };
+	enum dofStatus { active, inactive, linked };
 }
 
 

@@ -9,7 +9,7 @@
 
 #include <solver/GenericSolver.h>
 #include <Eigen/SparseCore>
-#include<Eigen/SparseCholesky>
+#include <Eigen/SparseCholesky>
 #include <Eigen/OrderingMethods>
 
 namespace FEMProject {

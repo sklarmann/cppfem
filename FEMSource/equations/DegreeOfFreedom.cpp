@@ -33,6 +33,9 @@ namespace FEMProject {
 		else if (this->status == dofStatus::inactive) {
 			Log(LogLevel::FullLog, LogLevel::BasicLog) << "inactive" << std::endl;
 		}
+		else if (this->status == dofStatus::linked) {
+			Log(LogLevel::FullLog, LogLevel::BasicLog) << "linked to Dof " << this->master << std::endl;
+		}
 	}
 
 }

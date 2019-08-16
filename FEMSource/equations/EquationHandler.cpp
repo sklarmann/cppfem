@@ -278,12 +278,21 @@ namespace FEMProject {
 			if (this->degreesOfFreedom[i].getStatus() == dofStatus::active) {
 				this->degreesOfFreedom[i].setEqId(this->activeIds);
 				++this->activeIds;
-			}
-			else {
+				++this->totalIds;
+			} 
+			else if (this->degreesOfFreedom[i].getStatus() == dofStatus::inactive) {
 				this->degreesOfFreedom[i].setEqId(this->inActiveIds);
 				++this->inActiveIds;
+				++this->totalIds;
 			}
-			++this->totalIds;
+		}
+		for (auto i = 0; i < len; ++i) {
+			if (this->degreesOfFreedom[i].getStatus() == dofStatus::linked) {
+				uint masterNode = this->degreesOfFreedom[i].getlinkedTo();
+				uint eqId = this->degreesOfFreedom[masterNode].getEqId();
+				this->degreesOfFreedom[i].setEqId(eqId);
+				++this->totalIds;
+			}
 		}
 	}
 

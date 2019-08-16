@@ -155,10 +155,10 @@ namespace FEMProject {
 		uint vsize = static_cast<uint>(Dofs.size());
 		for (auto i = 0; i < vsize; ++i) {
 			temp = Dofs[i];
-			if (temp->getStatus() == dofStatus::active) {
+			if (temp->getStatus() != dofStatus::inactive) {
 				for (auto j = 0; j<vsize; ++j) {
 					temp2 = Dofs[j];
-					if (temp2->getStatus() == dofStatus::active) {
+					if (temp2->getStatus() != dofStatus::inactive) {
 						bool add = false;
 						uint li =temp->getEqId(), lj=temp2->getEqId();
 
@@ -172,6 +172,22 @@ namespace FEMProject {
 #pragma omp critical (lj)
 							SpMat.coeffRef(li, lj) += stiffness(i, j);
 					}
+				}
+			}
+		}
+	}
+
+	template<typename prec, typename uint>
+	void GenericSolutionState<prec, uint>::modifyLinked(Eigen::Matrix<prec, Eigen::Dynamic, Eigen::Dynamic>& stiffness, Eigen::Matrix<prec, Eigen::Dynamic, 1>& residual, std::vector<DegreeOfFreedom<prec, uint>*>& Dofs)
+	{
+		uint vsize = Dofs.size();
+		for (auto i = 0; i < vsize; ++i) {
+			if (Dofs[i]->getStatus() == dofStatus::linked) {
+				prec fact = Dofs[i]->getLinkFact();
+				residual(i) = residual(i)*fact;
+				for (auto j = 0; j < vsize; ++j) {
+					stiffness(i, j) = stiffness(i, j)*fact;
+					stiffness(j, i) = stiffness(j, i)*fact;
 				}
 			}
 		}

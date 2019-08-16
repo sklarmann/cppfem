@@ -60,7 +60,7 @@ namespace FEMProject {
 			{
 				GeometryData<prec, uint> *geoData = ptrCol.getGeometryData();
 				GenericGeometryElement<prec, uint> *tempElem;
-				uint numedges = vertNums.size() / 2;
+				std::size_t numedges = vertNums.size() / 2;
 				uint edgeNum;
 				auto vertIt = vertNums.begin();
 				

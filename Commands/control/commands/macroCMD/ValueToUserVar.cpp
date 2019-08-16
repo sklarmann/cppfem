@@ -125,7 +125,8 @@ namespace FEMProject {
 					}
 				}
 				else if (this->type == "eigen") {
-
+					uint EigenNumber = static_cast<uint>(pointers.getUserConstants()->process(this->tnum));
+					VarVal = pointers.getSolutionState()->getEigenValue(EigenNumber);
 				}
 				//pointers.getPropLoads()->setDt(pointers, this->dt);
 				VarName << std::setprecision(out->Log.getNumberPrecision()) << "=" << VarVal;

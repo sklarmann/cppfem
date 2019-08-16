@@ -30,6 +30,7 @@
 
 #include <solver/GenericSolver.h>
 
+#include <vector>
 
 #include <Eigen/SparseCore>
 #include <Eigen/Dense>
@@ -89,9 +90,9 @@ namespace FEMProject {
 		Eigen::Triplet<prec> test;
 		test = Eigen::Triplet<prec>(1, 1, 0.0);
 		for (auto i = 0; i < Dofs.size(); ++i) {
-			if (Dofs[i]->getStatus() == dofStatus::active) {
+			if (Dofs[i]->getStatus() != dofStatus::inactive) {
 				for (auto j = 0; j < Dofs.size(); ++j) {
-					if (Dofs[j]->getStatus() == dofStatus::active) {
+					if (Dofs[j]->getStatus() != dofStatus::inactive) {
 						if (this->symmetricSolver) {
 							if (this->upper) {
 								if(Dofs[i]->getEqId()<= Dofs[j]->getEqId()) this->tripletList.push_back(Eigen::Triplet<prec, uint>(Dofs[i]->getEqId(), Dofs[j]->getEqId(), 0.0));
@@ -126,36 +127,36 @@ namespace FEMProject {
 	
 		uint vsize = static_cast<uint>(Dofs.size());
 		//this->assembleCsrMatrix(this->SpMat, stiffness, Dofs);
+		this->modifyLinked(stiffness, residual, Dofs);
 #pragma omp critical
 		for (uint i = 0; i < vsize; ++i) {
-			if (Dofs[i]->getStatus() == dofStatus::active) {
+			if (Dofs[i]->getStatus() != dofStatus::inactive) {
 				for (uint j = 0; j < vsize; ++j) {
-					if (Dofs[j]->getStatus() == dofStatus::active) {
+					if (Dofs[j]->getStatus() != dofStatus::inactive) {
 						if (this->symmetricSolver) {
 							if (this->upper) {
 								if (Dofs[i]->getEqId() <= Dofs[j]->getEqId()) {
-//#pragma omp atomic
-									//this->SpMat.coeffRef(Dofs[i]->getEqId(), Dofs[j]->getEqId()) += stiffness(i, j);
+#pragma omp critical (assembleOne)
+									this->SpMat.coeffRef(Dofs[i]->getEqId(), Dofs[j]->getEqId()) += stiffness(i, j);
 								}
 							}
 							else {
 								if (Dofs[i]->getEqId() >= Dofs[j]->getEqId()) {
-//#pragma omp atomic
-									//this->SpMat.coeffRef(Dofs[i]->getEqId(), Dofs[j]->getEqId()) += stiffness(i, j);
+#pragma omp critical (assembleTwo)
+									this->SpMat.coeffRef(Dofs[i]->getEqId(), Dofs[j]->getEqId()) += stiffness(i, j);
 								}
 							}
 						}
 						else {
-//#pragma omp atomic
+#pragma omp critical (assembleOne)
 							this->SpMat.coeffRef(Dofs[i]->getEqId(), Dofs[j]->getEqId()) += stiffness(i, j);
 						}
 					}
 					else {
 						this->Rhs(Dofs[i]->getEqId()) -= stiffness(i, j) *this->dIncSolution(Dofs[j]->getId());
-						//std::cout << this->dIncSolution(Dofs[j]->getId()) << std::endl;
 					}
 				}
-//#pragma omp atomic
+#pragma omp critical (assembleThree)
 				this->Rhs(Dofs[i]->getEqId()) -= residual(i);
 			}
 		}
@@ -214,7 +215,7 @@ namespace FEMProject {
 		
 		this->pointers->getLoadList()->computeLoads(pointers, ids,load,loadinc);
 		for (auto i = 0; i < ids.size(); ++i) {
-			if (Dofs[ids[i]].getStatus() == dofStatus::active) {
+			if (Dofs[ids[i]].getStatus() != dofStatus::inactive) {
 				this->Rhs(Dofs[ids[i]].getEqId()) += load[i];
 			}
 			else {
@@ -232,9 +233,15 @@ namespace FEMProject {
 		for (auto i = 0; i < DofList->size(); ++i) {
 			uint eqid, id;
 			id = (*DofList)[i].getId();
-			if ((*DofList)[i].getStatus() == dofStatus::active) {
+			if ((*DofList)[i].getStatus() != dofStatus::inactive) {
 				eqid = (*DofList)[i].getEqId();
-				this->IncSolution(id) = this->eqSol(eqid);
+				if ((*DofList)[i].getStatus() == dofStatus::linked) {
+					this->IncSolution(id) = this->eqSol(eqid)*(*DofList)[i].getLinkFact();
+				}
+				else {
+					this->IncSolution(id) = this->eqSol(eqid);
+				}
+				
 			}
 			else {
 				this->IncSolution(id) = this->dIncSolution(id);
@@ -246,13 +253,17 @@ namespace FEMProject {
 	template<typename prec, typename uint>
 	void StaticSolutionState<prec, uint>::computeEigenValues(
 		uint number,
-		uint addNumber = 0,
-		bool max = false,
-		prec tol = 1e-10,
-		prec shift = 1e-10) {
+		uint addNumber /* = 0 */ ,
+		bool max /* = false */,
+		prec tol /* = 1e-10 */,
+		prec shift /* = 1e-10 */) {
 #ifdef USE_SPECTRA
 		OutputHandler &Log = this->pointers->getInfoData()->Log;
-		 
+		
+		this->eigenValues.clear();
+		this->eigenVectors.clear();
+
+
 		if (addNumber > this->SpMat.cols()) addNumber = static_cast<uint>(this->SpMat.cols());
 
 		Eigen::Matrix<prec, 1, Eigen::Dynamic> evalues;
@@ -411,9 +422,9 @@ namespace FEMProject {
 	template<typename prec, typename uint>
 	void StaticSolutionState<prec, uint>::computeConditionNumber()
 	{
-
+#ifdef USE_SPECTRA
 		OutputHandler &Log = this->pointers->getInfoData()->Log;
-		prec tol = 1e-12;
+		prec tol = static_cast<prec>(1e-12);
 		uint number = 2;
 		uint addNumber = 10;
 		if (addNumber > this->SpMat.cols()) addNumber = static_cast<uint>(this->SpMat.cols());
@@ -487,6 +498,7 @@ namespace FEMProject {
 		//
 		//	std::cout << "Condition Number: " << maxEval(0) / minEval(0) << std::endl;
 		//}
+#endif
 	}
 
 } /* namespace FEMProject */
