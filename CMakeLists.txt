@@ -40,6 +40,8 @@ set(Eigen3_DIR "${CMAKE_CURRENT_SOURCE_DIR}/eigen3" "${CMAKE_CURRENT_SOURCE_DIR}
 #
 # Find and set up Intel MKL Variables
 if(WIN32)
+	set(INTEL_ROOT $ENV{INTELROOT} CACHE PATH "Intel Compiler Windows Folder")
+	
 	set(MKL_ROOT $ENV{MKLROOT} CACHE PATH "MKL Folder")
 	FIND_PATH(MKL_INCLUDE_DIR mkl.h
 		PATHS ${MKL_ROOT}/include)

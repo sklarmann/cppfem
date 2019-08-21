@@ -39,7 +39,12 @@ include(cmake.inc)
 if(WIN32)
   include_directories($ENV{MKLROOT}/include)
   add_definitions(/DEIGEN_USE_MKL_ALL)
-  set(LIBS $ENV{MKLROOT}/lib/intel64_win/mkl_intel_lp64.lib $ENV{MKLROOT}/lib/intel64_win/mkl_intel_thread.lib $ENV{MKLROOT}/lib/intel64_win/mkl_core.lib "C:/Program Files (x86)/IntelSWTools/compilers_and_libraries_2018.5.274/windows/compiler/lib/intel64_win/libiomp5md.lib")
+  set(LIBS 
+     $ENV{MKLROOT}/lib/intel64_win/mkl_intel_lp64.lib 
+	 $ENV{MKLROOT}/lib/intel64_win/mkl_intel_thread.lib 
+	 $ENV{MKLROOT}/lib/intel64_win/mkl_core.lib 
+	 ${INTEL_ROOT}/compiler/lib/intel64/libiomp5md.lib)
+#	 "C:/Program Files (x86)/IntelSWTools/compilers_and_libraries_2018.5.274/windows/compiler/lib/intel64_win/libiomp5md.lib")
 else()
 	include_directories(${MKL_INCLUDE_DIR})
 	set(LIBS ${MKL_LIB_DIR}/libmkl_intel_lp64.so ${MKL_LIB_DIR}/libmkl_gnu_thread.so ${MKL_LIB_DIR}/libmkl_core.so "/opt/intel/compilers_and_libraries_2019.0.117/linux/compiler/lib/intel64/libiomp5.so")
