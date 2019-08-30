@@ -385,6 +385,22 @@ namespace FEMProject {
 	}
 
 	template<typename prec, typename uint>
+	Eigen::Matrix<prec, Eigen::Dynamic, 1> StaticSolutionState<prec, uint>::getSolution(std::vector<DegreeOfFreedom<prec, uint>*> Dofs)
+	{
+		Eigen::Matrix<prec, Eigen::Dynamic, 1> RetVec;
+
+		uint Size = Dofs.size();
+		if (Size > 0) {
+			RetVec.resize(Size);
+			for (auto i = 0; i < Size; ++i) {
+				RetVec(i) = this->Solution(Dofs[i]->getId());
+			}
+		}
+
+		return RetVec;
+	}
+
+	template<typename prec, typename uint>
 	void StaticSolutionState<prec, uint>::resetSolution()
 	{
 		this->Solution.setZero();

@@ -10,9 +10,10 @@
 #include <materials/Material.h>
 
 #include <materials/MaterialFormulation1.h>
-#include <elementFormulations/ElementFormulation201.h>
 #include <elementFormulations/ElementFormulation2DGreenBeam.h>
+#include <elementFormulations/FiniteRotation2DTimoshenko.h>
 
+#include <elementFormulations/ElementFormulation201.h>
 
 
 namespace FEMProject {
@@ -37,9 +38,15 @@ namespace FEMProject {
 		if (this->elementFormulation == 0) {
 			switch (elementFormulation) {
 
+			// Linear 2D Bernoulli Beam
 			case 101:
 				this->elementFormulation = new ElementFormulation2DGreenBeam<prec, uint>(this->ptrCol);
 				break;
+			// Finite Rotation 2D Timoshenko Beam
+			case 102:
+				this->elementFormulation = new FiniteRotation2DTimoshenko<prec, uint>(this->ptrCol);
+				break;
+			// 2D Shell Element
 			case 201:
 				this->elementFormulation = new ElementFormulation201<prec, uint>(this->ptrCol);
 				break;

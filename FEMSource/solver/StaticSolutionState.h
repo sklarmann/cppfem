@@ -45,6 +45,8 @@ namespace FEMProject {
 			prec shift = 1e-10);
 
 		prec getSolution(const uint &globalId);
+		virtual Eigen::Matrix<prec, Eigen::Dynamic, 1> getSolution(
+			std::vector<DegreeOfFreedom<prec, uint>*> Dofs);
 
 		void resetSolution();
 

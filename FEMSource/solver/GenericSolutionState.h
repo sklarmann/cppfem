@@ -13,6 +13,10 @@
 
 #include <Eigen/SparseCore>
 
+#include <Eigen/Dense>
+
+
+
 namespace FEMProject {
 
 	template<typename prec, typename uint>
@@ -48,6 +52,10 @@ namespace FEMProject {
 		PropfunctionHandler<prec, uint> *getProps() { return this->props; };
 
 		virtual prec getSolution(const uint &globalId){ return 0; };
+		virtual Eigen::Matrix<prec, Eigen::Dynamic, 1> getSolution(
+			std::vector<DegreeOfFreedom<prec, uint>*> Dofs) {
+			return Eigen::Matrix<prec, Eigen::Dynamic, 1>(0);
+		};
 
 		virtual void resetSolution() {
 			this->eigenVectors.clear();
@@ -62,6 +70,7 @@ namespace FEMProject {
 		virtual void computeConditionNumber() {};
 
 		prec getEigenValue(uint &number) { return this->eigenValues[number]; };
+
 
 	protected:
 		void assembleCsrMatrix(
