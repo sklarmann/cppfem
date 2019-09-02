@@ -127,6 +127,12 @@ namespace FEMProject {
 	}
 
 	template<typename prec, typename uint>
+	prec PropfunctionHandler<prec, uint>::getTime(PointerCollection<prec, uint>& pointers)
+	{
+		return pointers.getUserConstants()->process(this->timename);
+	}
+
+	template<typename prec, typename uint>
 	void PropfunctionHandler<prec, uint>::update() {
 		Timefunction<prec, uint> *tempfun;
 		std::size_t num = this->timefunctions.size();

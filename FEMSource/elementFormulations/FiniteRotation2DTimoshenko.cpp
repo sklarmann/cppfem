@@ -226,6 +226,8 @@ namespace FEMProject {
 			stiffness += (Bmat.transpose() * mat*Bmat+GN+GQ+GM) * length / (prec)2.0 * weight[i];
 			
 		}
+		stiffness = T.transpose()*stiffness*T;
+		residual = T.transpose()*residual;
 
 
 
@@ -267,10 +269,7 @@ namespace FEMProject {
 		//
 		//
 		//
-		//stiffness = T.transpose()*stiffness*T;
-		//residual = T.transpose()*residual;
-		//
-		//residual = stiffness * disp;
+		
 
 	}
 } // End Namespace

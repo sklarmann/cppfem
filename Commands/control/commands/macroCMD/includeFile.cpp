@@ -1,7 +1,6 @@
 
 
 #include <preprocessDefine.h>
-#include <globals.h>
 
 #include <control/commands/macroCMD/includeFile.h>
 

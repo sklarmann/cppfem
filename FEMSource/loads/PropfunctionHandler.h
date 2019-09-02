@@ -32,6 +32,7 @@ namespace FEMProject {
 		void update();
 		prec getPropValue(PointerCollection<prec, uint> &pointers, uint propNum);
 		prec getPropValueIncr(PointerCollection<prec, uint> &pointers, uint &propNum);
+		prec getTime(PointerCollection<prec,uint> &pointers);
 	private:
 		std::vector<Timefunction<prec,uint>> timefunctions;
 		std::string timename, dtname;

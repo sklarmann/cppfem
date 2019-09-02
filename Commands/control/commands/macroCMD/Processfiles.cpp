@@ -1,6 +1,5 @@
 
 #include <preprocessDefine.h>
-#include <globals.h>
 
 #include <control/commands/macroCMD/Processfiles.h>
 

@@ -37,7 +37,7 @@ namespace FEMProject {
         prec refResidual;uint maxIt;
         
         if(this->refResStr.empty()){
-          refResidual = 1e-12;
+          refResidual = static_cast<prec>(1e-12);
         } else {
           refResidual = pointers.getUserConstants()->process(this->refResStr);
         }

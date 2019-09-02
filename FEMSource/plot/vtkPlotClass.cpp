@@ -21,6 +21,7 @@
 #include <geometry/GenericGeometryElement.h>
 
 #include <pointercollection/pointercollection.h>
+#include <loads/PropfunctionHandler.h>
 
 #include <solver/GenericSolutionState.h>
 
@@ -54,6 +55,7 @@
 #include <vtkXMLMultiBlockDataWriter.h>
 
 
+#include <regex>
 
 namespace FEMProject {
 
@@ -69,6 +71,7 @@ namespace FEMProject {
 		this->renderWindow = vtkSmartPointer<vtkRenderWindow>::New();
 		this->scalarBar = vtkSmartPointer<vtkScalarBarActor>::New();
 		this->hueLut = vtkSmartPointer<vtkLookupTable>::New();
+		this->step = 0;
 	}
 
 	template<typename prec, typename uint>
@@ -194,15 +197,24 @@ namespace FEMProject {
 			vtkSmartPointer<vtkMultiBlockDataSet>::New();
 		
 
-		std::string outputFile;
+		std::string outputFile,pvdFile,tempFileName;
 		outputFile = infos->fileNames[FileHandling::directory];
-		outputFile += "parvout\\";
-		outputFile += infos->fileNames[FileHandling::infile];
-		std::size_t pos = outputFile.find(".txt");
+		pvdFile = outputFile + "parvout/";
+		outputFile += "parvout/model/";
+		tempFileName = infos->fileNames[FileHandling::infile];
+		std::size_t pos = tempFileName.find(".txt");
 		if (pos != std::string::npos) {
-			outputFile = outputFile.substr(0, pos);
+			tempFileName = tempFileName.substr(0, pos);
 		}
-		outputFile += ".vtm";
+		outputFile += tempFileName;
+		pvdFile += tempFileName;
+		std::stringstream tempStr;
+		tempStr << this->step;
+		++this->step;
+		outputFile += tempStr.str() + ".vtm";
+		pvdFile += ".pvd";
+
+		
 		vtkSmartPointer<vtkXMLUnstructuredGridWriter> writer =
 			vtkSmartPointer<vtkXMLUnstructuredGridWriter>::New();
 
@@ -339,6 +351,83 @@ namespace FEMProject {
 
 		pwriter->Write();
 
+		std::vector<std::string> Files;
+		std::vector<prec> times;
+		this->pvdFileReader(pvdFile, Files, times);
+		Files.push_back(outputFile);
+		times.push_back(pointers.getPropLoads()->getTime(pointers));
+		this->pvdFileWriter(pvdFile, Files, times);
+
+	}
+
+	template<typename prec, typename uint>
+	void vtkPlotInterface<prec, uint>::pvdFileReader(std::string &pvdFile,std::vector<std::string> &FNames, std::vector<prec> &timesteps)
+	{
+		FNames.clear(); timesteps.clear();
+
+		std::ifstream file(pvdFile);
+		if (file.good()) {
+			//file.open(fileName.str());
+
+			std::vector<std::string> fcon;
+			std::string line;
+
+			while (std::getline(file, line)) {
+				fcon.push_back(line);
+			}
+
+			int start = 3;
+			int end = static_cast<int>(fcon.size()) - 3;
+
+			std::regex time("timestep=\"([^\"]*)\"");
+			std::regex fname("file=\"([^\"]*)\"");
+			std::smatch st, sf;
+			while (start < end)
+			{
+				line = fcon[start];
+				if (std::regex_search(line, st, time)) {
+					double time = std::stod(st[1]);
+					line = fcon[start + 1];
+					std::regex_search(line, sf, fname);
+					timesteps.push_back(time);
+					FNames.push_back(sf[1]);
+				}
+
+				start += 2;
+			}
+
+
+
+		}
+		file.close();
+
+	}
+
+	template<typename prec, typename uint>
+	void vtkPlotInterface<prec, uint>::pvdFileWriter(std::string &pvdFile,std::vector<std::string> &FNames, std::vector<prec> &timesteps)
+	{
+		std::ofstream file;
+		file.open(pvdFile);
+
+		std::string space;
+		space = "  ";
+
+		file << "<?xml version =\"1.0\"?>\n"
+			<< "<VTKFile type=\"Collection\" version=\"0.1\">\n";
+
+		file << space << "<Collection>\n";
+		space = "    ";
+
+		for (auto i = 0; i < FNames.size();++i) {
+			file << space << "<DataSet timestep=\"" << timesteps[i] << "\" group=\"\" part=\"\"\n"
+				<< space << "file=\"" << FNames[i] << "\"/>\n";
+		}
+
+
+		space = "  ";
+		file << space << "</Collection>\n</VTKFile>" << std::endl;
+
+		file.close();
 	}
 
 

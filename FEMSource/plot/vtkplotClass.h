@@ -40,6 +40,9 @@ namespace FEMProject {
 		void toFile(PointerCollection<prec, uint> &pointers);
 
 	private:
+		void pvdFileReader(std::string &pvdFile,std::vector<std::string> &FNames, std::vector<prec> &timesteps);
+		void pvdFileWriter(std::string &pvdFile,std::vector<std::string> &FNames, std::vector<prec> &timesteps);
+
 		vtkSmartPointer<vtkPoints> points;
 		vtkSmartPointer<vtkCellArray> cells;
 		vtkSmartPointer<vtkUnstructuredGrid> unstructuredGrid;
@@ -49,6 +52,8 @@ namespace FEMProject {
 		vtkSmartPointer<vtkRenderWindow> renderWindow;
 		vtkSmartPointer<vtkScalarBarActor> scalarBar;
 		vtkSmartPointer<vtkLookupTable> hueLut;
+		uint step;
+		std::vector<prec> timesteps;
 	};
 
 
