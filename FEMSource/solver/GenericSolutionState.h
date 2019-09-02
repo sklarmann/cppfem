@@ -34,8 +34,10 @@ namespace FEMProject {
 			, std::vector<DegreeOfFreedom<prec, uint>*> &Dofs);
 
 		virtual void computeLoads(PointerCollection<prec, uint> &pointers) {};
+        virtual void assembleSystem(){};
 		virtual void factorize();
 		virtual void solve();
+        virtual prec residual(){return 0;};
 		virtual void setEquationZero();
 		virtual void updateSolution() {};
 		virtual void computeEigenValues(

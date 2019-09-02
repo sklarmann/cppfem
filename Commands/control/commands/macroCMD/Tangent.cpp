@@ -33,30 +33,12 @@ namespace FEMProject {
 			template<typename prec, typename uint>
 			void Tangent<prec, uint>::run(PointerCollection<prec, uint> &pointers, FEMProgram<prec, uint> *program) {
 
-				uint numberOfElements;
-				ElementList<prec, uint> *elemList = pointers.getElementList();
-				numberOfElements = elemList->getNumberOfElements();
-				GenericFiniteElement<prec, uint> *elem;
-				pointers.getSolutionState()->setEquationZero();
-
-				Eigen::Matrix<prec, Eigen::Dynamic, Eigen::Dynamic> stiffness;
-				Eigen::Matrix<prec, Eigen::Dynamic, 1> residual;
-				std::vector<DegreeOfFreedom<prec, uint>*> Dofs;
-
 				Timer<sec> testtimer;
 
 				testtimer.start();
-				GenericSolutionState<prec, uint> *solutionstate = pointers.getSolutionState();
-				solutionstate->computeLoads(pointers);
-#pragma omp parallel for private(elem,stiffness,residual, Dofs) schedule(dynamic)
-				for (uint i = 0; i < numberOfElements; ++i) {
-					Dofs.clear();
-					elem = elemList->getElement(i);
-					elem->GenericSetTangentResidual(stiffness, residual, Dofs);
-					solutionstate->insertStiffnessResidual(stiffness, residual, Dofs);
-					//		elementLibrary(*elem, ControlOptions::BuildStiffnessResidual);
-				}
+                pointers.getSolutionState()->assembleSystem();
 				testtimer.stop();
+                
 				std::cout << "Assembly of System took: " << testtimer << std::endl;
 				testtimer.start();
 				pointers.getSolutionState()->factorize();

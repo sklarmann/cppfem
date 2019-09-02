@@ -9,7 +9,7 @@ project (CPPFEM)
 set(USE_CATALYST ON CACHE BOOL "Link the simulator with Catalyst and enable postprocessing")
 #
 if(USE_CATALYST)
-	find_package(Paraview REQUIRED)
+	find_package(ParaView REQUIRED)
   	include(${PARAVIEW_USE_FILE})
 	add_definitions(/DUSE_VTK)
 # 	vtk_module_config(__PV_VTK

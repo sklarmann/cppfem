@@ -130,7 +130,8 @@ namespace FEMProject {
 				}
 				//pointers.getPropLoads()->setDt(pointers, this->dt);
 				VarName << std::setprecision(out->Log.getNumberPrecision()) << "=" << VarVal;
-				pointers.getUserConstants()->process(VarName.str());
+                std::string temp = VarName.str();
+				pointers.getUserConstants()->process(temp);
 
 			}
 		}

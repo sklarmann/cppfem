@@ -1,7 +1,7 @@
 
 #include <preprocessDefine.h>
 
-#include <control/commands/plotCMD/Paraview.h>
+#include <control/commands/plotCMD/paraview.h>
 
 #include <pointercollection/pointercollection.h>
 #include <control/stringCommandHandler.h>

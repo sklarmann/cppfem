@@ -49,6 +49,7 @@ namespace FEMProject {
 			this->macroCommands["getval"] = &Macro::ValueToUserVar<prec, uint>::NewCommand;
 			this->macroCommands["vartofile"] = &Macro::UserVarToFile<prec, uint>::NewCommand;
 			this->macroCommands["runfile"] = &Macro::RunFile<prec, uint>::NewCommand;
+			this->macroCommands["input"] = &Macro::includeFile<prec, uint>::NewCommand;
 			//
 			//
 			this->macroCommands["solution"] = &Macro::Solution<prec, uint>::NewCommand;
@@ -57,6 +58,7 @@ namespace FEMProject {
 			//
 			this->macroCommands["condition"] = &Macro::ComputeConditionNumber<prec, uint>::NewCommand;
 			this->macroCommands["eigenval"] = &Macro::eigenValues<prec, uint>::NewCommand;
+			this->macroCommands["newton"] = &Macro::Newton<prec, uint>::NewCommand;
 			this->macroCommands["tangent"] = &Macro::Tangent<prec, uint>::NewCommand;
 			this->macroCommands["resetsolution"] = &Macro::ResetSolution<prec, uint>::NewCommand;
 			//

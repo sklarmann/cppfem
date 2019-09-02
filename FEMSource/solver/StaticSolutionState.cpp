@@ -19,6 +19,8 @@
 #include <pointercollection/pointercollection.h>
 #include <control/HandlingStructs.h>
 
+#include <finiteElements/ElementList.h>
+
 #include <fstream>
 
 #include <equations/DofStatus.h>
@@ -223,7 +225,37 @@ namespace FEMProject {
 			}
 		}
 	}
+    template<typename prec, typename uint>
+    void StaticSolutionState<prec,uint>::assembleSystem(){
+        uint numberOfElements;
+		ElementList<prec, uint> *elemList = this->pointers->getElementList();
+		numberOfElements = elemList->getNumberOfElements();
+		GenericFiniteElement<prec, uint> *elem;
+		this->setEquationZero();
 
+		Eigen::Matrix<prec, Eigen::Dynamic, Eigen::Dynamic> stiffness;
+		Eigen::Matrix<prec, Eigen::Dynamic, 1> residual;
+		std::vector<DegreeOfFreedom<prec, uint>*> Dofs;
+		
+		this->computeLoads(*(this->pointers));
+        
+#pragma omp parallel for private(elem,stiffness,residual, Dofs) schedule(dynamic)
+        for (uint i = 0; i < numberOfElements; ++i) {
+			Dofs.clear();
+			elem = elemList->getElement(i);
+			elem->GenericSetTangentResidual(stiffness, residual, Dofs);
+			this->insertStiffnessResidual(stiffness, residual, Dofs);
+					//		elementLibrary(*elem, ControlOptions::BuildStiffnessResidual);
+        }/**
+				testtimer.stop();
+				std::cout << "Assembly of System took: " << testtimer << std::endl;
+				testtimer.start();
+				pointers.getSolutionState()->factorize();
+				testtimer.stop();
+				std::cout << "Factorization took: " << testtimer << std::endl;
+				pointers.getSolutionState()->solve();
+				pointers.getSolutionState()->updateSolution();**/
+    }
 
 	template<typename prec, typename uint>
 	void StaticSolutionState<prec, uint>::updateSolution() {
@@ -422,7 +454,7 @@ namespace FEMProject {
 		myfile << std::setprecision(20);
 		myfile << std::scientific;
 		for (int k = 0; k < this->SpMat.outerSize(); ++k)
-			for (Eigen::SparseMatrix<prec>::InnerIterator it(this->SpMat, k); it; ++it)
+			for (typename Eigen::SparseMatrix<prec>::InnerIterator it(this->SpMat, k); it; ++it)
 			{
 				myfile << it.row()+1 << " " << it.col()+1
 					<< " " << it.value() << std::endl;

@@ -52,8 +52,16 @@ namespace FEMProject {
 				#else
 				  std::cout << "Please input filename with path:" << std::endl;
 					std::string filename;
-					std::getline(std::cin,filename);
-					std::size_t pos = filename.find_last_of('/');
+                    char ffilename[1024];
+                    FILE *f = popen("zenity --file-selection", "r");
+                    fgets(ffilename, 1024, f);
+                    filename = ffilename;
+                    std::size_t tpos = filename.find_last_not_of(" \t");
+                    filename = filename.substr(0,tpos);
+                    int pos = static_cast<int>(filename.find_last_of('/'));
+                    pointers.getInfoData()->fileNames[FileHandling::directory] = filename.substr(0, pos + 1);
+                    pointers.getInfoData()->fileNames[FileHandling::infile] = filename.substr(pos + 1, filename.length() - pos);
+                    pointers.getInfoData()->fileNames[FileHandling::outfile]= pointers.getInfoData()->fileNames[FileHandling::infile] + ".log";
 				#endif
 				pointers.getInfoData()->Log(BasicLog, BasicLog) << std::setw(30) << std::left << "Current Directory: "
 					<< std::setw(70) << std::right << pointers.getInfoData()->fileNames[FileHandling::directory] << std::endl

@@ -1,6 +1,7 @@
 
 #pragma once
 #include <boost/multiprecision/cpp_bin_float.hpp>
+#include <string>
 namespace boost{ namespace multiprecision{
 typedef number<cpp_bin_float<32> > cpp_bin_float_32;
 typedef number<cpp_bin_float<64> > cpp_bin_float_64;
@@ -59,3 +60,5 @@ template class FEMProject::name<boost::multiprecision::cpp_bin_float_128>;
 
 //#define instantiatePrec(name) 
 //template class FEMProject::name<double>; 
+
+

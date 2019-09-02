@@ -30,6 +30,7 @@
 
 #include <control/commands/InputParser.hpp>
 
+std::string commentSymbols = "!%";
 
 namespace FEMProject {
 

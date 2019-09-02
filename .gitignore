@@ -2,3 +2,4 @@ build/*
 eigen3/*
 spectra-master/*
 spectra-master2/*
+*.kdev4

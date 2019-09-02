@@ -209,7 +209,7 @@ namespace FEMProject {
 					prec b = -shape(j)*cos(beta)*bcx*shapeDeriv(k) - shapeDeriv(j)*sin(beta)*shapeDeriv(k);
 					prec c = -shapeDeriv(j)*sin(beta)*bcx*shape(k) + shapeDeriv(j)*cos(beta)*shapeDeriv(k);
 					prec d = -shapeDeriv(j)*cos(beta)*bcx*shape(k) - shapeDeriv(j)*sin(beta)*shapeDeriv(k);
-					prec e = -shape(j)*alpha2*bcx*shape(k) + shape(j)*alpha1*shapeDeriv(k) - shapeDeriv(j)*alpha1*shape(k);
+					prec e = -shape(j)*alpha2*bcx*shape(k) + shape(j)*alpha1*shapeDeriv(k) + shapeDeriv(j)*alpha1*shape(k);
 					GM(j * 3, k * 3 + 2) = c;
 					GM(j * 3 + 1, k * 3 + 2) = d;
 					GM(j * 3 + 2, k * 3 + 2) = e;

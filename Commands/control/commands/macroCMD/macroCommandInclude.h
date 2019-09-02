@@ -5,6 +5,8 @@
 #include <control/commands/macroCMD/ComputeEigenValues.h>
 #include <control/commands/macroCMD/ComputeConditionNumber.h>
 #include <control/commands/macroCMD/Do.h>
+#include <control/commands/macroCMD/includeFile.h>
+#include <control/commands/macroCMD/Newton.h>
 #include <control/commands/macroCMD/OpenFiles.h>
 #include <control/commands/macroCMD/Output.h>
 #include <control/commands/macroCMD/OutputPrecision.h>
