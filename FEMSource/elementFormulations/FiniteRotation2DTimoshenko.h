@@ -26,9 +26,13 @@ namespace FEMProject {
 			, Eigen::Matrix<prec, Eigen::Dynamic, Eigen::Dynamic> &stiffness
 			, Eigen::Matrix<prec, Eigen::Dynamic, 1> &residual
 			, std::vector<DegreeOfFreedom<prec, uint>*> &Dofs);
+		void setMass(GenericFiniteElement<prec, uint> *elem
+			, Eigen::Matrix<prec, Eigen::Dynamic, Eigen::Dynamic> &stiffness
+			, Eigen::Matrix<prec, Eigen::Dynamic, 1> &residual
+			, std::vector<DegreeOfFreedom<prec, uint>*> &Dofs);
 	private:
 		uint meshIdDisp, intOrderDisp;
-		prec EA, EI, GA;
+		prec EA, EI, GA, rhoA;
 
 
 	};

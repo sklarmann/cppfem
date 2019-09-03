@@ -22,7 +22,7 @@ namespace FEMProject {
 	template<typename prec, typename uint>
 	class GenericSolutionState {
 	public:
-		GenericSolutionState(PointerCollection<prec, uint> *pointers);
+		GenericSolutionState(PointerCollection<prec, uint> *pointers, std::map<std::string,prec> &parameter);
 		virtual ~GenericSolutionState();
 
 		virtual void setValues(std::map<std::string, prec> &values) {};

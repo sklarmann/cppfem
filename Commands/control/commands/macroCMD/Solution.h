@@ -5,6 +5,8 @@
 
 #include <control/commands/GenericCommand.h>
 
+#include <map>
+
 
 namespace FEMProject {
 	namespace Commands {
@@ -19,6 +21,7 @@ namespace FEMProject {
 				static GenericCommand<prec,uint> *NewCommand(stringCommandHandler &cmd) { return new Solution(cmd); };
 			private:
 				std::string name;
+				std::map<std::string, std::string> params;
 
 			};
 		}

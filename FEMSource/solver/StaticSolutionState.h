@@ -21,7 +21,7 @@ namespace FEMProject {
 	template<typename prec, typename uint>
 	class StaticSolutionState : public GenericSolutionState<prec,uint> {
 	public:
-		StaticSolutionState(PointerCollection<prec, uint> *pointers);
+		StaticSolutionState(PointerCollection<prec, uint> *pointers, std::map<std::string, prec> &parameter);
 		~StaticSolutionState();
 		void setInitialValues(const uint &numberOfEquations, const uint &numberOfActiveEquations);
 

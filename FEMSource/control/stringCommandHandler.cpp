@@ -234,5 +234,23 @@ namespace FEMProject {
 	
 	}
 
+	std::pair<std::string, std::string> stringCommandHandler::getNextPair()
+	{
+		std::string next;
+		next = this->getStringTillDelim();
+		std::size_t pos;
+		pos = next.find_first_of("=");
+		std::string left, right;
+		if (pos != std::string::npos) {
+			left  = next.substr(0, pos);
+			right = next.substr(pos + 1, next.size() - pos - 1);
+		}
+		stringOperations::removeWhitespaces(left);
+		stringOperations::removeWhitespaces(right);
+		std::pair<std::string, std::string> ret(left, right);
+
+		return ret;
+	}
+
 
 } /* namespace FEMProject */

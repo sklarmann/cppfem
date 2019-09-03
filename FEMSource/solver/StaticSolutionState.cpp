@@ -60,7 +60,7 @@
 namespace FEMProject {
 
 	template<typename prec,typename uint>
-	StaticSolutionState<prec,uint>::StaticSolutionState(PointerCollection<prec, uint> *pointers) : GenericSolutionState<prec, uint>(pointers) {
+	StaticSolutionState<prec,uint>::StaticSolutionState(PointerCollection<prec, uint> *pointers, std::map<std::string, prec> &parameter) : GenericSolutionState<prec, uint>(pointers, parameter) {
 		
 		
 	}

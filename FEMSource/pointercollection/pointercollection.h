@@ -29,7 +29,7 @@ namespace FEMProject {
 
 		void setSolutionState(GenericSolutionState<prec, uint> *solutionStateIn) { this->solutionState = solutionStateIn; this->solutionState->setProps(); };
 		GenericSolutionState<prec, uint> *getSolutionState() { return this->solutionState; };
-		void newSolutionState();
+		//void newSolutionState();
 
 		void setEquationHandler(EquationHandler<prec, uint> *eqHandler) { this->eqHandler = eqHandler; };
 		EquationHandler<prec, uint> *getEquationHandler() { return this->eqHandler; };

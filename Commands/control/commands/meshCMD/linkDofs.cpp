@@ -40,6 +40,14 @@ namespace FEMProject {
 			template<typename prec, typename uint>
 			std::string linkDofs<prec, uint>::printCommand() {
 				std::string ret;
+				std::cout << "Usage:\n" <<
+					"linkdofs(matype=type;matnum=number;manodeset=number;manode=number;madof=number\n" <<
+					"sltype = type; sltnum = number; slnodeset = number; slnode = number; sldof = number)\n\n" <<
+					"matype and satype: Type of geometry element (vertex,line,face,volume) of master (ma) and slave(sl)\n" <<
+					"matnum and sltnum: Number of the geometric element for master(ma) and slave(sa)\n" <<
+					"manodeset and slnode: The specific nodeset\n" <<
+					"manode and slnode: The specific node\n" <<
+					"madof and sldof: The specific degree of freedom to link\n" << std::endl;
 				return ret;
 			}
 

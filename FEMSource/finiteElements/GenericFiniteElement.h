@@ -49,7 +49,11 @@ namespace FEMProject {
 		void GenericSetTangentResidual(
 			Eigen::Matrix<prec, Eigen::Dynamic, Eigen::Dynamic> &stiffness
 			, Eigen::Matrix<prec, Eigen::Dynamic, 1> &residual
-			, std::vector<DegreeOfFreedom<prec,uint>*> &Dofs);
+			, std::vector<DegreeOfFreedom<prec, uint>*> &Dofs);
+		void GenericSetMass(
+			Eigen::Matrix<prec, Eigen::Dynamic, Eigen::Dynamic> &stiffness
+			, Eigen::Matrix<prec, Eigen::Dynamic, 1> &residual
+			, std::vector<DegreeOfFreedom<prec, uint>*> &Dofs);
 	
 		//TODO throw exception
 		virtual void setVerts(std::vector<uint> &vertsIn){};

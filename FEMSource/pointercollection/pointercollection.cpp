@@ -130,17 +130,17 @@ namespace FEMProject {
 
 	}
 
-	template<typename prec, typename uint>
-	void PointerCollection<prec, uint>::newSolutionState() {
-		if (this->solutionState == 0) {
-			this->solutionState = new StaticSolutionState<prec, uint>(this);
-			this->solutionState->setProps();
-		}
-		else {
-
-		}
-
-	}
+	//template<typename prec, typename uint>
+	//void PointerCollection<prec, uint>::newSolutionState() {
+	//	if (this->solutionState == 0) {
+	//		this->solutionState = new StaticSolutionState<prec, uint>(this);
+	//		this->solutionState->setProps();
+	//	}
+	//	else {
+	//
+	//	}
+	//
+	//}
 
 	
 	//template<typename prec, typename uint>

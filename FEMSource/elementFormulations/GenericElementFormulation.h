@@ -32,6 +32,10 @@ namespace FEMProject {
 			, Eigen::Matrix<prec, Eigen::Dynamic, Eigen::Dynamic> &stiffness
 			, Eigen::Matrix<prec, Eigen::Dynamic, 1> &residual
 			, std::vector<DegreeOfFreedom<prec, uint>*> &Dofs) {};
+		virtual void setMass(GenericFiniteElement<prec, uint> *elem
+			, Eigen::Matrix<prec, Eigen::Dynamic, Eigen::Dynamic> &stiffness
+			, Eigen::Matrix<prec, Eigen::Dynamic, 1> &residual
+			, std::vector<DegreeOfFreedom<prec, uint>*> &Dofs) {};
 	protected:
 		PointerCollection<prec, uint> *ptrCol;
 	};

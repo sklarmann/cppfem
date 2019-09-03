@@ -65,6 +65,12 @@ namespace FEMProject {
 		this->material->getElementFormulation()->setTangentResidual(this,stiffness,residual,Dofs);
 	}
 
+	template<typename prec, typename uint>
+	void GenericFiniteElement<prec, uint>::GenericSetMass(Eigen::Matrix<prec, Eigen::Dynamic, Eigen::Dynamic>& stiffness, Eigen::Matrix<prec, Eigen::Dynamic, 1>& residual, std::vector<DegreeOfFreedom<prec, uint>*>& Dofs)
+	{
+		this->material->getElementFormulation()->setMass(this, stiffness, residual, Dofs);
+	}
+
 } /* namespace FEMProject */
 
 instantiate(GenericFiniteElement)

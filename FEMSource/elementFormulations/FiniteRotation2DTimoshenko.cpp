@@ -45,6 +45,8 @@ namespace FEMProject {
 		this->EI = static_cast<prec>(ucons->process(temp));
 		temp = Command.getRhs("ga");
 		this->GA = static_cast<prec>(ucons->process(temp));
+		temp = Command.getRhs("rhoa");
+		this->rhoA = static_cast<prec>(ucons->process(temp));
 	}
 	template<typename prec, typename uint>
 	void FiniteRotation2DTimoshenko<prec, uint>::setDegreesOfFreedom(GenericFiniteElement<prec, uint>* elem)
@@ -271,6 +273,51 @@ namespace FEMProject {
 		//
 		
 
+	}
+	template<typename prec, typename uint>
+	void FiniteRotation2DTimoshenko<prec, uint>::setMass(GenericFiniteElement<prec, uint>* elem, Eigen::Matrix<prec, Eigen::Dynamic, Eigen::Dynamic>& stiffness, Eigen::Matrix<prec, Eigen::Dynamic, 1>& residual, std::vector<DegreeOfFreedom<prec, uint>*>& Dofs)
+	{
+		GenericGeometryElement<prec, uint> *vert1, *vert2;
+		EquationHandler<prec, uint> *eqHandler;
+		eqHandler = this->ptrCol->getEquationHandler();
+		NodeSet<prec, uint> *set1, *set2;
+		vert1 = elem->getVertex(*this->ptrCol, 0);
+		vert2 = elem->getVertex(*this->ptrCol, 1);
+		set1 = vert1->getSetMeshId(*this->ptrCol, this->meshIdDisp);
+		set2 = vert2->getSetMeshId(*this->ptrCol, this->meshIdDisp);
+		std::vector<GenericNodes<prec, uint>*> temp, Nodes;
+		eqHandler->getNodes(temp, *set1);
+		Nodes.push_back(temp[0]);
+		temp.clear();
+		eqHandler->getNodes(temp, *set2);
+		set2->getNodes(temp);
+		Nodes.push_back(temp[0]);
+
+		std::vector<DegreeOfFreedom<prec, uint>*> tempDofs;
+		Nodes[0]->getDegreesOfFreedom(*this->ptrCol, tempDofs);
+		for (auto i = 0; i < 3; ++i) {
+			Dofs.push_back(tempDofs[i]);
+		}
+		Nodes[1]->getDegreesOfFreedom(*this->ptrCol, tempDofs);
+		for (auto i = 0; i < 3; ++i) {
+			Dofs.push_back(tempDofs[i]);
+		}
+
+		std::vector<prec> coor1, coor2;
+		coor1 = vert1->getCoordinates();
+		coor2 = vert2->getCoordinates();
+		prec length = (prec)0, tempDiff;
+		for (auto i = 0; i < 3; ++i) {
+			tempDiff = (coor1[i] - coor2[i]);
+			length += tempDiff * tempDiff;
+		}
+		length = sqrt(length);
+
+		stiffness.resize(6, 6);
+		for (auto i = 0; i < 2; ++i) {
+			stiffness(i, i) = this->rhoA*length / (prec)2;
+			stiffness(i+3, i+3) = this->rhoA*length / (prec)2;
+		}
 	}
 } // End Namespace
 

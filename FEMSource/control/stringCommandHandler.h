@@ -11,6 +11,7 @@
 #include <string>
 #include <control/OutputHandler.h>
 #include <vector>
+#include <map>
 
 namespace FEMProject {
 
@@ -30,6 +31,7 @@ namespace FEMProject {
 		std::string getStringTillDelim();
 		std::string remainingCommands();
 		void errorReport(OutputHandler &Log, std::string command);
+		std::pair<std::string, std::string> getNextPair();
 		
 	private:
 		std::string Command;

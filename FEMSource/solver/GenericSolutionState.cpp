@@ -27,7 +27,7 @@ namespace FEMProject {
 
 
 	template<typename prec, typename uint>
-	GenericSolutionState<prec, uint>::GenericSolutionState(PointerCollection<prec, uint> *pointers) {
+	GenericSolutionState<prec, uint>::GenericSolutionState(PointerCollection<prec, uint> *pointers, std::map<std::string, prec> &parameter) {
 		this->pointers = pointers;
 		this->numberOfEquations = 0;
 		this->NumberOfActiveEquations = 0;

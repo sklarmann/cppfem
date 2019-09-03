@@ -9,6 +9,7 @@
 #include <solver/StaticSolutionState.h>
 #include <solver/TransientSolutionNewmark.h>
 
+#include <math/Userconstants.h>
 
 namespace FEMProject {
 	namespace Commands {
@@ -17,6 +18,9 @@ namespace FEMProject {
 			template<typename prec, typename uint>
 			Solution<prec, uint>::Solution(stringCommandHandler &cmd) {
 				this->name = cmd.getStringTillDelim();
+				while (!cmd.empty()) {
+					this->params.insert(cmd.getNextPair());
+				}
 			}
 
 			template<typename prec, typename uint>
@@ -28,6 +32,14 @@ namespace FEMProject {
 
 			template<typename prec, typename uint>
 			void Solution<prec, uint>::run(PointerCollection<prec, uint> &pointers, FEMProgram<prec, uint> *program) {
+				Userconstants<prec> *ucons = pointers.getUserConstants();
+
+				std::map<std::string, prec> passParam;
+				for (auto it = this->params.begin(); it != this->params.end(); ++it) {
+					passParam[it->first] = ucons->process(it->second);
+				}
+
+
 				SolutionTypes type = SolutionTypes::GenericSolutionState;
 				if (this->name == "static") {
 					type = SolutionTypes::StaticSolutionState;
@@ -37,10 +49,10 @@ namespace FEMProject {
 				}
 				switch (type) {
 				case SolutionTypes::StaticSolutionState:
-					pointers.setSolutionState(new StaticSolutionState<prec, uint>(&pointers));
+					pointers.setSolutionState(new StaticSolutionState<prec, uint>(&pointers, passParam));
 					break;
 				case SolutionTypes::TransientSolutionNewmark:
-					pointers.setSolutionState(new TransientSolutionNewmark<prec, uint>(&pointers));
+					pointers.setSolutionState(new TransientSolutionNewmark<prec, uint>(&pointers, passParam));
 					break;
 				}
 			}
