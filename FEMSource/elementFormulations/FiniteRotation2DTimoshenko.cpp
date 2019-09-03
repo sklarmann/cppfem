@@ -318,6 +318,8 @@ namespace FEMProject {
 			stiffness(i, i) = this->rhoA*length / (prec)2;
 			stiffness(i+3, i+3) = this->rhoA*length / (prec)2;
 		}
+			//stiffness(2, 2) = this->rhoA*length / (prec)2*(prec)1e-12;
+			//stiffness(5, 5) = this->rhoA*length / (prec)2*(prec)1e-12;
 	}
 } // End Namespace
 

@@ -5,6 +5,7 @@
  *      Author: simon
  */
 
+#pragma once
 
 #include <forwarddeclaration.h>
 
@@ -16,27 +17,27 @@
 
 
 namespace FEMProject {
-	template<typename prec, typename uint>
-	class PointerCollection;
-
-	template <typename prec, typename uint>
-	class PropfunctionHandler {
-	public:
-		PropfunctionHandler();
-		~PropfunctionHandler();
-		void setNames(PointerCollection<prec, uint> &pointers, std::string &timename, std::string &dtname);
-		void addFunction(PointerCollection<prec, uint> &pointers, uint &num, std::string &function, prec &tmin, prec &tmax);
-		void print(PointerCollection<prec, uint> &pointers);
-		void setDt(PointerCollection<prec, uint> &pointers, std::string dtval);
-		void incrTime(PointerCollection<prec, uint> &pointers);
-		void update();
-		prec getPropValue(PointerCollection<prec, uint> &pointers, uint propNum);
-		prec getPropValueIncr(PointerCollection<prec, uint> &pointers, uint &propNum);
-		prec getTime(PointerCollection<prec, uint> &pointers);
-		prec getDt(PointerCollection<prec, uint> &pointers);
-	private:
-		std::vector<Timefunction<prec,uint>> timefunctions;
-		std::string timename, dtname;
-		uint numtime;
-	};
+  template<typename prec, typename uint>
+  class PointerCollection;
+  
+  template <typename prec, typename uint>
+  class PropfunctionHandler {
+  public:
+    PropfunctionHandler();
+    ~PropfunctionHandler();
+    void setNames(PointerCollection<prec, uint> &pointers, std::string &timename, std::string &dtname);
+    void addFunction(PointerCollection<prec, uint> &pointers, uint &num, std::string &function, prec &tmin, prec &tmax);
+    void print(PointerCollection<prec, uint> &pointers);
+    void setDt(PointerCollection<prec, uint> &pointers, std::string dtval);
+    void incrTime(PointerCollection<prec, uint> &pointers);
+    void update();
+    prec getPropValue(PointerCollection<prec, uint> &pointers, uint propNum);
+    prec getPropValueIncr(PointerCollection<prec, uint> &pointers, uint &propNum);
+    prec getTime(PointerCollection<prec, uint> &pointers);
+    prec getDt(PointerCollection<prec, uint> &pointers);
+  private:
+    std::vector<Timefunction<prec,uint>> timefunctions;
+    std::string timename, dtname;
+    uint numtime;
+  };
 } /* namespace FEMProject */

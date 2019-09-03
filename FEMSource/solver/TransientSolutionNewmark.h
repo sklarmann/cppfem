@@ -41,13 +41,17 @@ namespace FEMProject {
 
 		virtual Eigen::Matrix<prec, Eigen::Dynamic, 1> getSolution(
 			std::vector<DegreeOfFreedom<prec, uint>*> Dofs);
-		//void factorize();
-		//void solve();
+		void factorize();
+		void solve();
 		//void setEquationZero();
-		//void updateSolution();
+		void updateSolution();
 		//void computeEigenValues();
 		//
-		//prec getSolution(const uint &globalId);
+		prec getSolution(const uint &globalId);
+    
+    void nextSolutionStep();
+    
+    virtual prec residual();
 
 	private:
 		void insertMassMatrix(Eigen::Matrix<prec, Eigen::Dynamic, Eigen::Dynamic> &stiffness
@@ -55,13 +59,16 @@ namespace FEMProject {
 		prec beta, gamma;
 
 		Eigen::Matrix<prec, Eigen::Dynamic, 1> Solution, IncSolution, dIncSolution;
-		Eigen::Matrix<prec, Eigen::Dynamic, 1> velocity, acceleration;
+		Eigen::Matrix<prec, Eigen::Dynamic, 1> vn, vn1, an, an1;
+    Eigen::Matrix<prec, Eigen::Dynamic, 1> compW, uncompW;
 		Eigen::SparseMatrix<prec, 0, uint> Stiffness, Mass, Damping;
 		Eigen::SparseMatrix<prec, 0, uint> SpMat;
 
 		Eigen::Matrix<prec, Eigen::Dynamic, 1> Rhs;
 		Eigen::Matrix<prec, Eigen::Dynamic, 1> eqSol;
 		std::vector<Eigen::Triplet<prec, uint>> tripletList;
+    
+    
 
 		//		Eigen::SparseLU<Eigen::SparseMatrix<prec, 0, uint>, Eigen::COLAMDOrdering<uint> > solver;
 

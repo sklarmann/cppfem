@@ -199,8 +199,8 @@ namespace FEMProject {
 		
 		//std::cout << "Solution: " << this->eqSol << std::endl;
 		//std::cout << "Solution: " << this->eqSol << std::endl;
-		Eigen::Matrix<prec, Eigen::Dynamic, 1> temp;
-		temp.resize(this->numberOfEquations);
+		//Eigen::Matrix<prec, Eigen::Dynamic, 1> temp;
+		//temp.resize(this->numberOfEquations);
 		
         //temp = this->SpMat.selfadjointView<Eigen::Upper>()* this->eqSol;
         //this->SpMat.selfadjointView<Eigen::Upper>();
