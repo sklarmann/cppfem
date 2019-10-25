@@ -71,7 +71,7 @@ namespace FEMProject {
           residual /= residual0;
           info->Log(LogLevel::BasicLog,LogLevel::BasicLog) 
             << "Current residual norm: " << residual << "\n"
-            << "Initial residual " << residual0 << "\ņ"
+            << "Initial residual " << residual0 << "\n"
             << "Iteration " << currIteration << " / " << maxIt <<std::endl;
         }
       }
