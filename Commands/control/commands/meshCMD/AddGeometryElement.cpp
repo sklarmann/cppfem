@@ -38,7 +38,7 @@ namespace FEMProject {
 					Userconstants<prec> *ucons = ptrCol.getUserConstants();
 					if (this->vertexNumbers.size() % 2 == 0) {
 						for (auto i = this->vertexNumbers.begin(); i != this->vertexNumbers.end(); ++i) {
-							vertNums.emplace_back(ucons->process(*i));
+							vertNums.emplace_back(static_cast<uint>(ucons->process(*i)));
 						}
 						this->addLinearEdge(ptrCol, vertNums);
 					}
