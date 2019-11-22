@@ -11,4 +11,5 @@
 #include <control/commands/meshCMD/SetBoundaryConditions.h>
 #include <control/commands/meshCMD/SetDegreeOfFreedom.h>
 #include <control/commands/meshCMD/SetMaterials.h>
+#include <control/commands/meshCMD/singleLoad.h>
 

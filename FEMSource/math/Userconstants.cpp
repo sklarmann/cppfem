@@ -24,7 +24,10 @@ namespace FEMProject {
 
 		mathmap["sin"] = &sinWarp;
 		mathmap["cos"] = &cosWarp;
-		mathmap["tan"] = &cosWarp;
+		mathmap["tan"] = &tanWarp;
+		mathmap["asin"] = &asinWarp;
+		mathmap["acos"] = &acosWarp;
+		mathmap["atan"] = &atanWarp;
 		mathmap["sqrt"] = &sqrtWarp;
 		mathmap["abs"] = &absWarp;
 	

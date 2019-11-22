@@ -123,7 +123,9 @@ namespace FEMProject {
 		svec = svec / length;
 
 		prec css = svec.transpose()*svec;
-		prec sss = sqrt(1 - css * css);
+		prec sst = (prec)1 - css * css;
+		sst < 0 ? sst = 0 : sst = sst;
+		prec sss = sqrt(sst);
 
 		svec(0) >= 0 ? css = css : css = -absWarp(css);
 		svec(1) >= 0 ? sss = sss : sss = -absWarp(sss);

@@ -24,11 +24,17 @@ namespace FEMProject {
 
 
 	template<typename prec>
-	prec sinWarp(const prec &arg) { return sin(arg); };
+	prec sinWarp(const prec& arg) { return sin(arg); };
 	template<typename prec>
-	prec cosWarp(const prec &arg) { return cos(arg); };
+	prec cosWarp(const prec& arg) { return cos(arg); };
 	template<typename prec>
-	prec tanWarp(const prec &arg) { return tan(arg); };
+	prec tanWarp(const prec& arg) { return tan(arg); };
+	template<typename prec>
+	prec asinWarp(const prec& arg) { return asin(arg); };
+	template<typename prec>
+	prec acosWarp(const prec& arg) { return acos(arg); };
+	template<typename prec>
+	prec atanWarp(const prec& arg) { return atan(arg); };
 	template<typename prec>
 	prec sqrtWarp(const prec &arg) { return sqrt(arg); };
 	template<typename prec>
