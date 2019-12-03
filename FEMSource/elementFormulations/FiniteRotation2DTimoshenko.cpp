@@ -130,6 +130,8 @@ namespace FEMProject {
 		svec(0) >= 0 ? css = css : css = -absWarp(css);
 		svec(1) >= 0 ? sss = sss : sss = -absWarp(sss);
 
+		css = svec(0);
+		sss = svec(1);
 
 		Eigen::Matrix<prec, 6, 6> T;
 		T.setZero();
