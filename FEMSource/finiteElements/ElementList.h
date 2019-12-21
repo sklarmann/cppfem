@@ -10,6 +10,7 @@
 
 #include <finiteElements/GenericFiniteElement.h>
 #include <equations/GeometryData.h>
+#include <finiteElements/LinearLineElement.h>
 #include <finiteElements/LinearTriangleElement.h>
 #include <vector>
 #include <iostream>
@@ -35,7 +36,7 @@ private:
 	std::vector<uint> elementIndex;
 	std::vector<Elementtypes> elementTypes;
 
-	std::vector<LinearTriangleElement<prec, uint>> linearLine;
+	std::vector<LinearLineElement<prec, uint>> linearLine;
 	std::vector<LinearTriangleElement<prec, uint>> linearTriangles;
 };
 
