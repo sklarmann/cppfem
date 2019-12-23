@@ -85,6 +85,7 @@ namespace FEMProject {
       //
       this->meshCommands["inplanebc"] = &Mesh::InplaneBC<prec, uint>::NewCommand;
 	  this->meshCommands["inplaneload"] = &Mesh::InplaneLoad<prec, uint>::NewCommand;
+	  this->meshCommands["singlebc"] = &Mesh::SingleBC<prec, uint>::NewCommand;
 	  this->meshCommands["singleload"] = &Mesh::SingleLoad<prec, uint>::NewCommand;
       //
       //----------//--------PLOT----------------------------------------------------

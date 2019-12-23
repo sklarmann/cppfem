@@ -7,6 +7,7 @@ set(SOURCE ${SOURCE}
 	                 ${CMAKE_CURRENT_SOURCE_DIR}/Block.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/inplanebc.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/inplaneload.cpp
+					 ${CMAKE_CURRENT_SOURCE_DIR}/singleBC.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/singleLoad.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/linkDofs.cpp
 					 ${CMAKE_CURRENT_SOURCE_DIR}/SetBoundaryConditions.cpp
@@ -22,6 +23,7 @@ set(HEADERS ${HEADERS}
 					  ${CMAKE_CURRENT_SOURCE_DIR}/CommandTemplate.h
 					  ${CMAKE_CURRENT_SOURCE_DIR}/inplanebc.h
 					  ${CMAKE_CURRENT_SOURCE_DIR}/inplaneload.h
+					  ${CMAKE_CURRENT_SOURCE_DIR}/singleBC.h
 					  ${CMAKE_CURRENT_SOURCE_DIR}/singleLoad.h
 					  ${CMAKE_CURRENT_SOURCE_DIR}/linkDofs.h
 					  ${CMAKE_CURRENT_SOURCE_DIR}/meshCommandInclude.h

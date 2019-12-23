@@ -38,19 +38,12 @@ namespace FEMProject {
 
 			template<typename prec, typename uint>
 			void OpenFiles<prec, uint>::run(PointerCollection<prec, uint> &pointers, FEMProgram<prec, uint> *program) {
-				#ifdef WIN32
+				
 				if (this->file.empty()) {
+                    #ifdef WIN32
 					set_files(pointers.getInfoData()->fileNames);
-				}
-				else {
-					std::size_t pos = this->file.find_last_of('/');
-					pointers.getInfoData()->fileNames[FileHandling::directory] = this->file.substr(0, pos + 1);
-					pointers.getInfoData()->fileNames[FileHandling::infile] = this->file.substr(pos + 1, this->file.length() - pos);
-					pointers.getInfoData()->fileNames[FileHandling::outfile] = pointers.getInfoData()->fileNames[FileHandling::infile] + ".log";
-				}
-				  
-				#else
-				  std::cout << "Please input filename with path:" << std::endl;
+                    #else
+                    std::cout << "Please input filename with path:" << std::endl;
 					std::string filename;
                     char ffilename[1024];
                     FILE *f = popen("zenity --file-selection", "r");
@@ -62,7 +55,17 @@ namespace FEMProject {
                     pointers.getInfoData()->fileNames[FileHandling::directory] = filename.substr(0, pos + 1);
                     pointers.getInfoData()->fileNames[FileHandling::infile] = filename.substr(pos + 1, filename.length() - pos);
                     pointers.getInfoData()->fileNames[FileHandling::outfile]= pointers.getInfoData()->fileNames[FileHandling::infile] + ".log";
-				#endif
+                    #endif
+				}
+				else {
+					std::size_t pos = this->file.find_last_of('/');
+					pointers.getInfoData()->fileNames[FileHandling::directory] = this->file.substr(0, pos + 1);
+					pointers.getInfoData()->fileNames[FileHandling::infile] = this->file.substr(pos + 1, this->file.length() - pos);
+					pointers.getInfoData()->fileNames[FileHandling::outfile] = pointers.getInfoData()->fileNames[FileHandling::infile] + ".log";
+				}
+				  
+				
+				  
 				pointers.getInfoData()->Log(BasicLog, BasicLog) << std::setw(30) << std::left << "Current Directory: "
 					<< std::setw(70) << std::right << pointers.getInfoData()->fileNames[FileHandling::directory] << std::endl
 					<< std::setw(30) << std::left << "InputFile: "
