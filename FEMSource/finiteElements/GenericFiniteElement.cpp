@@ -71,6 +71,14 @@ namespace FEMProject {
 		this->material->getElementFormulation()->setMass(this, stiffness, residual, Dofs);
 	}
 
+	template<typename prec, typename uint>
+	void GenericFiniteElement<prec, uint>::getElementsLocalNodalReactions(PointerCollection<prec, uint>& ptrCol, std::map<uint, std::vector<prec>>& vReacs)
+	{
+		this->material->getElementFormulation()->getElementsLocalNodalReactions(
+			ptrCol, this, vReacs
+		);
+	}
+
 } /* namespace FEMProject */
 
 instantiate(GenericFiniteElement)

@@ -38,6 +38,7 @@ namespace FEMProject {
 		void setVerts(std::vector<uint> &vertsIn);
 		void setEdges(std::vector<uint> &edgesIn);
 		Elementtypes getType(){return Elementtypes::LinearLine;};
+		uint getVertexId(ptrCol& pointers, uint num);
 		//std::vector<uint> getVertexIds();
 		GenericGeometryElement<prec, uint> *getVertex(ptrCol &pointers, const uint &num);
 		//GenericGeometryElement<prec, uint> *getEdge(ptrCol &pointers, const uint &num);
@@ -61,6 +62,7 @@ namespace FEMProject {
 
 
 		void getVtkCell(PointerCollection<prec, uint> &ptrCol, vtkSmartPointer<vtkCell> &cell);
+		//void getElementsLocalNodalReactions(PointerCollection<prec, uint>& ptrCol, std::map<uint, std::vector<prec>>& vReacs);
 	private:
 		uint verts[2];
 		uint edge;

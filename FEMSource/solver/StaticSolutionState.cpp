@@ -421,7 +421,7 @@ namespace FEMProject {
 	{
 		Eigen::Matrix<prec, Eigen::Dynamic, 1> RetVec;
 
-		uint Size = Dofs.size();
+		uint Size = static_cast<uint>(Dofs.size());
 		if (Size > 0) {
 			RetVec.resize(Size);
 			for (auto i = 0; i < Size; ++i) {

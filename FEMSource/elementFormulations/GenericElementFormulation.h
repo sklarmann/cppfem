@@ -10,7 +10,9 @@
 #include <forwarddeclaration.h>
 
 #include <vector>
+#include <map>
 #include <Eigen/Dense>
+
 
 namespace FEMProject {
 	template <typename prec, typename uint>
@@ -36,6 +38,9 @@ namespace FEMProject {
 			, Eigen::Matrix<prec, Eigen::Dynamic, Eigen::Dynamic> &stiffness
 			, Eigen::Matrix<prec, Eigen::Dynamic, 1> &residual
 			, std::vector<DegreeOfFreedom<prec, uint>*> &Dofs) {};
+		virtual void getElementsLocalNodalReactions(PointerCollection<prec, uint>& ptrCol
+			, GenericFiniteElement<prec, uint>* elem
+			, std::map<uint, std::vector<prec>>& vReacs) {  };
 	protected:
 		PointerCollection<prec, uint> *ptrCol;
 	};

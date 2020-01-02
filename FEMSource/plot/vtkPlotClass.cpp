@@ -341,6 +341,25 @@ namespace FEMProject {
 			mesh->InsertNextCell(cellToAdd->GetCellType(), cellToAdd->GetPointIds());
 		}
 
+		// Adding local nodal reactions
+		std::string name = "LocalReactions";
+		vtkSmartPointer<vtkFloatArray> localReac = vtkSmartPointer<vtkFloatArray>::New();
+		localReac->SetName(name.c_str());
+		localReac->SetNumberOfComponents(6);
+		localReac->SetNumberOfTuples(numVerts);
+		localReac->Fill(0);
+		for (auto i = 0; i < numberOfElements; ++i) {
+			std::map<uint, std::vector<prec>> vReacs;
+			elemList->getElement(i)->getElementsLocalNodalReactions(pointers, vReacs);
+			for (auto j = vReacs.begin(); j != vReacs.end(); ++j) {
+				uint num = j->first;
+				std::vector<prec> tempReacVec = j->second;
+				for (auto k = 0; k < 6; ++k) {
+					localReac->SetComponent(num, k, static_cast<float>(tempReacVec[k]));
+				}
+			}
+		}
+		mesh->GetPointData()->AddArray(localReac);
 		vtkSmartPointer<vtkXMLMultiBlockDataWriter> pwriter =
 			vtkSmartPointer<vtkXMLMultiBlockDataWriter>::New();
 		pwriter->SetFileName(outputFile.c_str());

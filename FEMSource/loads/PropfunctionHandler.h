@@ -13,7 +13,7 @@
 
 #include <string>
 #include <vector>
-
+#include <mutex>
 
 
 namespace FEMProject {
@@ -39,5 +39,6 @@ namespace FEMProject {
     std::vector<Timefunction<prec,uint>> timefunctions;
     std::string timename, dtname;
     uint numtime;
+	std::mutex mutex_lock;
   };
 } /* namespace FEMProject */

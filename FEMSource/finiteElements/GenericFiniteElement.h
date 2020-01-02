@@ -13,6 +13,8 @@
 #include <equations/DofStatus.h>
 
 #include <Eigen/Dense>
+#include <map>
+#include <vector>
 
 template <class bla>
 class vtkSmartPointer;
@@ -62,7 +64,8 @@ namespace FEMProject {
 		virtual Elementtypes getType() { return Elementtypes::Generic; };
 		virtual GenericGeometryElement<prec, uint> *getVertex(ptrCol &pointers, const uint &num) { return 0; };
 		virtual GenericGeometryElement<prec, uint> *getEdge(ptrCol &pointers, const uint &num) { return 0; };
-		virtual GenericGeometryElement<prec, uint> *getFace(ptrCol &pointers) { return 0; };
+		virtual GenericGeometryElement<prec, uint>* getFace(ptrCol& pointers) { return 0; };
+		virtual uint getVertexId(ptrCol& pointers, uint num) { return 0; };
 		virtual void setStiffnessMatrix() {};
 		virtual std::vector<uint> getVertexIds(){std::vector<uint> u;u.resize(0);return u;};
 		virtual void getNumberOfNodes(ptrCol &pointers, uint &numEdge1, uint &numEdge2, uint &numEdge3, uint &numFace, const unsigned char &meshId) {};
@@ -88,6 +91,8 @@ namespace FEMProject {
 		virtual void setUpSparseMatrix(ptrCol &pointers) {};
 	
 		virtual void getVtkCell(PointerCollection<prec,uint> &ptrCol, vtkSmartPointer<vtkCell> &cell) {  };
+
+		virtual void getElementsLocalNodalReactions(PointerCollection<prec, uint>& ptrCol, std::map<uint, std::vector<prec>> &vReacs);
 	
 	protected:
 		uint id;

@@ -17,6 +17,8 @@
 
 #include <math/Userconstants.h>
 
+#include <mutex>
+
 namespace FEMProject {
 		
 	template <typename prec, typename uint>
@@ -102,11 +104,14 @@ namespace FEMProject {
 
 	template<typename prec, typename uint>
 	prec PropfunctionHandler<prec, uint>::getPropValue(PointerCollection<prec, uint> &pointers, uint propNum) {
-		
+
 		if (propNum < this->numtime) {
-			Timefunction<prec, uint> *temp;
+			this->mutex_lock.lock();
+			Timefunction<prec, uint>* temp;
 			temp = &this->timefunctions[propNum];
-			return temp->currLoad(pointers);
+			prec val = temp->currLoad(pointers);
+			this->mutex_lock.unlock();
+			return val;
 		}
 		else {
 			return 0;

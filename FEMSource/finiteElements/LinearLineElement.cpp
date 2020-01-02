@@ -55,6 +55,19 @@ namespace FEMProject {
 	}
 
 	template<typename prec, typename uint>
+	uint LinearLineElement<prec, uint>::getVertexId(ptrCol& pointers, uint num)
+	{
+		GeometryData<prec, uint>* geom;
+		GenericGeometryElement<prec, uint>* geomEle;
+		geom = pointers.getGeometryData();
+		geomEle = geom->getGeometryElement(GeometryTypes::LinearEdge, this->edge);
+		std::vector<uint> verts;
+		geomEle->getVerts(verts);
+
+		return verts[num];
+	}
+
+	template<typename prec, typename uint>
 	GenericGeometryElement<prec, uint>* LinearLineElement<prec, uint>::getVertex(ptrCol & pointers, const uint & num)
 	{
 		GeometryData<prec, uint> *geodata = pointers.getGeometryData();

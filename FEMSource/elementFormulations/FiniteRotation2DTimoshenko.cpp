@@ -22,6 +22,8 @@
 
 #include <Eigen/Dense>
 
+#include <loads/PropfunctionHandler.h>
+
 namespace FEMProject {
 
 	template<typename prec, typename uint>
@@ -47,6 +49,16 @@ namespace FEMProject {
 		this->GA = static_cast<prec>(ucons->process(temp));
 		temp = Command.getRhs("rhoa");
 		this->rhoA = static_cast<prec>(ucons->process(temp));
+		temp = Command.getRhs("propnum");
+		this->propnum = static_cast<uint>(ucons->process(temp));
+		temp = Command.getRhs("local");
+		this->localLoad = static_cast<uint>(ucons->process(temp));
+		temp = Command.getRhs("qx");
+		this->qx = static_cast<prec>(ucons->process(temp));
+		temp = Command.getRhs("qy");
+		this->qy = static_cast<prec>(ucons->process(temp));
+		temp = Command.getRhs("mz");
+		this->mz = static_cast<prec>(ucons->process(temp));
 	}
 	template<typename prec, typename uint>
 	void FiniteRotation2DTimoshenko<prec, uint>::setDegreesOfFreedom(GenericFiniteElement<prec, uint>* elem)
@@ -236,6 +248,16 @@ namespace FEMProject {
 		residual = T.transpose()*residual;
 
 
+		prec propVal;
+		PropfunctionHandler<prec, uint>* tempProp;
+		tempProp = this->ptrCol->getPropLoads();
+
+		propVal = tempProp->getPropValue(*(this->ptrCol), this->propnum);
+
+		residual(0) -= this->qx * propVal/(prec)2*length;
+		residual(3) -= this->qx * propVal/(prec)2*length;
+		residual(1) -= this->qy * propVal/(prec)2*length;
+		residual(4) -= this->qy * propVal/(prec)2*length;
 
 		//stiffness.resize(6, 6);
 		//residual.resize(6);
@@ -325,6 +347,78 @@ namespace FEMProject {
 			//stiffness(2, 2) = this->rhoA*length / (prec)2*(prec)1e-12;
 			//stiffness(5, 5) = this->rhoA*length / (prec)2*(prec)1e-12;
 	}
+
+	template<typename prec, typename uint>
+	void FiniteRotation2DTimoshenko<prec, uint>::getElementsLocalNodalReactions(PointerCollection<prec, uint>& ptrCol, GenericFiniteElement<prec, uint>* elem, std::map<uint, std::vector<prec>>& vReacs)
+	{
+		uint vert1 = elem->getVertexId(ptrCol, 0);
+		uint vert2 = elem->getVertexId(ptrCol, 1);
+ 
+		Eigen::Matrix<prec, Eigen::Dynamic, Eigen::Dynamic> stiffness;
+		Eigen::Matrix<prec, Eigen::Dynamic, 1> residual;
+		std::vector<DegreeOfFreedom<prec, uint>*> Dofs;
+
+		this->setTangentResidual(elem, stiffness, residual, Dofs);
+
+		GenericGeometryElement<prec, uint>* gvert1, * gvert2;
+		gvert1 = elem->getVertex(*this->ptrCol, 0);
+		gvert2 = elem->getVertex(*this->ptrCol, 1);
+
+		std::vector<prec> coor1, coor2;
+		coor1 = gvert1->getCoordinates();
+		coor2 = gvert2->getCoordinates();
+		prec length = (prec)0, tempDiff;
+		for (auto i = 0; i < 3; ++i) {
+			tempDiff = (coor1[i] - coor2[i]);
+			length += tempDiff * tempDiff;
+		}
+		length = sqrt(length);
+
+		Eigen::Matrix<prec, 2, 1> svec;
+		svec(0) = coor2[0] - coor1[0];
+		svec(1) = coor2[1] - coor1[1];
+
+		svec = svec / length;
+
+		prec css = svec.transpose() * svec;
+		prec sst = (prec)1 - css * css;
+		sst < 0 ? sst = 0 : sst = sst;
+		prec sss = sqrt(sst);
+
+		svec(0) >= 0 ? css = css : css = -absWarp(css);
+		svec(1) >= 0 ? sss = sss : sss = -absWarp(sss);
+
+		css = svec(0);
+		sss = svec(1);
+
+		Eigen::Matrix<prec, 6, 6> T;
+		T.setZero();
+		T(0, 0) = css;
+		T(0, 1) = sss;
+		T(1, 0) = -sss;
+		T(1, 1) = css;
+		T(2, 2) = (prec)1.0;
+
+		T(3, 3) = css;
+		T(3, 4) = sss;
+		T(4, 3) = -sss;
+		T(4, 4) = css;
+		T(5, 5) = (prec)1.0;
+
+		residual = T.transpose() * residual;
+
+		std::vector<prec> temp1(6), temp2(6);
+		for (auto i = 0; i < 3; ++i) {
+			temp1[i] = residual(i);
+			temp2[i] = residual(i + 3);
+		}
+		temp1[0] = -temp1[0];
+		temp1[1] = -temp1[1];
+		temp1[2] = -temp1[2];
+		vReacs[vert1] = temp1;
+		vReacs[vert2] = temp2;
+	}
+
 } // End Namespace
 
 instantiate(FiniteRotation2DTimoshenko)
