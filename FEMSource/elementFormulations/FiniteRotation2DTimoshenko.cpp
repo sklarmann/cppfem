@@ -405,7 +405,7 @@ namespace FEMProject {
 		T(4, 4) = css;
 		T(5, 5) = (prec)1.0;
 
-		residual = T.transpose() * residual;
+		residual = T * residual;
 
 		std::vector<prec> temp1(6), temp2(6);
 		for (auto i = 0; i < 3; ++i) {
