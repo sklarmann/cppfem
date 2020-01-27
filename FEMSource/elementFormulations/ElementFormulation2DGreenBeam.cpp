@@ -135,7 +135,7 @@ namespace FEMProject {
 
 		stiffness(4, 1) = -this->EI / length / length / length * (prec)12;
 		stiffness(4, 2) = -this->EI / length / length * (prec)6;
-		stiffness(4, 4) = this->EI / length / length / length * (prec)12;
+		stiffness(4, 4) =  this->EI / length / length / length * (prec)12;
 		stiffness(4, 5) = -this->EI / length / length * (prec)6;
 
 		stiffness(5, 1) = this->EI / length / length * (prec)6;
@@ -149,13 +149,18 @@ namespace FEMProject {
 
 		svec = svec / length;
 
-		prec css = svec.transpose()*svec;
-		prec sss = sqrt(1 - css * css);
+		//prec css = svec.transpose()*svec;
+		//prec sss = sqrt(1 - css * css);
 
-		svec(0) >= 0 ? css = css : css = -absWarp(css);
-		svec(1) >= 0 ? sss = sss : sss = -absWarp(sss);
+		//svec(0) >= 0 ? css = css : css = -absWarp(css);
+		//svec(1) >= 0 ? sss = sss : sss = -absWarp(sss);
 
+        prec css = svec(0);
+        prec sss = svec(1);
+        
+        
 		Eigen::Matrix<prec, 6, 6> T;
+        T.setZero();
 		T(0, 0) = css;
 		T(0, 1) = sss;
 		T(1, 0) = -sss;
@@ -173,7 +178,7 @@ namespace FEMProject {
 		stiffness = T.transpose()*stiffness*T;
 		residual = T.transpose()*residual;
 
-
+        
 	}
 } // End Namespace
 

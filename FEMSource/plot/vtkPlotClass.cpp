@@ -373,6 +373,8 @@ namespace FEMProject {
 		std::vector<std::string> Files;
 		std::vector<prec> times;
 		this->pvdFileReader(pvdFile, Files, times);
+        auto posi = outputFile.find_first_of('/');
+        outputFile= outputFile.substr(posi+1,outputFile.length());
 		Files.push_back(outputFile);
 		times.push_back(pointers.getPropLoads()->getTime(pointers));
 		this->pvdFileWriter(pvdFile, Files, times);
@@ -419,6 +421,9 @@ namespace FEMProject {
 
 		}
 		file.close();
+        
+        FNames.erase(FNames.begin()+this->step-1,FNames.end());
+        timesteps.erase(timesteps.begin()+this->step-1,timesteps.end());
 
 	}
 
@@ -437,9 +442,9 @@ namespace FEMProject {
 		file << space << "<Collection>\n";
 		space = "    ";
 
-		for (auto i = 0; i < FNames.size();++i) {
+		for (auto i = 0; i < this->step;++i) {
 			file << space << "<DataSet timestep=\"" << timesteps[i] << "\" group=\"\" part=\"\"\n"
-				<< space << "file=\"" << FNames[i] << "\"/>\n";
+				<< space << "file=\"" << FNames[i] << "\"/>\n"; //.substr(pos+1,FNames[i].length())
 		}
 
 
