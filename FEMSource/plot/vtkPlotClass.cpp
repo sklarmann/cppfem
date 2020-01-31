@@ -373,8 +373,8 @@ namespace FEMProject {
 		std::vector<std::string> Files;
 		std::vector<prec> times;
 		this->pvdFileReader(pvdFile, Files, times);
-        auto posi = outputFile.find_first_of('/');
-        outputFile= outputFile.substr(posi+1,outputFile.length());
+        auto posi = outputFile.find("parvout");
+        outputFile= outputFile.substr(posi+8,outputFile.length());
 		Files.push_back(outputFile);
 		times.push_back(pointers.getPropLoads()->getTime(pointers));
 		this->pvdFileWriter(pvdFile, Files, times);

@@ -39,6 +39,7 @@ namespace FEMProject {
     prec residual() {prec residual = sqrt(this->Rhs.dot(this->Rhs)); return residual;};
     void setEquationZero();
     void updateSolution();
+    void dampedSolutionUpdate();
     void computeEigenValues(
       uint number,
       uint addNumber = 0,

@@ -41,6 +41,7 @@ namespace FEMProject {
     virtual prec residual(){return 0;};
     virtual void setEquationZero();
     virtual void updateSolution() {};
+    virtual void dampedSolutionUpdate() {};
     virtual void computeEigenValues(
       uint number, 
       uint addNumber=0, 
@@ -50,6 +51,8 @@ namespace FEMProject {
       
     virtual void setInitialValues(const uint &numberOfEquations, const uint &numberOfActiveEquations);
     void setSolver(SolverTypes &type);
+    
+    
       
     void setProps();
     PropfunctionHandler<prec, uint> *getProps() { return this->props; };

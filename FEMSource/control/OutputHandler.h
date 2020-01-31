@@ -13,7 +13,6 @@
 
 #include <iomanip>
 
-
 namespace FEMProject {
 
 	enum LogLevel  {NoLog = 0 , BasicLog = 1,FullLog = 2};

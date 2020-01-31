@@ -9,6 +9,8 @@
 
 #include <chrono>
 #include <iostream>
+#include <fstream>
+#include <sstream>
 
 namespace FEMProject {
 
@@ -34,6 +36,23 @@ namespace FEMProject {
 				t2 = std::chrono::steady_clock::now();
 			}
 		}
+		std::string time(){
+            if(this->started){
+                std::ostringstream tempStr;
+				if(this->running){
+					std::chrono::steady_clock::time_point temp = std::chrono::steady_clock::now();
+					std::chrono::duration<double> time_diff = std::chrono::duration_cast<std::chrono::duration<double>>(temp-this->t1);
+                    
+                    tempStr << time_diff.count();
+				}else{
+					std::chrono::duration<double> time_diff = std::chrono::duration_cast<std::chrono::duration<double>>(this->t2-this->t1);
+                    tempStr << time_diff.count();
+				}
+				tempStr << " seconds";
+                return tempStr.str();
+			}
+			return "test";
+        }
 		friend std::ostream &operator << (std::ostream &out, Timer<timef> &self)
 		{
 			if(self.started){

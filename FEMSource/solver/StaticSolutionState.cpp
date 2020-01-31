@@ -195,7 +195,6 @@ namespace FEMProject {
 		
 		//this->eqSol = this->solver.solve(this->Rhs);
 		prec residual = this->Rhs.dot(this->Rhs);
-		std::cout << "Residual norm: " << sqrt(residual) << std::endl;
 		this->solver->solve(this->Rhs, this->eqSol);
 		this->pointers->getPropLoads()->update();
 		
@@ -283,6 +282,30 @@ namespace FEMProject {
 		}
 		this->Solution += this->IncSolution;
 	}
+	
+	template <typename prec, typename uint>
+	void StaticSolutionState<prec,uint>::dampedSolutionUpdate(){
+        prec cres = this->residual();
+        Eigen::Matrix<prec, Eigen::Dynamic, 1> BSolution, BIncSolution, BdIncSolution;
+        BSolution = this->Solution;
+        BIncSolution = this->IncSolution;
+        BdIncSolution = this->dIncSolution;
+        this->updateSolution();
+        this->assembleSystem();
+        prec nres = this->residual();
+        uint cc = 0;
+        while(nres > cres){
+            cc+=1;
+            this->Solution=BSolution;
+            this->IncSolution=BIncSolution;
+            this->dIncSolution=BdIncSolution;
+            this->eqSol/=2;
+            this->updateSolution();
+            this->assembleSystem();
+            nres = this->residual();
+            
+        }
+    }
 
 	template<typename prec, typename uint>
 	void StaticSolutionState<prec, uint>::computeEigenValues(

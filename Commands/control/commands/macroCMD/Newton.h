@@ -22,7 +22,7 @@ namespace FEMProject {
         std::string printCommand();
         static GenericCommand<prec,uint> *NewCommand(stringCommandHandler &cmd) { return new Newton(cmd); };
       private:
-        std::string maxItStr, refResStr;
+        std::string maxItStr, refResStr, damped;
       }; 
       
     }
