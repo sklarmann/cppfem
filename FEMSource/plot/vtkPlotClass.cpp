@@ -86,7 +86,7 @@ namespace FEMProject {
 		for (auto i = 0; i < numVerts; ++i) {
 			temp = geoData->getGeometryElement(GeometryTypes::Vertex, i);
 			std::vector<prec> coor = temp->getCoordinates();
-			this->points->InsertNextPoint(static_cast<float>(coor[0]), static_cast<float>(coor[1]), static_cast<float>(coor[2]));
+			this->points->InsertNextPoint(static_cast<double>(coor[0]), static_cast<double>(coor[1]), static_cast<double>(coor[2]));
 		
 		}
 		this->unstructuredGrid->SetPoints(points);
@@ -113,8 +113,8 @@ namespace FEMProject {
 	template<typename prec, typename uint>
 	inline void vtkPlotInterface<prec, uint>::solution(PointerCollection<prec, uint>& pointers, uint & meshId, uint & comp)
 	{
-		vtkSmartPointer<vtkFloatArray> solutionArray =
-			vtkSmartPointer<vtkFloatArray>::New();
+		vtkSmartPointer<vtkDoubleArray> solutionArray =
+			vtkSmartPointer<vtkDoubleArray>::New();
 	
 	
 		GeometryData<prec, uint> *geoData = pointers.getGeometryData();
@@ -136,12 +136,12 @@ namespace FEMProject {
 			temp->getNodesOfSet(pointers, nodes, meshId);
 			nodes[0]->getDegreesOfFreedom(pointers, Dofs);
 			sol = pointers.getSolutionState()->getSolution(Dofs[comp]->getId());
-			solutionArray->SetValue(i, static_cast<float>(sol));
+			solutionArray->SetValue(i, static_cast<double>(sol));
 	
 		}
 		this->unstructuredGrid->GetPointData()->AddArray(solutionArray);
 		this->unstructuredGrid->GetPointData()->SetActiveScalars("test");
-		float range[2];
+		double range[2];
 		solutionArray->GetValueRange(range);
 		this->mapper->InterpolateScalarsBeforeMappingOn();
 		this->mapper->SetScalarRange(range[0], range[1]);
@@ -240,14 +240,14 @@ namespace FEMProject {
 		for (auto i = 0; i < numVerts; ++i) {
 			temp = geoData->getGeometryElement(GeometryTypes::Vertex, i);
 			std::vector<prec> coor = temp->getCoordinates();
-			lpoints->InsertNextPoint(static_cast<float>(coor[0]), static_cast<float>(coor[1]), static_cast<float>(coor[2]));
+			lpoints->InsertNextPoint(static_cast<double>(coor[0]), static_cast<double>(coor[1]), static_cast<double>(coor[2]));
 		}
 		mesh->SetPoints(lpoints);
 
 
 		// Adding Solution fields
-		std::map<std::string, vtkSmartPointer<vtkFloatArray>> sols;
-		std::map<std::string, vtkSmartPointer<vtkFloatArray>> eigenVectors;
+		std::map<std::string, vtkSmartPointer<vtkDoubleArray>> sols;
+		std::map<std::string, vtkSmartPointer<vtkDoubleArray>> eigenVectors;
 		std::string basename = "Solution";
 		std::string evBasename = "Eigenvector";
 		NodeSet<prec, uint> *tempSet;
@@ -265,8 +265,8 @@ namespace FEMProject {
 					ArrName << basename << "M" << id << "N" << k;
 					if (sols.find(ArrName.str()) == sols.end()) {
 						
-						sols.insert(std::make_pair(ArrName.str(), vtkSmartPointer<vtkFloatArray>::New()));
-						vtkSmartPointer<vtkFloatArray> ArrTemp = sols.find(ArrName.str())->second;
+						sols.insert(std::make_pair(ArrName.str(), vtkSmartPointer<vtkDoubleArray>::New()));
+						vtkSmartPointer<vtkDoubleArray> ArrTemp = sols.find(ArrName.str())->second;
 						
 						ArrTemp->SetNumberOfComponents(3);
 						ArrTemp->SetNumberOfTuples(numVerts);
@@ -275,7 +275,7 @@ namespace FEMProject {
 
 						mesh->GetPointData()->AddArray(ArrTemp);
 					}
-					vtkSmartPointer<vtkFloatArray> ArrTemp = sols.find(ArrName.str())->second;
+					vtkSmartPointer<vtkDoubleArray> ArrTemp = sols.find(ArrName.str())->second;
 					std::vector<GenericNodes<prec, uint>*> nodes;
 					std::vector<DegreeOfFreedom<prec, uint>*> Dofs;
 					temp->getNodesOfSet(pointers, nodes, id);
@@ -302,8 +302,8 @@ namespace FEMProject {
 						ArrName << "M" << id << "N" << l;
 						if (eigenVectors.find(ArrName.str()) == eigenVectors.end()) {
 
-							eigenVectors.insert(std::make_pair(ArrName.str(), vtkSmartPointer<vtkFloatArray>::New()));
-							vtkSmartPointer<vtkFloatArray> ArrTemp = eigenVectors.find(ArrName.str())->second;
+							eigenVectors.insert(std::make_pair(ArrName.str(), vtkSmartPointer<vtkDoubleArray>::New()));
+							vtkSmartPointer<vtkDoubleArray> ArrTemp = eigenVectors.find(ArrName.str())->second;
 
 							ArrTemp->SetNumberOfComponents(3);
 							ArrTemp->SetNumberOfTuples(numVerts);
@@ -312,7 +312,7 @@ namespace FEMProject {
 
 							mesh->GetPointData()->AddArray(ArrTemp);
 						}
-						vtkSmartPointer<vtkFloatArray> ArrTemp = eigenVectors.find(ArrName.str())->second;
+						vtkSmartPointer<vtkDoubleArray> ArrTemp = eigenVectors.find(ArrName.str())->second;
 						std::vector<GenericNodes<prec, uint>*> nodes;
 						std::vector<DegreeOfFreedom<prec, uint>*> Dofs;
 						temp->getNodesOfSet(pointers, nodes, id);
@@ -343,7 +343,7 @@ namespace FEMProject {
 
 		// Adding local nodal reactions
 		std::string name = "LocalReactions";
-		vtkSmartPointer<vtkFloatArray> localReac = vtkSmartPointer<vtkFloatArray>::New();
+		vtkSmartPointer<vtkDoubleArray> localReac = vtkSmartPointer<vtkDoubleArray>::New();
 		localReac->SetName(name.c_str());
 		localReac->SetNumberOfComponents(6);
 		localReac->SetNumberOfTuples(numVerts);
@@ -355,7 +355,7 @@ namespace FEMProject {
 				uint num = j->first;
 				std::vector<prec> tempReacVec = j->second;
 				for (auto k = 0; k < 6; ++k) {
-					localReac->SetComponent(num, k, static_cast<float>(tempReacVec[k]));
+					localReac->SetComponent(num, k, static_cast<double>(tempReacVec[k]));
 				}
 			}
 		}
