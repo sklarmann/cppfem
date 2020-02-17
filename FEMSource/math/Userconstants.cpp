@@ -236,9 +236,8 @@ namespace FEMProject {
 		bool found  = false;
 		std::stack<char> parent;
 	
-		while(pos<slen-1 && search)
+		while(pos<slen && search)
 		{
-			++pos;
 			if(stringOperations::isParantheses(input[pos])){
 				if(parent.empty()){
 					parent.push(input[pos]);
@@ -251,7 +250,9 @@ namespace FEMProject {
 				search = false;
 				found  = true;
 			}
+			++pos;
 		}
+		--pos;
 	
 		if(found){
 			std::string firstval = input.substr(0,pos), secondval = input.substr(pos+1,input.length()-pos-1);
