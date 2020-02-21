@@ -13,6 +13,8 @@
 
 #include <solver/GenericSolutionState.h>
 
+#include <control/HandlingStructs.h>
+#include <control/OutputHandler.h>
 
 namespace FEMProject {
 	namespace Commands {
@@ -50,7 +52,11 @@ namespace FEMProject {
 				}
 				pointers.getSolutionState()->setSparseMatrix();
 				testtimer.stop();
-				std::cout << "Time to setup profile: " << testtimer << std::endl;
+                
+                
+                InfoData *info;
+                info = pointers.getInfoData();
+				info->Log(LogLevel::BasicLog,LogLevel::BasicLog) << "Time to setup profile: " << testtimer.time() << std::endl;
 
 			}
 		}

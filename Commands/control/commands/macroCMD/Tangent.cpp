@@ -14,6 +14,8 @@
 #include <Eigen/SparseCore>
 #include <Eigen/Dense>
 
+#include <control/OutputHandler.h>
+#include <control/HandlingStructs.h>
 
 namespace FEMProject {
 	namespace Commands {
@@ -32,18 +34,19 @@ namespace FEMProject {
 
 			template<typename prec, typename uint>
 			void Tangent<prec, uint>::run(PointerCollection<prec, uint> &pointers, FEMProgram<prec, uint> *program) {
-
+                InfoData *info;
+                info = pointers.getInfoData();
 				Timer<sec> testtimer;
 
 				testtimer.start();
                 pointers.getSolutionState()->assembleSystem();
 				testtimer.stop();
                 
-				std::cout << "Assembly of System took: " << testtimer << std::endl;
+				info->Log(LogLevel::BasicLog,LogLevel::BasicLog) << "Assembly of System took: " << testtimer.time() << std::endl;
 				testtimer.start();
 				pointers.getSolutionState()->factorize();
 				testtimer.stop();
-				std::cout << "Factorization took: " << testtimer << std::endl;
+				info->Log(LogLevel::BasicLog,LogLevel::BasicLog) << "Factorization took: " << testtimer.time() << std::endl;
 				pointers.getSolutionState()->solve();
 				pointers.getSolutionState()->updateSolution();
 			}

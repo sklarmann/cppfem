@@ -119,7 +119,12 @@ namespace FEMProject {
 		this->SpMat.setFromTriplets(this->tripletList.begin(), this->tripletList.end());
 		this->tripletList.clear();
 		this->solver->analyze(this->SpMat);
-		std::cout << "Number of Equations: " << this->NumberOfActiveEquations << "\n"
+        
+        InfoData *info;
+        info = this->pointers->getInfoData();
+        
+		info->Log(LogLevel::BasicLog,LogLevel::BasicLog) << 
+		"Number of Equations: " << this->NumberOfActiveEquations << "\n"
 			"Number of non-zero terms: " << this->SpMat.nonZeros() << std::endl;
 	}
 	
