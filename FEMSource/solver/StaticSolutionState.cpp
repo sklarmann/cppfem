@@ -510,7 +510,7 @@ namespace FEMProject {
         rr.resize(numEq);
         rr = Eigen::Matrix<prec,Eigen::Dynamic,1>::Random(numEq,1);
         auto rrNorm = sqrt(rr.dot(rr));
-        for (auto i=0;i<10;++i){
+        for (auto i=0;i<20;++i){
             rr /= rrNorm;
             rr = this->SpMat*rr;
             rrNorm = sqrt(rr.dot(rr));
@@ -520,7 +520,7 @@ namespace FEMProject {
         rr = Eigen::Matrix<prec,Eigen::Dynamic,1>::Random(numEq,1);
         this->solver->solve(rr,rr);
         rrNorm = sqrt(rr.dot(rr));
-        for (auto i=0;i<10;++i){
+        for (auto i=0;i<20;++i){
             rr /= rrNorm;
             this->solver->solve(rr,rr);
             rrNorm = sqrt(rr.dot(rr));

@@ -62,7 +62,7 @@ namespace FEMProject {
 					shift = ucons->process(this->shift);
 				}
 				else {
-					shift = (prec) 1e-10;
+					shift = (prec) 0;
 				}
 
 				pointers.getSolutionState()->computeEigenValues(n1,n2,pmax,ptol,shift);

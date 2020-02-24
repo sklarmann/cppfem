@@ -75,7 +75,14 @@ namespace FEMProject {
         
     virtual void computeConditionNumber() {};
         
-    prec getEigenValue(uint &number) { return this->eigenValues[number]; };
+    prec getEigenValue(uint &number) { 
+        if(number < this->eigenValues.size()) {
+            return this->eigenValues[number];
+        }
+        else{
+            return (prec) 0;
+        }
+    };
         
     virtual void nextSolutionStep(){this->props->incrTime(*(this->pointers));};
         
