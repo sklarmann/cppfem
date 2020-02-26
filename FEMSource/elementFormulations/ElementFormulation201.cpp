@@ -55,6 +55,10 @@ namespace FEMProject {
 
 		temp = Command.getRhs("disporder");
 		this->intOrderDisp = static_cast<uint>(ucons->process(temp));
+		temp = Command.getRhs("emodul");
+		this->intOrderDisp = static_cast<uint>(ucons->process(temp));
+		temp = Command.getRhs("nu");
+		this->intOrderDisp = static_cast<uint>(ucons->process(temp));
 
 
 
