@@ -33,7 +33,7 @@ namespace FEMProject {
 #ifdef USE_MKL
 		Eigen::PardisoLDLT<Eigen::SparseMatrix<prec, 0, uint>> solver;
 #else
-		Eigen::SparseLU<Eigen::SparseMatrix<prec, 0, uint>, Eigen::COLAMDOrdering<uint> > solver;
+		Eigen::SparseLU<Eigen::SparseMatrix<prec, 0, uint>, Eigen::AMDOrdering<uint> > solver;
 #endif // USE_MKL
 
 		

@@ -44,7 +44,6 @@ namespace FEMProject {
 		//	std::cout << "second" << std::endl;
 		//}
 		this->solver.compute(SpMat);
-		std::cout << this->solver.info();
 	}
 
 	template <typename prec, typename uint>

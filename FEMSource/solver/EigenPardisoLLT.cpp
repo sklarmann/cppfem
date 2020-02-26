@@ -21,7 +21,6 @@ namespace FEMProject {
 	template <typename prec, typename uint>
 	void EigenPardisoLLT<prec, uint>::factorize(Eigen::SparseMatrix<prec, 0, uint> &SpMat) {
 		this->solver.factorize(SpMat);
-		std::cout << this->solver.info();
 	}
 
 	template <typename prec, typename uint>

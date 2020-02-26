@@ -24,7 +24,7 @@ namespace FEMProject {
 		void solve(Eigen::Matrix<prec, Eigen::Dynamic, 1> &Rhs, Eigen::Matrix<prec,
 			Eigen::Dynamic, 1> &solution);
 	private:
-		Eigen::SimplicialLLT<Eigen::SparseMatrix<prec, 0, uint>, Eigen::Lower, Eigen::COLAMDOrdering<uint> > solver;
+		Eigen::SimplicialLLT<Eigen::SparseMatrix<prec, 0, uint>, Eigen::Lower, Eigen::AMDOrdering<uint> > solver;
 	};
 
 }
