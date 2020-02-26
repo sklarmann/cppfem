@@ -37,6 +37,7 @@
 #include <sstream>
 
 #include <Eigen/SparseCore>
+#include <Eigen/Sparse>
 #include <Eigen/Dense>
 
 
@@ -540,7 +541,53 @@ namespace FEMProject {
         "   Maximum Eigenvalue: " << evMax << "\n" <<
         "     Condition Number: " << evMax/evMin << "\n" << std::endl;
         
+        Eigen::SparseMatrix<prec, 0, uint> TempMat, ScalMat;
+        TempMat=this->SpMat;
         
+        
+        uint neqs = TempMat.rows();
+        Eigen::Matrix<prec, Eigen::Dynamic, 1> tempVec(neqs);
+        for(auto i=0;i<neqs;++i){
+            tempVec(i)=(prec)1/sqrt(abs(TempMat.coeffRef(i,i)));
+        }
+        ScalMat= tempVec.asDiagonal();
+        TempMat=ScalMat*TempMat*ScalMat;
+        
+        numEq = this->SpMat.cols();
+        rr.resize(numEq);
+        rr = Eigen::Matrix<prec,Eigen::Dynamic,1>::Random(numEq,1);
+        rrNorm = sqrt(rr.dot(rr));
+        for (auto i=0;i<20;++i){
+            rr /= rrNorm;
+            rr = TempMat*rr;
+            rrNorm = sqrt(rr.dot(rr));
+        }
+        evMax = rrNorm;    
+        
+        rr = Eigen::Matrix<prec,Eigen::Dynamic,1>::Random(numEq,1);
+        this->solver->factorize(TempMat);
+        this->solver->solve(rr,rr);
+        rrNorm = sqrt(rr.dot(rr));
+        for (auto i=0;i<20;++i){
+            rr /= rrNorm;
+            this->solver->solve(rr,rr);
+            rrNorm = sqrt(rr.dot(rr));
+        }
+        evMin=(prec)1/rrNorm;
+        
+        convert.str(std::string());
+        convert << "ConditionNumber=" << evMax/evMin;
+        
+        pass = convert.str();
+        
+        this->pointers->getUserConstants()->process(pass);
+        
+        Log(LogLevel::BasicLog, LogLevel::BasicLog) <<
+        "\nResult of Condition Number Computation of Scaled Matrix:\n" << 
+        "   Minimum Eigenvalue: " << evMin << "\n" <<
+        "   Maximum Eigenvalue: " << evMax << "\n" <<
+        "     Condition Number: " << evMax/evMin << "\n" << std::endl;
+        this->solver->factorize(this->SpMat);
         
 // #ifdef USE_SPECTRA
 // 		OutputHandler &Log = this->pointers->getInfoData()->Log;
