@@ -56,9 +56,9 @@ namespace FEMProject {
 		temp = Command.getRhs("disporder");
 		this->intOrderDisp = static_cast<uint>(ucons->process(temp));
 		temp = Command.getRhs("emodul");
-		this->intOrderDisp = static_cast<uint>(ucons->process(temp));
+		this->emod = static_cast<prec>(ucons->process(temp));
 		temp = Command.getRhs("nu");
-		this->intOrderDisp = static_cast<uint>(ucons->process(temp));
+		this->nu = static_cast<prec>(ucons->process(temp));
 
 
 
@@ -164,11 +164,13 @@ namespace FEMProject {
 		}
 		
 		material.setZero();
-		material(0, 0) = 1.0*10000;
-		material(1, 1) = 1.0*10000;
-		material(1, 0) = 0.0*10000;
-		material(0, 1) = 0.0*10000;
-		material(2, 2) = 0.5*10000;
+        prec fac =this->emod/((prec)1+this->nu)/((prec)1-(prec)2*this->nu);
+		material(0, 0) = ((prec)1-this->nu);
+        material(0, 1) = (this->nu);
+		material(1, 1) = ((prec)1-this->nu);
+		material(1, 0) = (this->nu);
+        material*=fac;
+		material(2, 2) = this->emod/((prec)1+this->nu)/(prec)2;
 
 
 		
