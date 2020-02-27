@@ -202,6 +202,9 @@ namespace FEMProject {
 			auto lend = vertNums.size();
 			for (auto i = 0; i < lend; ++i) {
 				elems.push(this->vertListIntern[vertNums[i]]);
+                    //std::vector<prec> coor;
+                    //coor = this->vertListIntern[vertNums[i]]->getCoordinates();
+                    //std::cout << coor[0] << "  " << coor[1]   << std::endl;
 			}
 		}
 			break;

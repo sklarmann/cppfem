@@ -44,7 +44,7 @@ namespace FEMProject {
 	
 	
 		virtual void setCoordinates(const prec &x=0, const prec &y=0, const prec &z=0){};
-		virtual std::vector<prec> getCoordinates(){std::vector<prec> u;u.resize(0);return u;};
+		virtual std::vector<prec> getCoordinates(){std::vector<prec> u;u.resize(0);return u;};;
 		//virtual void setTriangleEdges(const uint &edge1, const uint &edge2, const uint &edge3) {};
 	
 		virtual void setVerts(std::vector<uint> &vertsIn) {};

@@ -172,6 +172,15 @@ namespace FEMProject {
         material*=fac;
 		material(2, 2) = this->emod/((prec)1+this->nu)/(prec)2;
 
+        
+		//material.setZero();
+        //fac =this->emod/((prec)1-this->nu*this->nu);
+		//material(0, 0) = ((prec)1);
+        //material(0, 1) = (this->nu);
+		//material(1, 1) = ((prec)1);
+		//material(1, 0) = (this->nu);
+        //material*=fac;
+		//material(2, 2) = this->emod/((prec)1+this->nu)/(prec)2;
 
 		
 		//std::cout << " test" << std::endl;
@@ -193,8 +202,8 @@ namespace FEMProject {
 			for (auto j = 0; j < numDofs/3; ++j) {
 				Bmat(0, j * 3)     = shapeDeriv(0, j);
 				Bmat(1, j * 3 + 1) = shapeDeriv(1, j);
-				Bmat(2, j * 3)     = shapeDeriv(1, j)*(prec)0.5;
-				Bmat(2, j * 3 + 1) = shapeDeriv(0, j)*(prec)0.5;
+				Bmat(2, j * 3)     = shapeDeriv(1, j);
+				Bmat(2, j * 3 + 1) = shapeDeriv(0, j);
 			}
 		
 			//

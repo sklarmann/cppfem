@@ -28,6 +28,7 @@ namespace FEMProject {
 			, std::vector<DegreeOfFreedom<prec, uint>*> &Dofs);
 	private:
 		uint meshIdDisp, intOrderDisp;
+        prec emod, nu;
 
 	};
 

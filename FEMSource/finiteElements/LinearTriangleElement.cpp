@@ -164,13 +164,13 @@ namespace FEMProject {
 	
 		coorDerivative.resize(2, 3);
 	
-		coorDerivative(0, 0) = 0.0;
-		coorDerivative(0, 1) = -1.0 / 2.0;
-		coorDerivative(0, 2) = 1.0 / 2.0;
+		coorDerivative(0, 0) = (prec)0.0;
+		coorDerivative(0, 1) = (prec)-1.0 / (prec)2.0;
+		coorDerivative(0, 2) = (prec)1.0 / (prec)2.0;
 	
-		coorDerivative(1, 0) = 1.0 / 2.0;
-		coorDerivative(1, 1) = -1.0 / 2.0;
-		coorDerivative(1, 2) = 0.0;
+		coorDerivative(1, 0) = (prec)1.0 / (prec)2.0;
+		coorDerivative(1, 1) = (prec)-1.0 / (prec)2.0;
+		coorDerivative(1, 2) = (prec)0.0;
 	}
 	
 	template<typename prec, typename uint>
@@ -187,17 +187,17 @@ namespace FEMProject {
 		shapeDerivative.resize(2, sum);
 	
 		// Vertex shapes
-		shape(0) = coor(1);
-		shape(1) = coor(2);
-		shape(2) = coor(0);
+		shape(0) = coor(0);
+		shape(1) = coor(1);
+		shape(2) = coor(2);
 	
-		shapeDerivative(0, 0) = coorDerivative(0, 1);
-		shapeDerivative(0, 1) = coorDerivative(0, 2);
-		shapeDerivative(0, 2) = coorDerivative(0, 0);
+		shapeDerivative(0, 0) = coorDerivative(0, 0);
+		shapeDerivative(0, 1) = coorDerivative(0, 1);
+		shapeDerivative(0, 2) = coorDerivative(0, 2);
 	
-		shapeDerivative(1, 0) = coorDerivative(1, 1);
-		shapeDerivative(1, 1) = coorDerivative(1, 2);
-		shapeDerivative(1, 2) = coorDerivative(1, 0);
+		shapeDerivative(1, 0) = coorDerivative(1, 0);
+		shapeDerivative(1, 1) = coorDerivative(1, 1);
+		shapeDerivative(1, 2) = coorDerivative(1, 2);
 	
 	
 		uint shapePos = 3;

@@ -46,7 +46,7 @@ namespace FEMProject {
 		comp = this->value;
 		if (diff < 0.0) diff = -diff;
 		if (comp < 0.0) comp = -comp;
-		if (diff <= comp*1.0e-10) ret = true;
+		if (diff <= comp*1.0e-14) ret = true;
 		return ret;
 	}
 
