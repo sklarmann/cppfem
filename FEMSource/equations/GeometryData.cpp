@@ -217,15 +217,21 @@ namespace FEMProject {
 					temp = this->edgeList[this->edgeListOut[i]];
 					temp->getVerts(verts);
                     typedef typename  std::vector<uint>::iterator vecIt;
-					vecIt it = verts.begin();
-					bool search = true;
-					while (search && it != verts.end()) {
-						if (std::find(vertNums.begin(), vertNums.end(), *it) == vertNums.end()) {
-							search = false;
+					//vecIt it = verts.begin();
+					//bool search = true;
+                    bool add = true;
+                    for(auto it = verts.begin(); it!=verts.end();++it){
+                        if (std::find(vertNums.begin(), vertNums.end(), *it) == vertNums.end()) {
+							add = false;
 						}
-						++it;
-					}
-					if (search) elems.push(temp);
+                    }
+					//while (search && it != verts.end()) {
+					//	if (std::find(vertNums.begin(), vertNums.end(), *it) == vertNums.end()) {
+					//		search = false;
+					//	}
+					//	++it;
+					//}
+					if (add)  elems.push(temp);
 				}
 			}
 		}
@@ -247,7 +253,8 @@ namespace FEMProject {
 						}
 						++it;
 					}
-					if (search) elems.push(temp);
+					//if (search) 
+                        elems.push(temp);
 				}
 			}
 		}
