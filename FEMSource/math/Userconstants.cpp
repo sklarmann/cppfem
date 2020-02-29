@@ -369,7 +369,7 @@ namespace FEMProject {
         iFile.open(file);
         if(iFile.is_open()){
             exists = true;
-            uint numLines = 0;
+            int numLines = 0;
             while(!iFile.eof()){
                 std::string line;
                 getline(iFile,line);
@@ -381,6 +381,8 @@ namespace FEMProject {
             
         oFile.open(file,std::ofstream::app);
         if(oFile.is_open()){
+			auto digi = std::numeric_limits<prec>::digits10;
+			//std::cout << digi << std::endl;
             if(!exists || !hasContent){
                 auto it = this->cons.begin();
                 while(it != this->cons.end()){
@@ -389,6 +391,7 @@ namespace FEMProject {
                 }
                 oFile << std::endl;
             }
+			oFile << std::setprecision(digi) << std::scientific;
             auto it = this->cons.begin();
             while(it != this->cons.end()){
                 oFile << it->second << ",";
