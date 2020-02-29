@@ -148,7 +148,11 @@ namespace FEMProject {
 
 
 		Eigen::Matrix<prec, 4, Eigen::Dynamic> Bmat;
+		Eigen::Matrix<prec, 1, Eigen::Dynamic> NN;
 		Bmat.resize(4, 12);
+		Bmat.setZero();
+		NN.resize(1, 12);
+		NN.setZero();
 		
 		stiffness.resize(12, 12);
 		stiffness.setZero();
@@ -175,13 +179,16 @@ namespace FEMProject {
 				Bmat(2, j * 6 + 3) = -shape(j);
 
 
-				Bmat(3, j * 6 + 3) = this->EI*shapeDeriv(j);
+				Bmat(3, j * 6 + 3) = shapeDeriv(j);
+
+				NN(0, j * 6 + 3) = (prec)1.0 / (prec)2.0;;
 			}
 
-			//residual += Bmat.transpose() * stress*length / (prec)2.0 * weight[i];
+			residual += NN.transpose() * this->qy;// *length / (prec)2.0 * weight[i];
 			stiffness += (Bmat.transpose() * Bmat) * length / (prec)2.0 * weight[i];
 			
 		}
+
 
 
 		
