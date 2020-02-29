@@ -13,6 +13,7 @@
 
 #include <stringoperations/stringoperations.h>
 #include <iostream>
+#include <fstream>
 
 namespace FEMProject {
 		
@@ -357,6 +358,51 @@ namespace FEMProject {
 		
 		return retval;
 	}
+	
+	template <typename prec>
+	void Userconstants<prec>::allToFile(std::string &file){
+        std::ifstream iFile;
+        std::ofstream oFile;
+        bool exists = false;
+        bool hasContent = false;
+        
+        iFile.open(file);
+        if(iFile.is_open()){
+            exists = true;
+            uint numLines = 0;
+            while(!iFile.eof()){
+                std::string line;
+                getline(iFile,line);
+                numLines++;
+            }
+            if(numLines>1) hasContent = true;
+            iFile.close();
+        }
+            
+        oFile.open(file,std::ofstream::app);
+        if(oFile.is_open()){
+            if(!exists || !hasContent){
+                auto it = this->cons.begin();
+                while(it != this->cons.end()){
+                    oFile << it->first << ",";
+                    ++it;
+                }
+                oFile << std::endl;
+            }
+            auto it = this->cons.begin();
+            while(it != this->cons.end()){
+                oFile << it->second << ",";
+                ++it;
+            }
+            oFile << std::endl;
+            
+            oFile.close();
+        } else {
+            std::cout << "Failed to open file " << file << std::endl;
+        }
+        
+        
+    }
 
 
 

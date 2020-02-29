@@ -529,7 +529,7 @@ namespace FEMProject {
         auto evMin=(prec)1/rrNorm;
         
         std::stringstream convert;
-        convert << "ConditionNumber=" << evMax/evMin;
+        convert << "CPPFEMConditionNumber=" << evMax/evMin;
         
         std::string pass = convert.str();
         
@@ -576,7 +576,7 @@ namespace FEMProject {
         evMin=(prec)1/rrNorm;
         
         convert.str(std::string());
-        convert << "ConditionNumber=" << evMax/evMin;
+        convert << "CPPFEMConditionNumberScaled=" << evMax/evMin;
         
         pass = convert.str();
         

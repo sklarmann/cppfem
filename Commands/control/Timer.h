@@ -36,6 +36,19 @@ namespace FEMProject {
 				t2 = std::chrono::steady_clock::now();
 			}
 		}
+		
+		double timeVal(){
+            std::chrono::duration<double> time_diff;
+            if(this->running){
+				std::chrono::steady_clock::time_point temp = std::chrono::steady_clock::now();
+				time_diff = std::chrono::duration_cast<std::chrono::duration<double>>(temp-this->t1);
+                    
+            }else{
+				time_diff = std::chrono::duration_cast<std::chrono::duration<double>>(this->t2-this->t1);
+            }
+            return time_diff.count();
+        }
+		
 		std::string time(){
             if(this->started){
                 std::ostringstream tempStr;

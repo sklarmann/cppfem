@@ -11,6 +11,8 @@
 
 #include <solver/GenericSolutionState.h>
 
+#include <math/Userconstants.h>
+
 #include <Eigen/SparseCore>
 #include <Eigen/Dense>
 
@@ -43,12 +45,33 @@ namespace FEMProject {
 				testtimer.stop();
                 
 				info->Log(LogLevel::BasicLog,LogLevel::BasicLog) << "Assembly of System took: " << testtimer.time() << std::endl;
+                std::stringstream temp;
+                temp << "CPPFEMAssemblyTime=";
+                temp << testtimer.timeVal();
+                std::string tempi = temp.str();
+                std::cout << tempi << std::endl;
+                pointers.getUserConstants()->process(tempi);
 				testtimer.start();
 				pointers.getSolutionState()->factorize();
 				testtimer.stop();
+                temp.str(std::string());
+                temp << "CPPFEMFactorizationTime=" << testtimer.timeVal();
+                tempi = temp.str();
+                std::cout << tempi << std::endl;
+                pointers.getUserConstants()->process(tempi);
 				info->Log(LogLevel::BasicLog,LogLevel::BasicLog) << "Factorization took: " << testtimer.time() << std::endl;
+                
+                testtimer.start();
 				pointers.getSolutionState()->solve();
 				pointers.getSolutionState()->updateSolution();
+                testtimer.stop();
+                
+                temp.str(std::string());
+                temp << "CPPFEMSolveTime=" << testtimer.timeVal();
+                tempi = temp.str();
+                std::cout << tempi << std::endl;
+                pointers.getUserConstants()->process(tempi);
+				info->Log(LogLevel::BasicLog,LogLevel::BasicLog) << "Solution step took: " << testtimer.time() << std::endl;
 			}
 		}
 	}

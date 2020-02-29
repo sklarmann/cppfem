@@ -19,7 +19,7 @@ namespace FEMProject {
 				void help();
 				static GenericCommand<prec,uint> *NewCommand(stringCommandHandler &cmd) { return new UserVarToFile(cmd); };
 			private:
-				std::string varName, fileName, newFile;
+				std::string varName, fileName, newFile, all;
 
 			};
 		}

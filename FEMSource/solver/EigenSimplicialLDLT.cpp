@@ -27,6 +27,10 @@ namespace FEMProject {
 	template <typename prec, typename uint>
 	void EigenSimplicialLDLT<prec, uint>::factorize(Eigen::SparseMatrix<prec, 0, uint> &SpMat) {
 		this->solver.factorize(SpMat);
+        prec mn = 0, mx=0, temp;
+        mn = this->solver.vectorD().minCoeff();
+        mx = this->solver.vectorD().maxCoeff();
+        std::cout << "Conditioning: " << mn << " max " << mx << " rel: " << mx/mn << std::endl;
 		//std::cout << "-------------------------------------------" << std::endl;
 		//std::cout << this->solver.vectorD() << std::endl;
 		//std::cout << "-------------------------------------------" << std::endl;

@@ -77,6 +77,8 @@ namespace FEMProject {
 	
 			return out;
 		}
+		
+		void allToFile(std::string &file);
 	private:
 		prec mathpm(std::string &input);
 		prec mathmul(std::string &input);
